@@ -18,7 +18,10 @@ export default function Select({options, ...props}: SelectProps) {
     return(
         <>
             {/* El select recibe todo lo que le quieras pasar, como onChange, value, etc. */}
-            <select {...props}>
+            <select
+                className="bg-white text-green-600 border border-green-600 rounded-lg px-4 py-2 font-medium focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                {...props}
+            >
                 {/* Por cada opción, se crea un <option> con su valor y su texto. */}
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>
