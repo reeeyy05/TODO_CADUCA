@@ -5,22 +5,22 @@ import Alert from "../common/Alert";
 export default function FormSigin() {
   const { formData, errors, handleChange, handleBlur, setErrors, validateField } = useFormLogic();
   
-  // Estado para manejar la visibilidad y el mensaje de la Alerta
+
   const [alert, setAlert] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validamos ambos campos antes de decidir qué mostrar
+
     const userErr = validateField("username", formData.username);
     const passErr = validateField("password", formData.password);
 
     if (userErr || passErr) {
-      // Si hay errores de regex, actualizamos los errores y mostramos alerta roja
+   
       setErrors({ username: userErr, password: passErr });
       setAlert({ message: "Revisa los campos marcados en rojo", type: 'error' });
     } else {
-      // Si todo está bien, mostramos alerta verde
+  
       setAlert({ message: "¡Acceso concedido!", type: 'success' });
       console.log("Datos enviados:", formData);
     }
@@ -28,7 +28,6 @@ export default function FormSigin() {
 
   return (
     <section>
-      {/* Componente Alert: Solo se renderiza si hay un mensaje */}
       {alert && (
         <Alert 
           message={alert.message} 
