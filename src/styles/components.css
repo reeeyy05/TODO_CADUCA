@@ -1,4 +1,4 @@
-/* CSS PARA COSAS CONCRETAS */
+/* CSS PARA COSAS CONCRETAS
 
 @layer components {
     .btn-primary {
@@ -8,4 +8,4 @@
     .btn-secondary {
         @apply bg-gray-200 text-black hover:bg-gray-400;
     }
-}
+} */
