@@ -3,19 +3,22 @@ import './index.css'
 import Button from './components/ui/Button';
 import Select from './components/ui/Select';
 import Input from './components/forms/Input';
+import RegistroForm from './components/forms/RegistroForm';
 
 function App() {
-  const [inputValue, setInputValue] = useState("");
+  // Puedes comentar lo de abajo si solo quieres ver el registro:
+  // const [inputValue, setInputValue] = useState("");
 
   return (
     <>
-      {/* Aquí puedes probar los botones */}
+      {/* Formulario de registro principal */}
+      <RegistroForm />
+
+      {/* Si quieres seguir probando los otros componentes, descomenta esto:
       <div style={{ display: 'flex', gap: '16px', background: '#171717', padding: '32px' }}>
         <Button variant="secondary">Registrarse</Button>
         <Button variant="primary">Iniciar Sesión</Button>
       </div>
-
-      {/* Aquí puedes probar el Select */}
       <div style={{ marginTop: '32px', background: '#171717', padding: '32px' }}>
         <Select
           options={[
@@ -25,8 +28,6 @@ function App() {
           ]}
         />
       </div>
-
-      {/* Aquí puedes probar el Input */}
       <div style={{ marginTop: '32px', background: '#171717', padding: '32px', maxWidth: '400px' }}>
         <Input
           label="Nombre"
@@ -37,6 +38,7 @@ function App() {
           error={inputValue.length < 3 ? "El nombre debe tener al menos 3 caracteres" : undefined}
         />
       </div>
+      */}
     </>
   )
 }
