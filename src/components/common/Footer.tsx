@@ -16,10 +16,10 @@ export default function Footer() {
 
                 {/* Iconos de redes sociales */}
                 <div className="flex gap-3">
-                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center">Instagram</div>
-                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center">Facebook</div>
-                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center">X</div>
-                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center">Github</div>
+                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-neutral-800 rounded-full flex items-center justify-center"></div>
                 </div>
 
             </div>

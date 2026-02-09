@@ -15,7 +15,7 @@ export default function Header() {
                 <button className="bg-white text-neutral-950 px-4 py-2 rounded font-bold">
                     Registrarse
                 </button>
-                <button className="bg-green-600 text-white px-4 py-2 rounded font-bold">
+                <button className="bg-green-400 text-white px-4 py-2 rounded font-bold">
                     Iniciar Sesión
                 </button>
             </div>

@@ -1,22 +1,19 @@
-import { useState } from 'react'
-
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen flex flex-col bg-neutral-50">
+
+      <Header />
+
+      <main className="grow container mx-auto p-4">
+      </main>
+
+      <Footer />
+
+    </div>
+  );
 }
 
-export default App
+export default App;
