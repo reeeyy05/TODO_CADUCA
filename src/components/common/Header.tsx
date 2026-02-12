@@ -1,6 +1,6 @@
 export default function Header() {
     return (
-        <header className="bg-neutral-900 h-20 px-8 flex justify-between items-center border-b border-neutral-800">
+        <header className="bg-neutral-800 h-20 px-8 flex justify-between items-center border-b border-neutral-800">
 
             {/* Logo y titulo */}
             <div className="flex items-center gap-3">
