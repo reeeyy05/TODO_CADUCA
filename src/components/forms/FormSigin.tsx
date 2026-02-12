@@ -5,13 +5,12 @@ import Alert from "../common/Alert";
 export default function FormSigin() {
   const { formData, errors, handleChange, handleBlur, setErrors, validateField } = useFormLogic();
   
-
   const [alert, setAlert] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-
+1
     const userErr = validateField("username", formData.username);
     const passErr = validateField("password", formData.password);
 
