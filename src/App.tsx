@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './index.css'
+import './styles/index.css';
 import Button from './components/ui/Button';
 import Select from './components/ui/Select';
 import Input from './components/forms/Input';
