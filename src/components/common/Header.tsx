@@ -5,7 +5,7 @@ export default function Header() {
             {/* Logo y titulo */}
             <div className="flex items-center gap-3">
                 <div className="bg-green-600 p-2 rounded text-white">
-                    ✅
+                    
                 </div>
                 <span className="text-2xl font-bold text-white">Todo Caduca</span>
             </div>

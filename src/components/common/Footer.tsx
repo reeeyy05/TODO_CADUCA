@@ -8,7 +8,7 @@ export default function Footer() {
                 {/* Logo y subtítulo */}
                 <div>
                     <div className="flex items-center gap-2 mb-2">
-                        <div className="bg-green-600 p-2 rounded">✅</div>
+                        <div className="bg-green-600 p-2 rounded"></div>
                         <span className="text-2xl font-semibold">Todo Caduca</span>
                     </div>
                     <p className="text-neutral-400">Gestiona tus alimentos, cuida el planeta</p>

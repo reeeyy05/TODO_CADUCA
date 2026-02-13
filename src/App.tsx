@@ -1,19 +1,28 @@
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Footer from './components/common/Footer';
+import Header from './components/common/Header';
+import AddProductPage from './pages/AddProductPage';
+import ProductsPage from './pages/ProductsPage';
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-50">
+    <BrowserRouter>
+      <div className="min-h-screen flex flex-col">
 
-      <Header />
+        <Header />
 
-      <main className="grow container mx-auto p-4">
-      </main>
+        <main className="grow container mx-auto p-4">
+          <Routes>
+            <Route path="/" element={<ProductsPage />} />
+            <Route path="/add" element={<AddProductPage />} />
+          </Routes>
+        </main>
 
-      <Footer />
+        <Footer />
 
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
