@@ -2,8 +2,11 @@ import { useState, type ChangeEvent, type FocusEvent } from "react";
 import { validateField } from "../../utils/regex";
 import Button from "../ui/Button";
 import Input from "./Input";
-//import { createUserRepository } from "../../database/repositories"; // Importa la fábrica
+import { createUserRepository } from "../../database/repositories"; // Importa la fábrica
 import type { RegisterData } from "../../interfaces/Profile";
+import { supabase } from '../../database/supabase/Client';
+
+// Ejemplo: registrar usuario, insertar productos, etc.
 
 interface FormDataProps {
     email: string;
@@ -34,7 +37,7 @@ export default function RegistroForm() {
         password2: ""
     });
 
-    //const userRepository = createUserRepository();
+    const userRepository = createUserRepository();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -53,8 +56,12 @@ export default function RegistroForm() {
         setErrors((prev) => ({ ...prev, [name]: error }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [submitMessage, setSubmitMessage] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setSubmitMessage("");
         const newErrors = {
             nombre: formData.nombre.length < 3 ? "El nombre debe tener al menos 3 caracteres" : "",
             email: validateField("email", formData.email),
@@ -65,16 +72,25 @@ export default function RegistroForm() {
         setErrors(newErrors);
         const hasErrors = Object.values(newErrors).some(Boolean);
         if (!hasErrors) {
-            alert("Formulario válido ✅");
-            const newUser: RegisterData = {
+            setLoading(true);
+            // Registro usando el repositorio
+            const registerData = {
                 email: formData.email,
                 password: formData.password,
                 username: formData.username,
-                role: "user",
                 avatar_url: "",
-                id: ""
+                role: "user",
+                id: "",
+                nombre: formData.nombre
             };
-            //userRepository.createUser(newUser);
+            const { data, error } = await userRepository.createUser(registerData);
+            setLoading(false);
+            if (error) {
+                setSubmitMessage(`❌ Error: ${error.message}`);
+            } else {
+                setSubmitMessage("✅ Registro exitoso. Revisa tu correo para confirmar la cuenta.");
+                setFormData({ nombre: "", email: "", username: "", password: "", password2: "" });
+            }
         }
     };
 
@@ -88,8 +104,11 @@ export default function RegistroForm() {
                     <Input label="Nombre de usuario" name="username" type="text" value={formData.username} onChange={handleChange} onBlur={handleBlur} error={errors.username} placeholder="Introduzca su nombre de usuario" />
                     <Input label="Contraseña" name="password" type="password" value={formData.password} onChange={handleChange} onBlur={handleBlur} error={errors.password} placeholder="Introduzca su contraseña" />
                     <Input label="Repita Contraseña" name="password2" type="password" value={formData.password2} onChange={handleChange} onBlur={handleBlur} error={errors.password2} placeholder="Repita su contraseña" />
+                    {submitMessage && (
+                        <div className={`text-center text-sm ${submitMessage.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>{submitMessage}</div>
+                    )}
                     <div className="flex gap-4 mt-6">
-                        <Button type="submit" variant="primary" className="w-full">Aceptar</Button>
+                        <Button type="submit" variant="primary" className="w-full" disabled={loading}>{loading ? 'Registrando...' : 'Aceptar'}</Button>
                         <Button type="button" variant="secondary" className="w-full">Cancelar</Button>
                     </div>
                 </form>
