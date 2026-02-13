@@ -2,23 +2,8 @@ import { useState, type ChangeEvent, type FocusEvent } from "react";
 import { validateField } from "../../utils/regex";
 import Button from "../ui/Button";
 import Input from "./Input";
-import { createUserRepository } from "../../database/repositories"; // Importa la fábrica
-import type { RegisterData } from "../../interfaces/Profile";
-import { supabase } from '../../database/supabase/Client';
-
-// Ejemplo: registrar usuario, insertar productos, etc.
-
-interface FormDataProps {
-    email: string;
-    username: string;
-    password: string;
-}
-
-interface ErrorsProps {
-    email: string;
-    username: string;
-    password: string;
-}
+import { createUserRepository } from "../../database/repositories";
+import type { RegisterData } from "../../interfaces/Perfil";
 
 export default function RegistroForm() {
     const [formData, setFormData] = useState({
@@ -74,16 +59,12 @@ export default function RegistroForm() {
         if (!hasErrors) {
             setLoading(true);
             // Registro usando el repositorio
-            const registerData = {
+            const registerData: RegisterData = {
                 email: formData.email,
                 password: formData.password,
-                username: formData.username,
-                avatar_url: "",
-                role: "user",
-                id: "",
-                nombre: formData.nombre
+                nombre_completo: formData.nombre,
             };
-            const { data, error } = await userRepository.createUser(registerData);
+            const { error } = await userRepository.createUser(registerData);
             setLoading(false);
             if (error) {
                 setSubmitMessage(`❌ Error: ${error.message}`);

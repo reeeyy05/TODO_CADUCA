@@ -1,4 +1,4 @@
-import type { RegisterData } from "../../interfaces/Profile";
+import type { RegisterData, Perfil } from "../../interfaces/Perfil";
 import type { SessionUser } from "../../interfaces/SessionUser";
 import type { UserRepository } from "../repositories/UserRepository";
 import { supabase } from "./Client";
@@ -20,14 +20,13 @@ export class SupabaseUserRepository implements UserRepository {
       return { error: { message: 'No se recibió usuario después del registro' } };
     }
 
-    // 2. Crear perfil en la tabla profiles
+    // 2. Crear perfil en la tabla perfiles
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('perfiles')
       .insert({
-        id: authData.user.id,
-        username: data.username,
-        avatar_url: data.avatar_url || '',
-        role: data.role || 'user',
+        user_id: authData.user.id,
+        nombre_completo: data.nombre_completo || null,
+        email: data.email,
       })
       .select()
       .single();
@@ -36,18 +35,18 @@ export class SupabaseUserRepository implements UserRepository {
       return { error: profileError };
     }
 
-    const sessionUser: SessionUser = {
-      user: authData.user,
-      profile: profile,
+    return {
+      data: {
+        user: authData.user,
+        profile: profile,
+      },
     };
-
-    return { data: sessionUser };
   }
 
   async login(email: string, password: string): Promise<{ data?: SessionUser; error?: any }> {
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email,
+      password,
     });
 
     if (authError) {
@@ -59,30 +58,53 @@ export class SupabaseUserRepository implements UserRepository {
     }
 
     const { data: profile, error: profileError } = await supabase
-      .from('profiles')
+      .from('perfiles')
       .select('*')
-      .eq('id', authData.user.id)
+      .eq('user_id', authData.user.id)
       .single();
 
     if (profileError) {
-      // Cerrar sesión si no se encuentra el perfil
       await supabase.auth.signOut();
       return { error: profileError };
     }
 
-    const sessionUser: SessionUser = {
-      user: authData.user,
-      profile: profile
+    return {
+      data: {
+        user: authData.user,
+        profile: profile,
+      },
     };
-
-    return { data: sessionUser };
   }
 
   async resetPasswordForEmail(email: string): Promise<{ error?: any }> {
-    const { error } = await supabase.auth.resetPasswordForEmail(
-      email, {
-      redirectTo: "https://.../reset-password"
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "https://.../reset-password",
     });
     return { error: error || null };
+  }
+
+  async logout(): Promise<{ error?: any }> {
+    const { error } = await supabase.auth.signOut();
+    return { error: error || null };
+  }
+
+  async getCurrentProfile(): Promise<{ data?: Perfil; error?: any }> {
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return { error: authError || { message: 'No hay usuario autenticado' } };
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from('perfiles')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+
+    if (profileError) {
+      return { error: profileError };
+    }
+
+    return { data: profile };
   }
 }

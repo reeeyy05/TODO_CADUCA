@@ -1,17 +1,38 @@
-import type { Producto } from "../../interfaces/Producto";
+import type { UsuarioProducto } from "../../interfaces/UsuarioProducto";
 
+/**
+ * Define las operaciones relacionadas con los productos del usuario.
+ */
 export interface ProductRepository {
+  /**
+   * Añade un producto al inventario del usuario.
+   * @param data - Datos del producto a añadir.
+   */
+  createUserProduct(data: {
+    id_perfil: number;
+    id_producto: number;
+    cantidad: number;
+    fecha_caducidad: string;
+  }): Promise<{ data?: UsuarioProducto; error?: any }>;
 
   /**
-   * Crea un nuevo producto en el sistema.
-   * @param data - Datos parciales del producto a crear.
-   * @returns Un objeto con el producto creado o un error en caso de fallo.
+   * Obtiene todos los productos del usuario autenticado.
    */
-  createProduct(data: Partial<Producto>): Promise<{ data?: Producto, error?: any }>;
+  getUserProducts(): Promise<{ data?: UsuarioProducto[]; error?: any }>;
 
   /**
-   * Obtiene todos los productos del sistema.
-   * @returns Un objeto con la lista de productos o un error en caso de fallo.
+   * Actualiza un producto del usuario (ej: cambiar estado o cantidad).
+   * @param id - ID del registro en usuario_productos.
+   * @param data - Campos a actualizar.
    */
-  getProducts(): Promise<{ data?: Producto[], error?: any }>;
+  updateUserProduct(
+    id: number,
+    data: Partial<Pick<UsuarioProducto, 'cantidad' | 'fecha_caducidad' | 'estado'>>
+  ): Promise<{ data?: UsuarioProducto; error?: any }>;
+
+  /**
+   * Elimina un producto del inventario del usuario.
+   * @param id - ID del registro en usuario_productos.
+   */
+  deleteUserProduct(id: number): Promise<{ error?: any }>;
 }
