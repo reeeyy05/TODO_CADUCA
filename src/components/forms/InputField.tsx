@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes } from "react";
 
+
 interface InputFieldProps  extends InputHTMLAttributes<HTMLInputElement>{
     label: string;
     error?: string;

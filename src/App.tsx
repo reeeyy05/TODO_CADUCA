@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import FormSigin from '../components/forms/FormSigin'
-
-
+import FormSigin from './components/forms/FormSigin'
 
 function App() {
 

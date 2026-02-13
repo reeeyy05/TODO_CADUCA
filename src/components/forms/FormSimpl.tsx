@@ -1,85 +1,54 @@
 import { useState, type ChangeEvent, type FocusEvent } from "react";
 import { validateField } from "../../utils/regex";
-import Button from "../common/Buttom";
-import InputFieldClase from "./InputField";
 
+// Definimos las interfaces para que TypeScript esté contento
 interface FormDataProps {
-  name: string;
+  username: string;
   password: string;
 }
 
 interface ErrorsProps {
-  name: string;
-  password: string;  
+  username: string;
+  password: string;
 }
 
-export default function SimpleForm() {
+/**
+ * Hook personalizado para gestionar la lógica de formularios.
+ * Se exporta como función para ser usado en FormSignin.tsx
+ */
+export const useFormLogic = () => {
   const [formData, setFormData] = useState<FormDataProps>({
-    name: "",
+    username: "",
     password: "",
   });
 
   const [errors, setErrors] = useState<ErrorsProps>({
-    name: "",
+    username: "",
     password: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Limpiamos el error mientras el usuario escribe
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const error = validateField(name, value);
-    setErrors((prev) => ({ ...prev, [name]: error }));
+    setErrors((prev) => ({ ...prev, [name]: error || "" }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const newErrors = {
-      name: validateField("name", formData.name),
-      password: validateField("password", formData.password),
-    };
-    setErrors(newErrors);
-
-    const hasErrors = Object.values(newErrors).some(Boolean);
-    if (!hasErrors) {
-      alert("Formulario válido ✅");
-    }
+  // Retornamos todo lo que FormSignin.tsx necesita desestructurar
+  return {
+    formData,
+    setFormData,
+    errors,
+    setErrors,
+    handleChange,
+    handleBlur,
+    validateField,
   };
+};
 
-  return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto space-y-4">
-
-        {/* nombre */}
-      <InputFieldClase
-        label="Nombre"
-        name="name"
-        type="text"
-        value={formData.name}
-        autoComplete="off"
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={errors.name}
-      ></InputFieldClase>
-
-        {/* contraseña */}
-      <InputFieldClase
-        label="Contraseña"
-        name="password"
-        type="password"
-        value={formData.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        error={errors.password}
-
-      ></InputFieldClase>
-
-      <Button type="submit">Enviar</Button>
-
-    </form>
-  );
-}
