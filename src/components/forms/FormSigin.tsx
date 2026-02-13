@@ -1,7 +1,10 @@
-import React from 'react';
-import { User, Lock, Eye, Check, X } from 'lucide-react'; // Si no tienes lucide-react, puedes usar SVGs
+import React, { useState } from 'react'; 
+import { User, Lock, Eye, EyeOff, Check, X } from 'lucide-react'; 
 
 const Login = () => {
+  // 3. ESTADO PARA LA VISIBILIDAD
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-300 flex items-center justify-center p-4">
       <div className="bg-[#D9D9D9] w-full max-w-md rounded-3xl shadow-lg p-8 flex flex-col items-center">
@@ -35,21 +38,27 @@ const Login = () => {
             </label>
             <div className="relative">
               <input 
-                type="password" 
+                type={showPassword ? "text" : "password"} 
                 placeholder="Ingresa tu contraseña"
                 className="w-full p-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-emerald-500 outline-none"
               />
-              <Eye className="absolute right-4 top-4 text-gray-400 cursor-pointer" size={20} />
+              {/*ojo*/}
+              <div 
+                className="absolute right-4 top-4 text-gray-400 cursor-pointer select-none"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </div>
             </div>
           </div>
 
           {/* botones */}
           <div className="space-y-3 pt-4">
-            <button className="w-full bg-[#00D97E] hover:bg-[#00c270] text-white font-bold py-4 rounded-2xl flex items-center justify-center transition-colors shadow-md">
+            <button type="button" className="w-full bg-[#00D97E] hover:bg-[#00c270] text-white font-bold py-4 rounded-2xl flex items-center justify-center transition-colors shadow-md">
               <Check size={20} className="mr-2" /> Aceptar
             </button>
             
-            <button className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-2xl flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
+            <button type="button" className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-2xl flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
               <X size={20} className="mr-2 text-gray-500" /> Cancelar
             </button>
           </div>
