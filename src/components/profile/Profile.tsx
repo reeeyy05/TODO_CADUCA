@@ -2,7 +2,7 @@
 const Profile: React.FC = () => {
   const nombreUsuario: string = "Juan";
   const apellidosUsuario: string = "Pérez García";
-  const correo: string = "juan.perez@ejemplo.com";
+  const fecha: String = "12/02/2026";
 
   return (
     <div className="profile-container">
@@ -55,13 +55,15 @@ const Profile: React.FC = () => {
               </div>
             </div>
             <div className="input-field">
-              <label>Correo Electrónico</label>
-              <div className="data-box">{correo}</div>
+              <label>Fecha de registro:</label>
+              <div className="data-box">{nombreUsuario} es miembro desde el {fecha}</div>
             </div>
             <div className="action-row">
-          
               <button className="save-btn" onClick={() => console.log("Editando...")}>
-                Editar Información
+                Editar Nombre
+              </button>
+              <button className="save-btn" onClick={() => console.log("Editando...")}>
+                Editar Contraseña
               </button>
             </div>
           </div>
