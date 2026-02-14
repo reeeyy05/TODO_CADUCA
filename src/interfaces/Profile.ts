@@ -5,6 +5,8 @@ export interface Profile {
   username: string
   avatar_url?: string
   role: 'user' | 'admin'
+  /** ISO o cadena legible con la fecha de registro */
+  registeredAt?: string
 }
 
 export interface RegisterData extends Profile {

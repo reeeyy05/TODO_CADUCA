@@ -1,19 +1,22 @@
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import { UserProvider } from './context/UserContext';
 
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-50">
+    <UserProvider>
+      <div className="min-h-screen flex flex-col bg-neutral-50">
 
-      <Header />
+        <Header />
 
-      <main className="grow container mx-auto p-4">
-      </main>
+        <main className="grow container mx-auto p-4">
+        </main>
 
-      <Footer />
+        <Footer />
 
-    </div>
+      </div>
+    </UserProvider>
   );
 }
 
