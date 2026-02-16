@@ -19,7 +19,7 @@ export default function Select({options, ...props}: SelectProps) {
         <>
             {/* El select recibe todo lo que le quieras pasar, como onChange, value, etc. */}
             <select
-                className="bg-white text-green-600 border border-green-600 rounded-lg px-4 py-2 font-medium focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                className="bg-neutral-800 text-neutral-100 border border-neutral-700 rounded-lg px-4 py-2 font-medium focus:outline-none focus:ring-2 focus:ring-green-400 transition"
                 {...props}
             >
                 {/* Por cada opción, se crea un <option> con su valor y su texto. */}

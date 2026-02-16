@@ -77,8 +77,8 @@ export default function RegistroForm() {
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-neutral-900">
-            <div className="w-full max-w-md bg-neutral-100 rounded-2xl shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-center mb-6 text-neutral-800 tracking-wide">CREA TU CUENTA</h2>
+            <div className="w-full max-w-4xl rounded-lg shadow-lg p-12 bg-neutral-700 text-neutral-100">
+                <h2 className="text-2xl font-bold text-center mb-6 tracking-wide">CREA TU CUENTA</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <Input label="Nombre" name="nombre" type="text" value={formData.nombre} onChange={handleChange} onBlur={handleBlur} error={errors.nombre} placeholder="Introduzca su nombre completo" />
                     <Input label="Correo electrónico" name="email" type="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} error={errors.email} placeholder="Introduzca su correo electrónico" />
@@ -94,9 +94,7 @@ export default function RegistroForm() {
                     </div>
                 </form>
             </div>
-            <footer className="mt-8 text-neutral-300 text-center text-xs">
-                © 2026 Todo Caduca. Todos los derechos reservados.
-            </footer>
+
         </div>
     );
 }
