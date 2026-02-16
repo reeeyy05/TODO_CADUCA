@@ -1,4 +1,4 @@
-   export const validateField = (name: string, value: string) => {// Función para validar cada campo
+  export const validateField = (name: string, value: string) => {// Función para validar cada campo
     switch (name) {
       case "name":
         if (!value.trim()) return "El nombre es obligatorio";

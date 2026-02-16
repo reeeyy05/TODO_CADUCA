@@ -8,22 +8,18 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 // El componente Input: le das la etiqueta, el error y lo demás, y él se encarga de armar el campo.
-export default function Input({ label, error, type, name, value,  ...props }: InputProps) {
+export default function Input({ label, error, ...props }: InputProps) {
 
     // Aquí va el input, con su etiqueta y el mensaje de error si hay.
     return (
         <div className="mb-4">
             {/* La etiqueta del input, para que sepas qué escribir */}
-            <label htmlFor={name} className="block mb-2 text-green-600 font-medium">
+            <label htmlFor={props.name} className="block mb-2 text-neutral-100 font-medium">
                 {label}
             </label>
             {/* El input recibe todo lo que le quieras pasar, como type, value, onChange, etc. */}
             <input
-                id={name}
-                type={type}
-                name={name}
-                value={value}
-                className="block w-full bg-white text-green-600 border border-green-600 rounded-lg px-4 py-2 font-medium focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                className="input"
                 {...props}
             />
             {/* Si hay error, se muestra el mensaje en rojo */}
