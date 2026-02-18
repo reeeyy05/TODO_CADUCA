@@ -1,17 +1,30 @@
 import React, { useContext } from 'react';
-import { User, Lock, Eye, Check, X } from 'lucide-react'; // Si no tienes lucide-react, puedes usar SVGs
+import { User, Lock, Eye, Check, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // 1. Importa el hook
 import { useFormLogic } from './FormSimpl';
 import { UserContext } from '../../context/UserContext';
 
 const Login = () => {
   const { formData, handleChange, handleBlur } = useFormLogic();
   const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate(); // 2. Inicializa el navigate
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const today = user.registeredAt || new Date().toLocaleDateString();
-    setUser({ username: formData.username, registeredAt: today });
+    
+    // Simulación de lógica de autenticación
+    const today = user?.registeredAt || new Date().toLocaleDateString();
+    
+    setUser({
+      username: formData.username, 
+      registeredAt: today,
+      email: ''
+    });
+
     console.log('Inicio de sesión de', formData.username);
+
+    // 3. Redirige automáticamente a la página principal
+    navigate('/'); 
   };
 
   return (
@@ -40,7 +53,7 @@ const Login = () => {
               onBlur={handleBlur}
               type="text" 
               placeholder="Ingresa tu nombre de usuario"
-              className="w-full p-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-emerald-500 outline-none"
+              className="w-full p-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-emerald-500 outline-none text-black"
             />
           </div>
 
@@ -57,7 +70,7 @@ const Login = () => {
                 onBlur={handleBlur}
                 type="password" 
                 placeholder="Ingresa tu contraseña"
-                className="w-full p-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-emerald-500 outline-none"
+                className="w-full p-4 rounded-2xl border-none bg-white shadow-inner focus:ring-2 focus:ring-emerald-500 outline-none text-black"
               />
               <Eye className="absolute right-4 top-4 text-gray-400 cursor-pointer" size={20} />
             </div>
@@ -69,13 +82,16 @@ const Login = () => {
               <Check size={20} className="mr-2" /> Aceptar
             </button>
             
-            <button className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-2xl flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
+            <button 
+              type="button" 
+              onClick={() => navigate('/')} // También para el botón cancelar
+              className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-2xl flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm"
+            >
               <X size={20} className="mr-2 text-gray-500" /> Cancelar
             </button>
           </div>
         </form>
 
-        {/* enlace de olvidar contraseña */}
         <button className="mt-8 text-blue-600 hover:underline font-medium">
           ¿Olvidaste tu contraseña?
         </button>

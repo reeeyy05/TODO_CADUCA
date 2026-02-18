@@ -2,21 +2,28 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import RegisterPage from './pages/RegisterPage';
+import FormSigin from './components/forms/FormSigin';
+import ProfilePage from './pages/ProfilePage';
+import { UserProvider } from './context/UserContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col bg-neutral-50">
-        <Header />
-        <main className="grow container mx-auto p-4">
-          <Routes>
-            <Route path="/register" element={<RegisterPage />} />
-            {/* Puedes agregar más rutas aquí */}
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <div className="min-h-screen flex flex-col bg-neutral-50">
+          <Header />
+          <main className="grow container mx-auto p-4">
+            <Routes>
+              <Route path="/" element={<div className="text-center mt-10">Inicio</div>} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<FormSigin />} />
+              <Route path="/profile" element={<ProfilePage />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </UserProvider>
   );
 }
 

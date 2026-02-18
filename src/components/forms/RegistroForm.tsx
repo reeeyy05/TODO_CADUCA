@@ -1,11 +1,16 @@
-import { useState, type ChangeEvent, type FocusEvent } from "react";
+import { useState, useContext, type ChangeEvent, type FocusEvent } from "react";
 import { validateField } from "../../utils/regex";
 import Button from "../ui/Button";
 import Input from "./Input";
 import { createUserRepository } from "../../database/repositories";
 import type { RegisterData } from "../../interfaces/Perfil";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 export default function RegistroForm() {
+    const { setUser } = useContext(UserContext);
+    const navigate = useNavigate();
+    
     const [formData, setFormData] = useState({
         nombre: "",
         email: "",
@@ -55,22 +60,32 @@ export default function RegistroForm() {
             password2: formData.password2 !== formData.password ? "Las contraseñas no coinciden" : ""
         };
         setErrors(newErrors);
-        const hasErrors = Object.values(newErrors).some(Boolean);
-        if (!hasErrors) {
+        
+        if (!Object.values(newErrors).some(Boolean)) {
             setLoading(true);
-            // Registro usando el repositorio
             const registerData: RegisterData = {
                 email: formData.email,
                 password: formData.password,
                 nombre_completo: formData.nombre,
             };
+            
+            // Tu repositorio funcional de Supabase
             const { error } = await userRepository.createUser(registerData);
             setLoading(false);
+
             if (error) {
                 setSubmitMessage(`❌ Error: ${error.message}`);
             } else {
-                setSubmitMessage("✅ Registro exitoso. Revisa tu correo para confirmar la cuenta.");
-                setFormData({ nombre: "", email: "", username: "", password: "", password2: "" });
+                // Actualizamos el estado global con los datos introducidos
+                setUser({
+                    username: formData.username,
+                    email: formData.email,
+                    registeredAt: new Date().toLocaleDateString('es-ES')
+                });
+                
+                setSubmitMessage("✅ Registro exitoso.");
+                // Redirigimos al perfil automáticamente
+                setTimeout(() => navigate("/profile"), 1000);
             }
         }
     };
@@ -86,15 +101,14 @@ export default function RegistroForm() {
                     <Input label="Contraseña" name="password" type="password" value={formData.password} onChange={handleChange} onBlur={handleBlur} error={errors.password} placeholder="Introduzca su contraseña" />
                     <Input label="Repita Contraseña" name="password2" type="password" value={formData.password2} onChange={handleChange} onBlur={handleBlur} error={errors.password2} placeholder="Repita su contraseña" />
                     {submitMessage && (
-                        <div className={`text-center text-sm ${submitMessage.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>{submitMessage}</div>
+                        <div className={`text-center text-sm p-2 rounded ${submitMessage.startsWith('✅') ? 'bg-green-800/20 text-green-400' : 'bg-red-800/20 text-red-400'}`}>{submitMessage}</div>
                     )}
                     <div className="flex gap-4 mt-6">
                         <Button type="submit" variant="primary" className="w-full" disabled={loading}>{loading ? 'Registrando...' : 'Aceptar'}</Button>
-                        <Button type="button" variant="secondary" className="w-full">Cancelar</Button>
+                        <Button type="button" variant="secondary" className="w-full" onClick={() => navigate("/")}>Cancelar</Button>
                     </div>
                 </form>
             </div>
-
         </div>
     );
 }
