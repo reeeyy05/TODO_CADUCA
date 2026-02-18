@@ -62,3 +62,115 @@
   --color-blue-100: #DBEAFE;
   --color-blue-50: #EFF6FF;
 }
+
+/* VARIABLES DE ESPACIADO */
+:root {
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-2: 0.5rem;  /* 8px */
+  --spacing-3: 1rem;    /* 16px */
+  --spacing-4: 1.5rem;  /* 24px */
+  --spacing-5: 2rem;    /* 32px */
+
+  /* TAMAÑOS DE FUENTE */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem;     /* 16px */
+  --font-size-lg: 1.25rem;  /* 20px */
+  --font-size-xl: 1.5rem;   /* 24px */
+}
+
+/* ESTILOS GLOBALES */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-neutral-900);
+  color: var(--color-neutral-800);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: bold;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* CLASES UTILITARIAS */
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gap-1 {
+  gap: var(--spacing-1);
+}
+
+.gap-2 {
+  gap: var(--spacing-2);
+}
+
+.gap-3 {
+  gap: var(--spacing-3);
+}
+
+.rounded {
+  border-radius: 0.5rem;
+}
+
+/* CLASES PARA COMPONENTES */
+.btn-primary {
+  background-color: var(--color-green-600);
+  color: var(--color-neutral-100);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: 0.5rem;
+  font-size: var(--font-size-md);
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-green-700);
+}
+
+.btn-secondary {
+  background-color: var(--color-neutral-100);
+  color: var(--color-green-600);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--color-green-600);
+  border-radius: 0.5rem;
+  font-size: var(--font-size-md);
+  transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-green-50);
+}
+
+.input {
+  width: 100%;
+  padding: var(--spacing-3);
+  border: 1px solid var(--color-neutral-600);
+  border-radius: 0.5rem;
+  font-size: var(--font-size-md);
+  color: var(--color-neutral-900);
+  background-color: var(--color-neutral-100);
+  transition: border-color 0.3s;
+}
+
+.input:focus {
+  border-color: var(--color-green-400);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-green-300);
+}

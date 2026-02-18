@@ -1,28 +1,26 @@
 import { useState, type ChangeEvent, type FocusEvent } from "react";
+import { validateField } from "../../utils/regex";
 
-export default function useFormLogic() {
-  const [formData, setFormData] = useState({
+interface FormDataProps {
+  username: string;
+  password: string;
+}
+
+interface ErrorsProps {
+  username: string;
+  password: string;
+}
+
+export const useFormLogic = () => {
+  const [formData, setFormData] = useState<FormDataProps>({
     username: "",
     password: "",
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<ErrorsProps>({
     username: "",
     password: "",
   });
-
-  const validateField = (name: string, value: string) => {
-    switch (name) {
-      case "username":
-        if (!value.trim()) return "El nombre de usuario es obligatorio";
-        return "";
-      case "password":
-        if (value.length < 6) return "Mínimo 6 caracteres";
-        return "";
-      default:
-        return "";
-    }
-  };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,8 +31,17 @@ export default function useFormLogic() {
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const error = validateField(name, value);
-    setErrors((prev) => ({ ...prev, [name]: error }));
+    setErrors((prev) => ({ ...prev, [name]: error || "" }));
   };
 
-  return { formData, errors, handleChange, handleBlur, setErrors, validateField };
-}
+  return {
+    formData,
+    setFormData,
+    errors,
+    setErrors,
+    handleChange,
+    handleBlur,
+    validateField,
+  };
+};
+

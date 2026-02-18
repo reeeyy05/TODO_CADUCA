@@ -1,26 +1,23 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import Footer from './components/common/Footer';
 import Header from './components/common/Header';
-import AddProductPage from './pages/AddProductPage';
-import ProductsPage from './pages/ProductsPage';
+import Footer from './components/common/Footer';
+import RegisterPage from './pages/RegisterPage';
+import Login from "./components/forms/FormSigin";
+
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex flex-col">
-
+      <div className="min-h-screen flex flex-col bg-neutral-50">
         <Header />
-
         <main className="grow container mx-auto p-4">
           <Routes>
-            <Route path="/" element={<ProductsPage />} />
-            <Route path="/add" element={<AddProductPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+             <Route path="/login" element={<Login />} />
+            {/* Puedes agregar más rutas aquí */}
           </Routes>
         </main>
-
         <Footer />
-
       </div>
     </BrowserRouter>
   );
