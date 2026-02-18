@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import RegisterPage from './pages/RegisterPage';
+import Login from "./components/forms/FormSigin";
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <main className="grow container mx-auto p-4">
           <Routes>
             <Route path="/register" element={<RegisterPage />} />
+             <Route path="/login" element={<Login />} />
             {/* Puedes agregar más rutas aquí */}
           </Routes>
         </main>

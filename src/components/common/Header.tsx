@@ -19,7 +19,10 @@ export default function Header() {
                 >
                     Registrarse
                 </button>
-                <button className="bg-green-400 text-white px-4 py-2 rounded font-bold">
+                <button 
+                    className="bg-green-400 text-white px-4 py-2 rounded font-bold hover:bg-green-500 transition-colors"
+                    onClick={() => navigate("/login")} // <--- Esto activará la ruta que creamos en App.tsx
+                >
                     Iniciar Sesión
                 </button>
             </div>
