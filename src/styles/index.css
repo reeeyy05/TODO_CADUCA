@@ -82,7 +82,7 @@
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--color-neutral-900);
-  color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
   margin: 0;
   padding: 0;
   line-height: 1.5;
