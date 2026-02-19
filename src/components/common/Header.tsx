@@ -10,7 +10,7 @@ export default function Header() {
         <header className="bg-neutral-800 h-20 px-8 flex justify-between items-center border-b border-neutral-800">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
                 <div className="bg-green-600 p-2 rounded text-white">
-                    ✅
+                    
                 </div>
                 <span className="text-2xl font-bold text-white">Todo Caduca</span>
             </div>
