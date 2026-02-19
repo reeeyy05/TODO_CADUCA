@@ -148,3 +148,9 @@ li { color: var(--muted); margin-bottom: 0.5rem; }
   border-color: #dc3545; 
   color: #dc3545; 
 }
+@variant dark (&:where(.dark, .dark *));
+html.dark {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --button-bg: #333333;
+}

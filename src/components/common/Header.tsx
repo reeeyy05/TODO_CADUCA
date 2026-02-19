@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
-
+import { ThemeToggle } from "./ThemeToggle";
 export default function Header() {
     const navigate = useNavigate();
     const { user } = useContext(UserContext); // Escucha si hay un usuario logueado
@@ -15,7 +15,7 @@ export default function Header() {
                 <span className="text-2xl font-bold text-white">Todo Caduca</span>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
                 {user ? (
                     /* Si el usuario ya se registró/logueó */
                     <button
@@ -39,6 +39,7 @@ export default function Header() {
                         </button>
                     </>
                 )}
+                <ThemeToggle />
             </div>
         </header>
     );
