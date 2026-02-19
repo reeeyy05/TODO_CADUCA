@@ -5,6 +5,8 @@ import RegisterPage from './pages/RegisterPage';
 import FormSigin from './components/forms/FormSigin';
 import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from './context/UserContext';
+import AddProductPage from "./pages/AddProductPage";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<FormSigin />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/addProducts" element={<AddProductPage />} />
             </Routes>
           </main>
           <Footer />

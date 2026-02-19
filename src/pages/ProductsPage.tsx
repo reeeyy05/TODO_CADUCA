@@ -53,7 +53,7 @@ function ProductsPage() {
                     </select>
 
                     <Link
-                        to="/add"
+                        to="/addProducts"
                         className="bg-green-600 px-4 py-2 rounded-md text-white font-medium hover:bg-green-700 transition"
                     >
                         + Añadir Producto

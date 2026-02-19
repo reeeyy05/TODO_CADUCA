@@ -24,7 +24,7 @@ const Login = () => {
     console.log('Inicio de sesión de', formData.username);
 
     // 3. Redirige automáticamente a la página principal
-    navigate('/'); 
+    navigate('/products'); 
   };
 
   return (
