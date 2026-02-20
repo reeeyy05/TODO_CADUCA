@@ -3,6 +3,7 @@ import { User, Lock, Eye, Check, X, ShieldCheck } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useFormLogic } from './FormSimpl';
 import { UserContext } from '../../context/UserContext';
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const { formData, handleChange, handleBlur } = useFormLogic();
@@ -38,7 +39,7 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="w-full space-y-6">
           <div className="flex flex-col">
-            <label className="flex items-center text-gray-500 mb-2 ml-1 font-semibold text-sm">
+            <label className="flex items-center text-gray-600 mb-2 ml-1 font-semibold text-sm">
               <User size={16} className="mr-2" /> Nombre de Usuario
             </label>
             <input   
@@ -84,9 +85,12 @@ const Login = () => {
           </div>
         </form>
 
-        <button className="mt-8 text-blue-600 hover:underline font-semibold">
-          ¿Olvidaste tu contraseña?
-        </button>
+       <Link 
+  to="/reset-password" 
+  className="mt-8 text-blue-600 hover:text-blue-800 hover:underline font-semibold transition-colors"
+>
+  ¿Olvidaste tu contraseña?
+</Link>
       </div>
 
       {/* FOOTER SSL SOBRE EL FONDO NEGRO */}

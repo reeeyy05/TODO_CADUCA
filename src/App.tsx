@@ -7,6 +7,8 @@ import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from './context/UserContext';
 import AddProductPage from "./pages/AddProductPage";
 import ProductsPage from "./pages/ProductsPage";
+import ResetPassword from "./components/forms/FormResetPassword";
+import FormResetPassword from "./components/forms/FormResetPassword";
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
               <Route path="/" element={<div className="text-center mt-10">Inicio</div>} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<FormSigin />} />
+             <Route path="/reset-password" element={<FormResetPassword />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/products" element={<ProductsPage />} />
               <Route path="/addProducts" element={<AddProductPage />} />
