@@ -90,11 +90,10 @@ label {
 }
 
 .data-box, input {
-  background: var(--bg);
   padding: 0.8rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  color: white;
+  color: rgb(46, 46, 46);
 }
 
 .btn {
