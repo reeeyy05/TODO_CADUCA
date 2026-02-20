@@ -36,6 +36,7 @@ export default function Header() {
                         <button className="bg-green-400 text-white px-4 py-2 rounded font-bold hover:bg-green-500"
                             onClick={() => navigate("/login")}
                         >
+                            Iniciar Sesión
                         </button>
                     </>
                 )}

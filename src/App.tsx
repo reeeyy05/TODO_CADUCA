@@ -12,9 +12,9 @@ function App() {
   return (
     <UserProvider>
       <BrowserRouter>
-        <div className="min-h-screen flex flex-col bg-neutral-50">
+        <div className="min-h-screen flex flex-col">
           <Header />
-          <main className="grow container mx-auto p-4">
+         <main className="flex-1 flex flex-col w-full">
             <Routes>
               <Route path="/" element={<div className="text-center mt-10">Inicio</div>} />
               <Route path="/register" element={<RegisterPage />} />
