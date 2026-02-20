@@ -65,6 +65,8 @@
 
 /* VARIABLES DE ESPACIADO */
 :root {
+  --site-bg: var(--color-neutral-50);    /* Fondo claro */
+  --site-text: var(--color-neutral-900); /* Texto oscuro */
   --spacing-1: 0.25rem; /* 4px */
   --spacing-2: 0.5rem;  /* 8px */
   --spacing-3: 1rem;    /* 16px */
@@ -81,11 +83,12 @@
 /* ESTILOS GLOBALES */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--color-neutral-900);
-  color: var(--color-neutral-800);
+  background-color: var(--site-bg); /* <--- USAR VARIABLE DINÁMICA */
+  color: var(--site-text);         /* <--- USAR VARIABLE DINÁMICA */
   margin: 0;
   padding: 0;
   line-height: 1.5;
+  transition: background-color 0.3s, color 0.3s; /* Para que el cambio sea suave */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -173,4 +176,12 @@ button {
   border-color: var(--color-green-400);
   outline: none;
   box-shadow: 0 0 0 2px var(--color-green-300);
+}
+
+@variant dark (&:where(.dark, .dark *));
+/* Forzar que las variables cambien cuando la clase dark esté presente */
+html.dark, 
+[data-theme='dark'] {
+  --site-bg: var(--color-neutral-950) !important;
+  --site-text: var(--color-neutral-50) !important;
 }
