@@ -10,7 +10,7 @@ function AddProductPage() {
     const navigate = useNavigate(); 
 
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!name || !category || !expiryDate) {
@@ -55,6 +55,8 @@ function AddProductPage() {
                         <input
                             type="text"
                             placeholder="Ej: Leche"
+                            title="Nombre del producto"
+                            aria-label="Nombre del producto"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
@@ -66,6 +68,8 @@ function AddProductPage() {
                         <label className="block text-sm font-medium mb-1">Categoría</label>
                         <select
                             value={category}
+                            title="Categoría"
+                            aria-label="Categoría"
                             onChange={(e) => setCategory(e.target.value)}
                             className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
                         >
@@ -86,6 +90,8 @@ function AddProductPage() {
                         <input
                             type="number"
                             min={1}
+                            title="Cantidad"
+                            aria-label="Cantidad"
                             value={quantity}
                             onChange={(e) => setQuantity(Number(e.target.value))}
                             className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
@@ -99,6 +105,8 @@ function AddProductPage() {
                         </label>
                         <input
                             type="date"
+                            title="Fecha de caducidad"
+                            aria-label="Fecha de caducidad"
                             value={expiryDate}
                             onChange={(e) => setExpiryDate(e.target.value)}
                             className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"

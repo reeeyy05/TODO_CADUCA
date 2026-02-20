@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
+import { useAuthStore } from "../../store/authStore";
 import { ThemeToggle } from "./ThemeToggle";
+
 export default function Header() {
     const navigate = useNavigate();
-    const { user } = useContext(UserContext); // Escucha si hay un usuario logueado
+    const { isAuthenticated, perfil } = useAuthStore();
 
     return (
         <header className="bg-neutral-800 h-20 px-8 flex justify-between items-center border-b border-neutral-800">
@@ -16,16 +16,14 @@ export default function Header() {
             </div>
 
             <div className="flex gap-4 items-center">
-                {user ? (
-                    /* Si el usuario ya se registró/logueó */
+                {isAuthenticated && perfil ? (
                     <button
                         className="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 transition-colors"
                         onClick={() => navigate("/profile")}
                     >
-                        Perfil de {user.username}
+                        Perfil de {perfil.nombre_completo || "Usuario"}
                     </button>
                 ) : (
-                    /* Si no hay sesión activa */
                     <>
                         <button
                             className="bg-white text-neutral-950 px-4 py-2 rounded font-bold hover:bg-neutral-200"

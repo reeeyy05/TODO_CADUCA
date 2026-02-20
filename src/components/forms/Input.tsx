@@ -1,31 +1,42 @@
-// Traemos los tipos para que el input funcione igual que uno normal de HTML.
-import type { InputHTMLAttributes } from "react";
+import { useState, type InputHTMLAttributes } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
-// Aquí le decimos al input que puede recibir todas las cosas típicas, pero además una etiqueta y un error.
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     error?: string;
 }
 
-// El componente Input: le das la etiqueta, el error y lo demás, y él se encarga de armar el campo.
-export default function Input({ label, error, ...props }: InputProps) {
+export default function Input({ label, error, type, ...props }: InputProps) {
+    const [showPassword, setShowPassword] = useState(false);
+    const isPassword = type === "password";
 
-    // Aquí va el input, con su etiqueta y el mensaje de error si hay.
     return (
         <div className="mb-4">
-            {/* La etiqueta del input, para que sepas qué escribir */}
             <label htmlFor={props.name} className="block mb-2 text-neutral-100 font-medium">
                 {label}
             </label>
-            {/* El input recibe todo lo que le quieras pasar, como type, value, onChange, etc. */}
-            <input
-                className="input"
-                {...props}
-            />
-            {/* Si hay error, se muestra el mensaje en rojo */}
+            <div className="relative">
+                <input
+                    id={props.name}
+                    className="input w-full"
+                    type={isPassword && showPassword ? "text" : type}
+                    {...props}
+                />
+                {isPassword && (
+                    <button
+                        type="button"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200 transition-colors"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                        tabIndex={-1}
+                    >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                )}
+            </div>
             {error && (
                 <p className="text-red-500 text-sm mt-2">{error}</p>
             )}
         </div>
-    )
+    );
 }

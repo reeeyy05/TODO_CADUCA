@@ -1,29 +1,34 @@
-  export const validateField = (name: string, value: string) => {// Función para validar cada campo
-    switch (name) {
-      case "name":
-        if (!value.trim()) return "El nombre es obligatorio";
-        if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(value))
-          return "Solo se permiten letras y espacios";
-        return "";
-      case "age":
-        if (!value) return "La edad es obligatoria";
-        if (Number(value) <= 0) return "Debe ser mayor que 0";
-        return "";
-      case "email":
-        if (!value.trim()) return "El email es obligatorio";
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-          return "Email no válido";
-        return "";
-      case "username":
-        if (!value.trim()) return "El nombre de usuario es obligatorio";
-        if (value.length < 3) return "Mínimo 3 caracteres";
-        if (!/^[a-zA-Z0-9_]+$/.test(value))
-          return "Solo se permiten letras, números y guiones bajos";
-        return "";
-      case "password":
-        if (value.length < 6) return "Mínimo 6 caracteres";
-        return "";
-      default:
-        return "";
-    }
-  };
+/**
+ * Validaciones con regex para todos los campos del formulario.
+ */
+const REGEX = {
+  nombre: /^[a-zA-ZÀ-ÿ\s]{3,100}$/,
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
+} as const;
+
+export const validateField = (name: string, value: string): string => {
+  switch (name) {
+    case "nombre":
+      if (!value.trim()) return "El nombre es obligatorio";
+      if (value.trim().length < 3) return "El nombre debe tener al menos 3 caracteres";
+      if (!REGEX.nombre.test(value))
+        return "Solo se permiten letras y espacios (máx. 100 caracteres)";
+      return "";
+
+    case "email":
+      if (!value.trim()) return "El correo electrónico es obligatorio";
+      if (!REGEX.email.test(value)) return "El correo electrónico no es válido";
+      return "";
+
+    case "password":
+      if (!value) return "La contraseña es obligatoria";
+      if (value.length < 8) return "La contraseña debe tener al menos 8 caracteres";
+      if (!REGEX.password.test(value))
+        return "Debe contener al menos una letra y un número";
+      return "";
+
+    default:
+      return "";
+  }
+};
