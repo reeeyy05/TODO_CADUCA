@@ -1,15 +1,18 @@
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 import "../../styles/profile.css";
 
 const Profile: React.FC = () => {
   const { user } = useContext(UserContext); // Obtiene el usuario del registro
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user?.username) {
@@ -87,8 +90,8 @@ const Profile: React.FC = () => {
                 <label>Nombre de usuario</label>
                 {isEditing ? (
                   <div className="edit-form">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="data-input"
                       value={tempName}
                       onChange={(e) => setTempName(e.target.value)}
@@ -97,16 +100,16 @@ const Profile: React.FC = () => {
                       placeholder="Introduce tu nombre"
                       style={{ backgroundColor: 'var(--bg-input)', color: 'var(--text-main)', border: '1px solid var(--border-color)', padding: '0.75rem', borderRadius: '0.5rem' }}
                     />
-                    <button 
-                      className="save-small-btn" 
+                    <button
+                      className="save-small-btn"
                       onClick={handleSaveName}
                       disabled={isLoading}
                       style={{ backgroundColor: 'var(--primary-green)', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
                     >
                       {isLoading ? "Guardando..." : "Guardar"}
                     </button>
-                    <button 
-                      className="cancel-small-btn" 
+                    <button
+                      className="cancel-small-btn"
                       onClick={() => setIsEditing(false)}
                       disabled={isLoading}
                       style={{ backgroundColor: '#4b5563', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
@@ -129,20 +132,27 @@ const Profile: React.FC = () => {
 
             <div className="action-row" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               {!isEditing && (
-                <button 
-                  className="save-btn" 
+                <button
+                  className="save-btn"
                   onClick={() => setIsEditing(true)}
                   disabled={isLoading}
                 >
                   Editar Nombre
                 </button>
               )}
-              <button 
-                className="save-btn" 
+              <button
+                className="save-btn"
                 onClick={handlePasswordRecovery}
                 disabled={isLoading}
               >
                 {isLoading ? "Enviando..." : "Recuperar Contraseña"}
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate("/products")}
+                className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
+              >
+                Salir
               </button>
             </div>
           </div>

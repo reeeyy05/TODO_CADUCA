@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddProductPage() {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [expiryDate, setExpiryDate] = useState("");
+
+    const navigate = useNavigate(); 
 
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -109,6 +112,14 @@ function AddProductPage() {
                         className="w-full bg-green-600 py-2 rounded-lg text-white font-medium hover:bg-green-700 transition"
                     >
                         Añadir Producto
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => navigate("/products")}
+                        className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
+                    >
+                        Cancelar
                     </button>
 
                 </form>
