@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
+import LandingPage from './pages/LandingPage';
 import RegisterPage from './pages/RegisterPage';
 import FormSigin from './components/forms/FormSigin';
 import ProfilePage from './pages/ProfilePage';
@@ -12,7 +13,7 @@ import { useAuthStore } from "./store/authStore";
 /** Ruta que solo pueden ver usuarios NO autenticados */
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? <Navigate to="/profile" replace /> : <>{children}</>;
+  return isAuthenticated ? <Navigate to="/products" replace /> : <>{children}</>;
 }
 
 /** Ruta que solo pueden ver usuarios autenticados */
@@ -42,7 +43,7 @@ function App() {
         <Header />
         <main className="flex-1 flex flex-col w-full">
           <Routes>
-            <Route path="/" element={<div className="text-center mt-10">Inicio</div>} />
+            <Route path="/" element={<LandingPage />} />
 
             {/* Rutas públicas: solo visibles sin sesión */}
             <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
