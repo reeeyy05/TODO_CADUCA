@@ -7,6 +7,7 @@ import ProfilePage from './pages/ProfilePage';
 import { UserProvider } from './context/UserContext';
 import AddProductPage from "./pages/AddProductPage";
 import ProductsPage from "./pages/ProductsPage";
+import LandingPage from "./components/home/Landing";
 
 function App() {
   return (
@@ -14,9 +15,9 @@ function App() {
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Header />
-         <main className="flex-1 flex flex-col w-full">
+          <main className="flex-1 flex flex-col w-full">
             <Routes>
-              <Route path="/" element={<div className="text-center mt-10">Inicio</div>} />
+              <Route path="/" element={<LandingPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<FormSigin />} />
               <Route path="/profile" element={<ProfilePage />} />
