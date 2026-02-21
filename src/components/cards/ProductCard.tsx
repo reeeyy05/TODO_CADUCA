@@ -1,50 +1,146 @@
-const ProductCard = () => {
-  return (
-    <div className="flex flex-col w-87.5 bg-[#E5E7EB] rounded-3xl p-6 font-sans shadow-sm">
-      {/* Contenedor de la imagen */}
-      <div className="bg-[#F3F4F6] rounded-2xl h-48 flex items-center justify-center mb-6 overflow-hidden">
-        <div className="relative flex flex-col items-center">
-          {/* Aquí iría la imagen */}
+import { Trash2, Calendar, ShoppingBag, CheckCircle2 } from "lucide-react";
+import type { UsuarioProducto } from "../../interfaces/UsuarioProducto";
 
+interface ProductCardProps {
+    item: UsuarioProducto;
+    deletingId: number | null;
+    onMarkConsumed: (id: number) => void;
+    onDelete: (id: number) => void;
+}
+
+/** Calcula los días restantes hasta la fecha de caducidad */
+function daysUntilExpiry(fecha: string): number {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const expiry = new Date(fecha);
+    expiry.setHours(0, 0, 0, 0);
+    return Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+}
+
+type ExpiryLevel = "expired" | "urgent" | "warning" | "ok";
+
+function getExpiryLevel(days: number): ExpiryLevel {
+    if (days <= 0) return "expired";
+    if (days <= 3) return "urgent";
+    if (days <= 7) return "warning";
+    return "ok";
+}
+
+function getExpiryLabel(days: number): string {
+    if (days < 0) return "Caducado";
+    if (days === 0) return "Caduca hoy";
+    if (days <= 7) return `Caduca en ${days}d`;
+    return `${days} días`;
+}
+
+const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete }: ProductCardProps) => {
+    const days = daysUntilExpiry(item.fecha_caducidad);
+    const isConsumed = item.estado === "consumido";
+    const level = isConsumed ? "consumed" : getExpiryLevel(days);
+    const label = isConsumed ? "✓ Consumido" : getExpiryLabel(days);
+
+    const fecha = new Date(item.fecha_caducidad).toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    });
+
+    // Barra de progreso (máximo 30 días)
+    const progressMax = 30;
+    const progressValue = Math.max(0, Math.min(days, progressMax));
+    const progressPercent = (progressValue / progressMax) * 100;
+
+    // Nivel para la barra (sin "consumed")
+    const barLevel = getExpiryLevel(days);
+
+    // Color del icono
+    const iconColor =
+        isConsumed ? "text-neutral-400"
+        : days <= 0 ? "text-red-400"
+        : days <= 3 ? "text-orange-400"
+        : "text-green-400";
+
+    return (
+        <div className={`product-card ${isConsumed ? "product-card--consumed" : ""}`}>
+            {/* Acento superior */}
+            <div className={`product-card__accent product-card__accent--${level}`} />
+
+            <div className="product-card__body">
+                {/* Cabecera */}
+                <div className="product-card__header">
+                    <div className={`product-card__icon product-card__icon--${level}`}>
+                        {isConsumed
+                            ? <CheckCircle2 size={18} className="text-neutral-400" />
+                            : <ShoppingBag size={18} className={iconColor} />
+                        }
+                    </div>
+
+                    <div className="product-card__info">
+                        <h3 className="product-card__name">
+                            {item.producto?.nombre ?? "Producto"}
+                        </h3>
+                        <p className="product-card__category">
+                            {item.producto?.categoria?.nombre ?? "Sin categoría"}
+                        </p>
+                    </div>
+
+                    <span className={`product-card__badge product-card__badge--${level}`}>
+                        {label}
+                    </span>
+                </div>
+
+                {/* Fecha + cantidad */}
+                <div className="product-card__meta">
+                    <span className="product-card__date">
+                        <Calendar size={14} />
+                        {fecha}
+                    </span>
+                    <span className="product-card__quantity">×{item.cantidad} ud.</span>
+                </div>
+
+                {/* Barra de progreso */}
+                {!isConsumed && (
+                    <div className="product-card__progress">
+                        <div className="product-card__progress-header">
+                            <span>Tiempo restante</span>
+                            <span className={`product-card__progress-value product-card__progress-value--${barLevel}`}>
+                                {days <= 0 ? "Vencido" : `${days}d`}
+                            </span>
+                        </div>
+                        <div className="product-card__progress-track">
+                            <div
+                                className={`product-card__progress-bar product-card__progress-bar--${barLevel}`}
+                                style={{ width: `${progressPercent}%` }}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* Separador */}
+                <hr className="product-card__divider" />
+
+                {/* Botones */}
+                <div className="product-card__actions">
+                    {!isConsumed && (
+                        <button
+                            onClick={() => onMarkConsumed(item.id_usuario_producto)}
+                            className="product-card__btn product-card__btn--consume"
+                        >
+                            <CheckCircle2 size={15} /> Consumido
+                        </button>
+                    )}
+                    <button
+                        onClick={() => onDelete(item.id_usuario_producto)}
+                        disabled={deletingId === item.id_usuario_producto}
+                        className="product-card__btn product-card__btn--delete"
+                    >
+                        <Trash2 size={14} />
+                        {deletingId === item.id_usuario_producto ? "..." : "Eliminar"}
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-
-      {/* Información del producto */}
-      <div className="flex justify-between items-start mb-1">
-        <h2 className="text-[#1F2937] text-xl font-bold">Leche Entera</h2>
-        <span className="text-[#EF4444] text-sm font-medium mt-1">
-          Caduca hoy
-        </span>
-      </div>
-      
-      <p className="text-[#6B7280] text-lg mb-4">Lácteos</p>
-
-      {/* Fecha de caducidad */}
-      <div className="flex items-center text-[#374151] mb-6">
-        <svg 
-          className="w-5 h-5 mr-2" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span className="font-medium">Caduca: 29/01/2026</span>
-      </div>
-
-      {/* Botón Eliminar */}
-      <button className="w-full bg-[#FEE2E2] hover:bg-[#FECACA] transition-colors py-4 rounded-2xl flex items-center justify-center gap-2 text-[#EF4444] font-semibold text-lg">
-        <svg 
-          className="w-5 h-5" 
-          fill="currentColor" 
-          viewBox="0 0 20 20"
-        >
-          <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-        </svg>
-        Eliminar
-      </button>
-    </div>
-  );
+    );
 };
 
 export default ProductCard;

@@ -1,9 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Search, Plus, Trash2, AlertTriangle, Clock, Package } from "lucide-react";
+import { Search, Plus, AlertTriangle, Clock, Package } from "lucide-react";
 import { createProductRepository, createCategoryRepository } from "../database/repositories";
 import type { UsuarioProducto } from "../interfaces/UsuarioProducto";
 import type { Categoria } from "../interfaces/Categoria";
+import ProductCard from "../components/cards/ProductCard";
 
 /** Calcula los días restantes hasta la fecha de caducidad */
 function daysUntilExpiry(fecha: string): number {
@@ -12,15 +13,6 @@ function daysUntilExpiry(fecha: string): number {
     const expiry = new Date(fecha);
     expiry.setHours(0, 0, 0, 0);
     return Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-/** Devuelve etiqueta, color y fondo según los días restantes */
-function getExpiryStatus(days: number) {
-    if (days < 0) return { label: "Caducado", color: "text-red-400", bg: "bg-red-900/40" };
-    if (days === 0) return { label: "Caduca hoy", color: "text-red-400", bg: "bg-red-900/40" };
-    if (days <= 3) return { label: `Caduca en ${days}d`, color: "text-orange-400", bg: "bg-orange-900/30" };
-    if (days <= 7) return { label: `Caduca en ${days}d`, color: "text-yellow-300", bg: "bg-yellow-900/20" };
-    return { label: `${days} días`, color: "text-green-400", bg: "bg-green-900/20" };
 }
 
 function ProductsPage() {
@@ -156,46 +148,16 @@ function ProductsPage() {
                         )}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                        {filtered.map((item) => {
-                            const days = daysUntilExpiry(item.fecha_caducidad);
-                            const status = getExpiryStatus(days);
-                            const isConsumed = item.estado === "consumido";
-                            const fecha = new Date(item.fecha_caducidad).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" });
-
-                            return (
-                                <div key={item.id_usuario_producto}
-                                    className={`bg-neutral-800 border rounded-xl p-5 flex flex-col transition ${isConsumed ? "border-neutral-700 opacity-60" : days <= 0 ? "border-red-700/50" : days <= 3 ? "border-orange-700/50" : "border-neutral-700"}`}>
-                                    <div className="flex justify-between items-start mb-3">
-                                        <div className="flex-1 min-w-0">
-                                            <h3 className="font-semibold text-lg truncate">{item.producto?.nombre ?? "Producto"}</h3>
-                                            <p className="text-sm text-neutral-400">{item.producto?.categoria?.nombre ?? "Sin categoría"}</p>
-                                        </div>
-                                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${status.bg} ${status.color} whitespace-nowrap ml-2`}>
-                                            {isConsumed ? "Consumido" : status.label}
-                                        </span>
-                                    </div>
-
-                                    <div className="flex items-center gap-4 text-sm text-neutral-400 mb-3">
-                                        <span className="flex items-center gap-1"><Clock size={14} />{fecha}</span>
-                                        <span>×{item.cantidad}</span>
-                                    </div>
-
-                                    <div className="mt-auto flex gap-2">
-                                        {!isConsumed && (
-                                            <button onClick={() => handleMarkConsumed(item.id_usuario_producto)}
-                                                className="flex-1 text-sm py-2 rounded-lg bg-green-900/30 text-green-400 hover:bg-green-900/50 transition font-medium">
-                                                Consumido
-                                            </button>
-                                        )}
-                                        <button onClick={() => handleDelete(item.id_usuario_producto)} disabled={deletingId === item.id_usuario_producto}
-                                            className="flex items-center justify-center gap-1 text-sm py-2 px-3 rounded-lg bg-red-900/30 text-red-400 hover:bg-red-900/50 transition disabled:opacity-50">
-                                            <Trash2 size={14} /> {deletingId === item.id_usuario_producto ? "..." : "Eliminar"}
-                                        </button>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                    <div className="products-grid">
+                        {filtered.map((item) => (
+                            <ProductCard
+                                key={item.id_usuario_producto}
+                                item={item}
+                                deletingId={deletingId}
+                                onMarkConsumed={handleMarkConsumed}
+                                onDelete={handleDelete}
+                            />
+                        ))}
                     </div>
                 )}
 
