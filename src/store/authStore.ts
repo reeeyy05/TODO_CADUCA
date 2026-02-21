@@ -1,36 +1,94 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { SessionUser } from '../interfaces/SessionUser'
+import type { Perfil } from '../interfaces/Perfil'
+import { supabase } from '../database/supabase/Client'
 
 interface AuthState {
-  sessionUser: SessionUser | null
+  perfil: Perfil | null
   isAuthenticated: boolean
+  loading: boolean
 
-  setSession: (sessionUser: SessionUser) => void
+  setPerfil: (perfil: Perfil) => void
   clearSession: () => void
+  logout: () => Promise<void>
+  initSession: () => Promise<void>
+  updateNombre: (nombre: string) => Promise<{ error?: string }>
+  sendPasswordRecovery: () => Promise<{ error?: string }>
 }
 
 export const useAuthStore = create<AuthState>()(
+  persist(
+    (set, get) => ({
+      perfil: null,
+      isAuthenticated: false,
+      loading: true,
 
-  // persist es un middleware de persistencia que nos permitirá
-  // guardar el storage en localStorage y permitir que si refrescamos
-  // la pestaña con el login hecho, sigamos teniéndolo hasta cerrar sesión
+      setPerfil: (perfil) => set({ perfil, isAuthenticated: true, loading: false }),
 
-  // persist requiere 2 parámetros, en el primero metemos la implementación
-  // y en el segundo parámetros para decidir que persistir, nombres...
-  persist((set) => ({
-    sessionUser: null,
-    isAuthenticated: false,
-    setSession: (sessionUser) => set({ sessionUser, isAuthenticated: true }),
-    clearSession: () => set({ sessionUser: null, isAuthenticated: false }),
-  }),
-  {
-    name: 'auth-v1', // localStorage.getItem('auth-v1')
-    version: 1,
-    partialize: (state) => ({  // solo persistir lo esencial
-      sessionUser: state.sessionUser,
-      isAuthenticated: state.isAuthenticated,
+      clearSession: () => set({ perfil: null, isAuthenticated: false, loading: false }),
+
+      logout: async () => {
+        await supabase.auth.signOut()
+        set({ perfil: null, isAuthenticated: false, loading: false })
+      },
+
+      initSession: async () => {
+        set({ loading: true })
+        const { data: { session } } = await supabase.auth.getSession()
+
+        if (!session?.user) {
+          set({ perfil: null, isAuthenticated: false, loading: false })
+          return
+        }
+
+        const { data: profile, error } = await supabase
+          .from('perfiles')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .single()
+
+        if (error || !profile) {
+          set({ perfil: null, isAuthenticated: false, loading: false })
+          return
+        }
+
+        set({ perfil: profile as Perfil, isAuthenticated: true, loading: false })
+      },
+
+      updateNombre: async (nombre: string) => {
+        const perfil = get().perfil
+        if (!perfil) return { error: 'No hay sesión activa' }
+
+        const { error } = await supabase
+          .from('perfiles')
+          .update({ nombre_completo: nombre })
+          .eq('user_id', perfil.user_id)
+
+        if (error) return { error: error.message }
+
+        set({ perfil: { ...perfil, nombre_completo: nombre } })
+        return {}
+      },
+
+      sendPasswordRecovery: async () => {
+        const perfil = get().perfil
+        if (!perfil) return { error: 'No hay sesión activa' }
+
+        const { error } = await supabase.auth.resetPasswordForEmail(perfil.email, {
+          redirectTo: `${window.location.origin}/login`,
+        })
+
+        if (error) return { error: error.message }
+        return {}
+      },
     }),
-  }
+    {
+      name: 'auth-v1',
+      version: 1,
+      partialize: (state) => ({
+        perfil: state.perfil,
+        isAuthenticated: state.isAuthenticated,
+      }),
+    }
   )
 )

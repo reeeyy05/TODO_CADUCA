@@ -44,6 +44,7 @@ function ProductsPage() {
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
                         className="px-4 py-2 rounded-md bg-neutral-800 border border-neutral-700 text-white"
+                        aria-label="Filtrar por categoría"
                     >
                         <option value="">Todas las categorías</option>
                         <option value="Lácteos">Lácteos</option>
