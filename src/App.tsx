@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Header />
-         <main className="flex-1 flex flex-col w-full">
+          <main className="flex-1 flex flex-col w-full">
             <Routes>
               <Route path="/" element={<div className="text-center mt-10">Inicio</div>} />
               <Route path="/register" element={<RegisterPage />} />
