@@ -135,7 +135,7 @@ function AddProductPage() {
 
                     {/* Botones */}
                     <div className="flex gap-4">
-                        <button className="flex-1 bg-green-600 py-2 rounded">
+                        <button className="flex-1 bg-green-600 py-2 rounded" onClick={() => navigate("/products")}>
                             Añadir Producto
                         </button>
 

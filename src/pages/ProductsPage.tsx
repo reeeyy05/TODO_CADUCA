@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // Tipo de producto
 interface Product {
@@ -12,6 +13,7 @@ interface Product {
 }
 
 function ProductsPage() {
+    const navigate = useNavigate();
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("");
 
@@ -53,9 +55,8 @@ function ProductsPage() {
                     </select>
 
                     <Link
-                        to="/addProducts"
-                        className="bg-green-600 px-4 py-2 rounded-md text-white font-medium hover:bg-green-700 transition"
-                    >
+                        onClick={() => navigate("/products")}
+                        className="bg-green-600 px-4 py-2 rounded-md text-white font-medium hover:bg-green-700 transition" to={"/addProducts"} >
                         + Añadir Producto
                     </Link>
                 </div>

@@ -76,7 +76,7 @@ const Login = () => {
             </button>
             <button 
               type="button" 
-              onClick={() => navigate('/')} 
+              onClick={() => navigate('/products')} 
               className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-xl flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all"
             >
               <X size={20} className="mr-2 text-gray-500" /> Cancelar
