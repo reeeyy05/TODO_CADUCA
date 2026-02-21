@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { ThemeToggle } from "./ThemeToggle";
+import { Package } from "lucide-react";
 
 export default function Header() {
     const navigate = useNavigate();
@@ -17,12 +18,21 @@ export default function Header() {
 
             <div className="flex gap-4 items-center">
                 {isAuthenticated && perfil ? (
-                    <button
-                        className="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 transition-colors"
-                        onClick={() => navigate("/profile")}
-                    >
-                        Perfil de {perfil.nombre_completo || "Usuario"}
-                    </button>
+                    <>
+                        <button
+                            className="flex items-center gap-2 text-neutral-300 hover:text-white px-3 py-2 rounded transition-colors"
+                            onClick={() => navigate("/products")}
+                        >
+                            <Package size={18} />
+                            <span className="hidden sm:inline">Mis Productos</span>
+                        </button>
+                        <button
+                            className="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 transition-colors"
+                            onClick={() => navigate("/profile")}
+                        >
+                            {perfil.nombre_completo || "Perfil"}
+                        </button>
+                    </>
                 ) : (
                     <>
                         <button
