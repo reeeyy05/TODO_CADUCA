@@ -1,135 +1,152 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../database/supabase/Client";
 
 function AddProductPage() {
+    const navigate = useNavigate();
+
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [expiryDate, setExpiryDate] = useState("");
 
-    const navigate = useNavigate(); 
+    const id_perfil = 1; 
 
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!name || !category || !expiryDate) {
-            alert("Por favor, completa todos los campos.");
+            alert("Completa todos los campos.");
             return;
         }
 
-        const newProduct = {
-            name,
-            category,
-            quantity,
-            expiryDate,
-        };
+        // OBTENER ID_CATEGORIA desde la tabla categorias
+        const { data: categoriaData, error: catError } = await supabase
+            .from("categorias")
+            .select("id_categoria")
+            .eq("nombre", category)
+            .single();
 
-        console.log("Producto añadido:", newProduct);
+        if (catError || !categoriaData) {
+            alert("La categoría no existe en la base de datos.");
+            return;
+        }
+
+        const id_categoria = categoriaData.id_categoria;
+
+        // buscar si el producto ya existe en productos
+        const { data: productoExistente } = await supabase
+            .from("productos")
+            .select("id_producto")
+            .eq("nombre", name)
+            .eq("id_categoria", id_categoria)
+            .single();
+
+        let id_producto: number;
+
+        if (productoExistente) {
+            id_producto = productoExistente.id_producto;
+        } else {
+            // producto en productos si no existe
+            const { data: nuevoProducto, error: productoError } = await supabase
+                .from("productos")
+                .insert([
+                    { nombre: name, id_categoria }
+                ])
+                .select()
+                .single();
+
+            if (productoError || !nuevoProducto) {
+                alert("Error al crear el producto.");
+                return;
+            }
+
+            id_producto = nuevoProducto.id_producto;
+        }
+
+        // registro del usuario en usuario_productos
+        const { error: usuarioProdError } = await supabase
+            .from("usuario_productos")
+            .insert([
+                {
+                    id_perfil,
+                    id_producto,
+                    cantidad: quantity,
+                    fecha_caducidad: expiryDate,
+                    estado: "pendiente",
+                }
+            ]);
+
+        if (usuarioProdError) {
+            alert("Error al guardar en tu inventario.");
+            return;
+        }
+
         alert("Producto añadido correctamente");
-
-        // Resetear formulario
-        setName("");
-        setCategory("");
-        setQuantity(1);
-        setExpiryDate("");
+        navigate("/products");
     };
 
     return (
-        <div className=" text-white flex flex-col">
-
-            <main className="grow max-w-3xl mx-auto w-full px-6 py-10">
+        <div className="text-white">
+            <main className="max-w-3xl mx-auto p-6">
                 <h1 className="text-3xl font-bold mb-4">Añadir Producto</h1>
-                <p className="text-neutral-400 mb-8">
-                    Registra un nuevo alimento para llevar el control de su fecha de caducidad.
-                </p>
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="p-6 rounded-xl border border-neutral-700 space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Nombre */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            Nombre del producto
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Ej: Leche"
-                            title="Nombre del producto"
-                            aria-label="Nombre del producto"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
-                        />
-                    </div>
+                    <input
+                        type="text"
+                        placeholder="Nombre del producto"
+                        className="w-full p-2 rounded bg-neutral-700"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
 
                     {/* Categoría */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Categoría</label>
-                        <select
-                            value={category}
-                            title="Categoría"
-                            aria-label="Categoría"
-                            onChange={(e) => setCategory(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
-                        >
-                            <option value="">Selecciona una categoría</option>
-                            <option value="Lácteos">Lácteos</option>
-                            <option value="Carnes">Carnes</option>
-                            <option value="Bebidas">Bebidas</option>
-                            <option value="Frutas">Frutas</option>
-                            <option value="Verduras">Verduras</option>
-                            <option value="Panadería">Bollería</option>
-                            <option value="Otros">Otros</option>
-                        </select>
-                    </div>
+                    <select
+                        className="w-full p-2 rounded bg-neutral-700"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        <option value="">Selecciona categoría</option>
+                        <option value="Lácteos">Lácteos</option>
+                        <option value="Carnes">Carnes</option>
+                        <option value="Frutas">Frutas</option>
+                        <option value="Verduras">Verduras</option>
+                        <option value="Panadería">Panadería</option>
+                        <option value="Bebidas">Bebidas</option>
+                    </select>
 
                     {/* Cantidad */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Cantidad</label>
-                        <input
-                            type="number"
-                            min={1}
-                            title="Cantidad"
-                            aria-label="Cantidad"
-                            value={quantity}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
-                            className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
-                        />
-                    </div>
+                    <input
+                        type="number"
+                        min={1}
+                        className="w-full p-2 rounded bg-neutral-700"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                    />
 
                     {/* Fecha de caducidad */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            Fecha de caducidad
-                        </label>
-                        <input
-                            type="date"
-                            title="Fecha de caducidad"
-                            aria-label="Fecha de caducidad"
-                            value={expiryDate}
-                            onChange={(e) => setExpiryDate(e.target.value)}
-                            className="w-full px-3 py-2 rounded-md bg-neutral-700 text-white border border-neutral-600 focus:outline-none"
-                        />
+                    <input
+                        type="date"
+                        className="w-full p-2 rounded bg-neutral-700"
+                        value={expiryDate}
+                        onChange={(e) => setExpiryDate(e.target.value)}
+                    />
+
+                    {/* Botones */}
+                    <div className="flex gap-4">
+                        <button className="flex-1 bg-green-600 py-2 rounded">
+                            Añadir Producto
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => navigate("/products")}
+                            className="flex-1 bg-red-700 py-2 rounded"
+                        >
+                            Cancelar
+                        </button>
                     </div>
-
-                    {/* Botón */}
-
-                    <button
-                        type="submit"
-                        className="w-full bg-green-600 py-2 rounded-lg text-white font-medium hover:bg-green-700 transition"
-                    >
-                        Añadir Producto
-                    </button>
-
-                    <button
-                        type="button"
-                        onClick={() => navigate("/products")}
-                        className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
-                    >
-                        Cancelar
-                    </button>
-
                 </form>
             </main>
         </div>
