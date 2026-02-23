@@ -8,7 +8,7 @@ export default function Header() {
     const { isAuthenticated, perfil } = useAuthStore();
 
     return (
-        <header className="bg-neutral-800 h-20 px-8 flex justify-between items-center border-b border-neutral-800">
+        <header className="h-20 px-8 flex justify-between items-center border-b border-neutral-800">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
                 <div className="bg-green-600 p-2 rounded text-white">
                     

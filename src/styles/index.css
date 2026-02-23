@@ -63,32 +63,89 @@
   --color-blue-50: #EFF6FF;
 }
 
-/* VARIABLES DE ESPACIADO */
+/* VARIABLES BASE (modo claro por defecto) */
 :root {
-  --site-bg: var(--color-neutral-50);    /* Fondo claro */
-  --site-text: var(--color-neutral-900); /* Texto oscuro */
+  --site-bg: var(--color-neutral-50);
+  --site-text: var(--color-neutral-900);
+
+  --bg-verde: var(--color-green-300);
+  --text-verde: var(--color-neutral-900);
+  --header-footer-bg: var(--bg-verde); /* Verde en modo claro */
+
   --spacing-1: 0.25rem; /* 4px */
   --spacing-2: 0.5rem;  /* 8px */
   --spacing-3: 1rem;    /* 16px */
   --spacing-4: 1.5rem;  /* 24px */
   --spacing-5: 2rem;    /* 32px */
 
-  /* TAMAÑOS DE FUENTE */
   --font-size-sm: 0.875rem; /* 14px */
   --font-size-md: 1rem;     /* 16px */
   --font-size-lg: 1.25rem;  /* 20px */
   --font-size-xl: 1.5rem;   /* 24px */
 }
 
-/* ESTILOS GLOBALES */
+/* ===================== */
+/*   LÓGICA DE TEMAS     */
+/* ===================== */
+
+/* MODO OSCURO: reemplaza el verde por colores oscuros */
+@variant dark (&:where(.dark, .dark *));
+html.dark,
+[data-theme='dark'] {
+  --site-bg: var(--color-neutral-950);
+  --site-text: var(--color-neutral-50);
+  --header-footer-bg: var(--color-neutral-900);
+  --text-verde: var(--color-neutral-50);
+}
+
+/* MODO CLARO: verde en header/footer */
+html[data-theme='light'],
+html:not(.dark) {
+  --site-bg: var(--color-neutral-50);
+  --site-text: var(--color-neutral-900);
+  --header-footer-bg: var(--color-green-300);
+  --text-verde: var(--color-neutral-900);
+}
+
+/* Anular clases estáticas de Tailwind en modo claro */
+html[data-theme='light'] body,
+html[data-theme='light'] .min-h-screen,
+html[data-theme='light'] main {
+  background-color: var(--site-bg) !important;
+  color: var(--site-text) !important;
+}
+html[data-theme='light'] .bg-neutral-800 { background-color: var(--site-bg) !important; }
+html[data-theme='light'] .bg-neutral-900 { background-color: var(--site-bg) !important; }
+html[data-theme='light'] .text-white      { color: var(--site-text) !important; }
+html[data-theme='light'] .text-neutral-950 { color: var(--site-text) !important; }
+
+/* ===================== */
+/*   ESTILOS GLOBALES    */
+/* ===================== */
+
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--site-bg); /* <--- USAR VARIABLE DINÁMICA */
-  color: var(--site-text);         /* <--- USAR VARIABLE DINÁMICA */
+  background-color: var(--site-bg);
+  color: var(--site-text);
   margin: 0;
   padding: 0;
   line-height: 1.5;
-  transition: background-color 0.3s, color 0.3s; /* Para que el cambio sea suave */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Header y footer siempre usan su variable dedicada */
+header, footer {
+  background-color: var(--header-footer-bg) !important;
+  color: var(--text-verde) !important;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Textos secundarios dentro de header/footer en modo claro */
+header .text-neutral-300,
+header .text-neutral-400,
+footer .text-neutral-300,
+footer .text-neutral-400 {
+  color: var(--color-neutral-700) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -103,37 +160,15 @@ button {
 }
 
 /* CLASES UTILITARIAS */
-.text-center {
-  text-align: center;
-}
+.text-center { text-align: center; }
+.flex        { display: flex; }
+.flex-center { display: flex; justify-content: center; align-items: center; }
+.gap-1       { gap: var(--spacing-1); }
+.gap-2       { gap: var(--spacing-2); }
+.gap-3       { gap: var(--spacing-3); }
+.rounded     { border-radius: 0.5rem; }
 
-.flex {
-  display: flex;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.gap-1 {
-  gap: var(--spacing-1);
-}
-
-.gap-2 {
-  gap: var(--spacing-2);
-}
-
-.gap-3 {
-  gap: var(--spacing-3);
-}
-
-.rounded {
-  border-radius: 0.5rem;
-}
-
-/* CLASES PARA COMPONENTES */
+/* COMPONENTES */
 .btn-primary {
   background-color: var(--color-green-600);
   color: var(--color-neutral-100);
@@ -142,10 +177,7 @@ button {
   font-size: var(--font-size-md);
   transition: background-color 0.3s;
 }
-
-.btn-primary:hover {
-  background-color: var(--color-green-700);
-}
+.btn-primary:hover { background-color: var(--color-green-700); }
 
 .btn-secondary {
   background-color: var(--color-neutral-100);
@@ -156,10 +188,7 @@ button {
   font-size: var(--font-size-md);
   transition: background-color 0.3s;
 }
-
-.btn-secondary:hover {
-  background-color: var(--color-green-50);
-}
+.btn-secondary:hover { background-color: var(--color-green-50); }
 
 .input {
   width: 100%;
@@ -171,20 +200,12 @@ button {
   background-color: var(--color-neutral-100);
   transition: border-color 0.3s;
 }
-
 .input:focus {
   border-color: var(--color-green-400);
   outline: none;
   box-shadow: 0 0 0 2px var(--color-green-300);
 }
 
-@variant dark (&:where(.dark, .dark *));
-/* Forzar que las variables cambien cuando la clase dark esté presente */
-html.dark, 
-[data-theme='dark'] {
-  --site-bg: var(--color-neutral-950) !important;
-  --site-text: var(--color-neutral-50) !important;
-}
 
 /* ===================== */
 /*   PRODUCT CARD        */

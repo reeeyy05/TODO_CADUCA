@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bg-neutral-800 text-white p-10">
+        <footer className="p-10">
 
             {/* Logo a la izquierda, iconos a la derecha */}
             <div className="flex justify-between items-center mb-10">

@@ -95,7 +95,7 @@ export default function RegistroForm() {
     };
 
     return (
-        <section className="flex-1 w-full bg-[#262626] flex flex-col items-center justify-center py-8 px-4">
+        <section className="flex-1 w-full bg-neutral-800 flex flex-col items-center justify-center py-8 px-4">
             <div className="bg-[#D9D9D9] w-full max-w-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center">
                 <h2 className="text-3xl font-bold text-[#1a1a1a] mb-2 tracking-wide uppercase">
                     Crea tu cuenta
