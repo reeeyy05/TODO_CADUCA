@@ -102,37 +102,6 @@ button {
   outline: none;
 }
 
-/* CLASES UTILITARIAS */
-.text-center {
-  text-align: center;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.gap-1 {
-  gap: var(--spacing-1);
-}
-
-.gap-2 {
-  gap: var(--spacing-2);
-}
-
-.gap-3 {
-  gap: var(--spacing-3);
-}
-
-.rounded {
-  border-radius: 0.5rem;
-}
-
 /* CLASES PARA COMPONENTES */
 .btn-primary {
   background-color: var(--color-green-600);
@@ -161,10 +130,17 @@ button {
   background-color: var(--color-green-50);
 }
 
-.input {
+/* ===================== */
+/*   FORM CONTROLS       */
+/* ===================== */
+
+.form-control {
   width: 100%;
-  padding: var(--spacing-3);
-  border: 1px solid var(--color-neutral-600);
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: 1px solid var(--color-neutral-300);
   border-radius: 0.5rem;
   font-size: var(--font-size-md);
   color: var(--color-neutral-900);
@@ -172,10 +148,52 @@ button {
   transition: border-color 0.3s;
 }
 
-.input:focus {
+.form-control:focus {
   border-color: var(--color-green-400);
   outline: none;
   box-shadow: 0 0 0 2px var(--color-green-300);
+}
+
+.form-control::placeholder {
+  color: var(--color-neutral-500);
+}
+
+/* Dark mode */
+.dark .form-control {
+  color: var(--color-neutral-50);
+  background-color: var(--color-neutral-800);
+  border-color: var(--color-neutral-700);
+  color-scheme: dark;
+}
+
+.dark .form-control::placeholder {
+  color: var(--color-neutral-500);
+}
+
+/* Select options en dark */
+.dark select.form-control option {
+  background-color: var(--color-neutral-800);
+  color: var(--color-neutral-50);
+}
+
+/* Label de formulario */
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: var(--color-neutral-700);
+}
+
+.dark .form-label {
+  color: var(--color-neutral-300);
+}
+
+/* Color-scheme global para controles nativos en dark */
+.dark input,
+.dark select,
+.dark textarea {
+  color-scheme: dark;
 }
 
 @variant dark (&:where(.dark, .dark *));
@@ -184,6 +202,7 @@ html.dark,
 [data-theme='dark'] {
   --site-bg: var(--color-neutral-950) !important;
   --site-text: var(--color-neutral-50) !important;
+  color-scheme: dark;
 }
 
 /* ===================== */
@@ -194,14 +213,23 @@ html.dark,
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-neutral-800);
+  background-color: #ffffff;
   border-radius: 1rem;
-  border: 1px solid var(--color-neutral-700);
+  border: 1px solid var(--color-neutral-200);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dark .product-card {
+  background-color: var(--color-neutral-800);
+  border-color: var(--color-neutral-700);
 }
 
 .product-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dark .product-card:hover {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
@@ -263,18 +291,34 @@ html.dark,
 }
 
 .product-card__icon--expired {
+  background-color: rgba(254, 202, 202, 0.5);
+}
+
+.dark .product-card__icon--expired {
   background-color: rgba(130, 24, 26, 0.4);
 }
 
 .product-card__icon--urgent {
+  background-color: rgba(255, 237, 213, 0.6);
+}
+
+.dark .product-card__icon--urgent {
   background-color: rgba(126, 42, 12, 0.3);
 }
 
 .product-card__icon--ok {
+  background-color: rgba(220, 252, 231, 0.6);
+}
+
+.dark .product-card__icon--ok {
   background-color: rgba(13, 84, 43, 0.3);
 }
 
 .product-card__icon--consumed {
+  background-color: rgba(200, 200, 200, 0.4);
+}
+
+.dark .product-card__icon--consumed {
   background-color: rgba(64, 64, 64, 0.5);
 }
 
@@ -287,17 +331,25 @@ html.dark,
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.3;
-  color: var(--color-neutral-100);
+  color: var(--color-neutral-900);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   margin: 0;
 }
 
+.dark .product-card__name {
+  color: var(--color-neutral-100);
+}
+
 .product-card__category {
   font-size: 0.75rem;
-  color: var(--color-neutral-500);
+  color: var(--color-neutral-600);
   margin-top: 2px;
+}
+
+.dark .product-card__category {
+  color: var(--color-neutral-500);
 }
 
 /* Badge de estado */
@@ -312,26 +364,51 @@ html.dark,
 }
 
 .product-card__badge--expired {
+  background-color: rgba(254, 202, 202, 0.5);
+  color: var(--color-red-600);
+}
+
+.dark .product-card__badge--expired {
   background-color: rgba(130, 24, 26, 0.4);
   color: var(--color-red-400);
 }
 
 .product-card__badge--urgent {
+  background-color: rgba(255, 237, 213, 0.6);
+  color: var(--color-orange-600);
+}
+
+.dark .product-card__badge--urgent {
   background-color: rgba(126, 42, 12, 0.3);
   color: var(--color-orange-400);
 }
 
 .product-card__badge--warning {
+  background-color: rgba(254, 249, 195, 0.5);
+  color: #a16207;
+}
+
+.dark .product-card__badge--warning {
   background-color: rgba(113, 93, 14, 0.2);
   color: #facc15;
 }
 
 .product-card__badge--ok {
+  background-color: rgba(220, 252, 231, 0.5);
+  color: var(--color-green-600);
+}
+
+.dark .product-card__badge--ok {
   background-color: rgba(13, 84, 43, 0.2);
   color: var(--color-green-400);
 }
 
 .product-card__badge--consumed {
+  background-color: rgba(200, 200, 200, 0.4);
+  color: var(--color-neutral-500);
+}
+
+.dark .product-card__badge--consumed {
   background-color: rgba(64, 64, 64, 0.4);
   color: var(--color-neutral-400);
 }
@@ -348,6 +425,10 @@ html.dark,
   display: flex;
   align-items: center;
   gap: 0.375rem;
+  color: var(--color-neutral-600);
+}
+
+.dark .product-card__date {
   color: var(--color-neutral-300);
 }
 
@@ -356,12 +437,17 @@ html.dark,
 }
 
 .product-card__quantity {
-  background-color: rgba(64, 64, 64, 0.6);
-  color: var(--color-neutral-300);
+  background-color: rgba(200, 200, 200, 0.4);
+  color: var(--color-neutral-600);
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.25rem 0.625rem;
   border-radius: 9999px;
+}
+
+.dark .product-card__quantity {
+  background-color: rgba(64, 64, 64, 0.6);
+  color: var(--color-neutral-300);
 }
 
 /* Barra de progreso */
@@ -375,6 +461,10 @@ html.dark,
   display: flex;
   justify-content: space-between;
   font-size: 0.6875rem;
+  color: var(--color-neutral-600);
+}
+
+.dark .product-card__progress-header {
   color: var(--color-neutral-500);
 }
 
@@ -397,9 +487,13 @@ html.dark,
 .product-card__progress-track {
   width: 100%;
   height: 6px;
-  background-color: rgba(64, 64, 64, 0.5);
+  background-color: rgba(200, 200, 200, 0.5);
   border-radius: 9999px;
   overflow: hidden;
+}
+
+.dark .product-card__progress-track {
+  background-color: rgba(64, 64, 64, 0.5);
 }
 
 .product-card__progress-bar {
@@ -427,8 +521,12 @@ html.dark,
 /* Separador */
 .product-card__divider {
   border: none;
-  border-top: 1px solid rgba(64, 64, 64, 0.5);
+  border-top: 1px solid rgba(200, 200, 200, 0.5);
   margin: 0;
+}
+
+.dark .product-card__divider {
+  border-top-color: rgba(64, 64, 64, 0.5);
 }
 
 /* Botones */
@@ -453,23 +551,45 @@ html.dark,
 
 .product-card__btn--consume {
   flex: 1;
+  background-color: rgba(220, 252, 231, 0.4);
+  color: var(--color-green-600);
+  border-color: rgba(187, 247, 208, 0.5);
+}
+
+.product-card__btn--consume:hover {
+  background-color: rgba(220, 252, 231, 0.6);
+  border-color: rgba(187, 247, 208, 0.7);
+}
+
+.dark .product-card__btn--consume {
   background-color: rgba(13, 84, 43, 0.2);
   color: var(--color-green-400);
   border-color: rgba(1, 102, 48, 0.3);
 }
 
-.product-card__btn--consume:hover {
+.dark .product-card__btn--consume:hover {
   background-color: rgba(13, 84, 43, 0.4);
   border-color: rgba(1, 102, 48, 0.5);
 }
 
 .product-card__btn--delete {
+  background-color: rgba(254, 202, 202, 0.3);
+  color: var(--color-red-600);
+  border-color: rgba(252, 165, 165, 0.4);
+}
+
+.product-card__btn--delete:hover {
+  background-color: rgba(254, 202, 202, 0.5);
+  border-color: rgba(252, 165, 165, 0.6);
+}
+
+.dark .product-card__btn--delete {
   background-color: rgba(130, 24, 26, 0.2);
   color: var(--color-red-400);
   border-color: rgba(159, 7, 18, 0.3);
 }
 
-.product-card__btn--delete:hover {
+.dark .product-card__btn--delete:hover {
   background-color: rgba(130, 24, 26, 0.4);
   border-color: rgba(159, 7, 18, 0.5);
 }

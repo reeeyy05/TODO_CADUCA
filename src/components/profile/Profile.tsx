@@ -111,30 +111,28 @@ const Profile: React.FC = () => {
                   <div className="edit-form">
                     <input
                       type="text"
-                      className="data-input"
                       value={tempName}
                       onChange={(e) => setTempName(e.target.value)}
                       disabled={isLoading}
                       autoFocus
                       placeholder="Introduce tu nombre"
-                      style={{ backgroundColor: 'var(--bg-input)', color: 'var(--text-main)', border: '1px solid var(--border-color)', padding: '0.75rem', borderRadius: '0.5rem' }}
                     />
-                    <button
-                      className="save-small-btn"
-                      onClick={handleSaveName}
-                      disabled={isLoading}
-                      style={{ backgroundColor: 'var(--primary-green)', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
-                    >
-                      {isLoading ? "Guardando..." : "Guardar"}
-                    </button>
-                    <button
-                      className="cancel-small-btn"
-                      onClick={() => { setIsEditing(false); setTempName(nombre); }}
-                      disabled={isLoading}
-                      style={{ backgroundColor: '#4b5563', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
-                    >
-                      Cancelar
-                    </button>
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        className="save-btn"
+                        onClick={handleSaveName}
+                        disabled={isLoading}
+                      >
+                        {isLoading ? "Guardando..." : "Guardar"}
+                      </button>
+                      <button
+                        className="save-btn cancel-btn"
+                        onClick={() => { setIsEditing(false); setTempName(nombre); }}
+                        disabled={isLoading}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   <div className="data-box">{nombre}</div>
@@ -149,7 +147,7 @@ const Profile: React.FC = () => {
               </div>
             </div>
 
-            <div className="action-row" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <div className="flex gap-4 mt-4 flex-wrap">
               {!isEditing && (
                 <button
                   className="save-btn"
@@ -169,7 +167,7 @@ const Profile: React.FC = () => {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
+                className="bg-red-700 py-2 px-4 rounded-lg text-white font-medium hover:bg-red-800 transition"
               >
                 Cerrar Sesión
               </button>

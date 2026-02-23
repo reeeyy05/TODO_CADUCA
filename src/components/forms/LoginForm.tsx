@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { validateField } from '../../utils/regex';
 import { createUserRepository } from '../../database/repositories';
 import { useAuthStore } from '../../store/authStore';
-import { supabase } from '../../database/supabase/Client';
 
-const Login = () => {
+export default function LoginForm() {
   const navigate = useNavigate();
   const { setPerfil } = useAuthStore();
   const userRepository = createUserRepository();
@@ -62,9 +61,7 @@ const Login = () => {
     }
 
     setRecoveryLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(recoveryEmail, {
-      redirectTo: `${window.location.origin}/login`,
-    });
+    const { error } = await userRepository.resetPasswordForEmail(recoveryEmail);
     setRecoveryLoading(false);
 
     if (error) {
@@ -75,13 +72,13 @@ const Login = () => {
   };
 
   return (
-    <section className="flex-1 w-full flex flex-col items-center justify-center py-12">
-      <div className="bg-[#D9D9D9] w-full max-w-md rounded-3xl shadow-2xl p-8 flex flex-col items-center mx-4">
-        <div className="bg-[#10B981] p-4 rounded-2xl mb-4 shadow-lg">
+    <section className="flex-1 w-full bg-neutral-100 dark:bg-transparent flex flex-col items-center justify-center py-12">
+      <div className="bg-neutral-300 w-full max-w-md rounded-3xl shadow-2xl p-8 flex flex-col items-center mx-4">
+        <div className="bg-emerald-500 p-4 rounded-2xl mb-4 shadow-lg">
           <User size={48} color="white" />
         </div>
 
-        <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2">
+        <h1 className="text-3xl font-bold text-neutral-900 mb-2">
           {showRecovery ? 'Recuperar Contraseña' : 'Iniciar Sesión'}
         </h1>
         <p className="text-gray-600 mb-8 text-center font-medium">
@@ -150,14 +147,14 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#00D97E] hover:bg-[#00c270] text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition-all disabled:opacity-50"
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition-all disabled:opacity-50"
               >
                 <Check size={20} className="mr-2" /> {loading ? 'Iniciando sesión...' : 'Aceptar'}
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/')}
-                className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-xl flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all"
+                className="w-full bg-white border-2 border-emerald-500 text-gray-700 font-bold py-4 rounded-xl flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all"
               >
                 <X size={20} className="mr-2 text-gray-500" /> Cancelar
               </button>
@@ -194,14 +191,14 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={recoveryLoading}
-                className="w-full bg-[#00D97E] hover:bg-[#00c270] text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition-all disabled:opacity-50"
+                className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center shadow-lg active:scale-95 transition-all disabled:opacity-50"
               >
                 <Mail size={20} className="mr-2" /> {recoveryLoading ? 'Enviando...' : 'Enviar correo de recuperación'}
               </button>
               <button
                 type="button"
                 onClick={() => { setShowRecovery(false); setRecoveryMessage(''); }}
-                className="w-full bg-white border-2 border-[#00D97E] text-gray-700 font-bold py-4 rounded-xl flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all"
+                className="w-full bg-white border-2 border-emerald-500 text-gray-700 font-bold py-4 rounded-xl flex items-center justify-center hover:bg-gray-50 active:scale-95 transition-all"
               >
                 <X size={20} className="mr-2 text-gray-500" /> Volver al login
               </button>
@@ -226,6 +223,4 @@ const Login = () => {
       </div>
     </section>
   );
-};
-
-export default Login;
+}

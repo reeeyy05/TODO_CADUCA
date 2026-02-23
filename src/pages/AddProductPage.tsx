@@ -2,8 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, Loader2 } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
-import { createCategoryRepository, createProductRepository } from "../database/repositories";
-import { supabase } from "../database/supabase/Client";
+import { createCategoryRepository, createProductRepository, createCatalogRepository } from "../database/repositories";
 import type { Categoria } from "../interfaces/Categoria";
 
 function AddProductPage() {
@@ -21,6 +20,7 @@ function AddProductPage() {
 
     const categoryRepo = useMemo(() => createCategoryRepository(), []);
     const productRepo = useMemo(() => createProductRepository(), []);
+    const catalogRepo = useMemo(() => createCatalogRepository(), []);
 
     // Cargar categorías desde Supabase
     useEffect(() => {
@@ -47,12 +47,13 @@ function AddProductPage() {
 
         try {
             // Buscar si el producto ya existe en el catálogo
-            const { data: existente } = await supabase
-                .from("productos")
-                .select("id_producto")
-                .eq("nombre", name.trim())
-                .eq("id_categoria", categoryId)
-                .maybeSingle();
+            const { data: existente, error: findErr } = await catalogRepo.findProduct(name.trim(), categoryId as number);
+
+            if (findErr) {
+                setError("Error al buscar el producto en el catálogo.");
+                setSubmitting(false);
+                return;
+            }
 
             let id_producto: number;
 
@@ -60,14 +61,9 @@ function AddProductPage() {
                 id_producto = existente.id_producto;
             } else {
                 // Crear producto en el catálogo
-                const { data: nuevo, error: prodErr } = await supabase
-                    .from("productos")
-                    .insert({ nombre: name.trim(), id_categoria: categoryId })
-                    .select("id_producto")
-                    .single();
+                const { data: nuevo, error: prodErr } = await catalogRepo.createProduct(name.trim(), categoryId as number);
 
                 if (prodErr || !nuevo) {
-                    console.error("Error INSERT productos:", prodErr);
                     setError(
                         prodErr?.code === "42501" || prodErr?.message?.includes("policy")
                             ? "Sin permisos para crear productos. Verifica las políticas RLS en Supabase."
@@ -104,19 +100,19 @@ function AddProductPage() {
     const today = new Date().toISOString().split("T")[0];
 
     return (
-        <div className="text-white">
+        <div className="text-neutral-900 dark:text-white">
             <main className="max-w-lg mx-auto px-6 py-10">
                 {/* Cabecera */}
-                <button onClick={() => navigate("/products")} className="flex items-center gap-2 text-neutral-400 hover:text-white transition mb-6">
+                <button onClick={() => navigate("/products")} className="flex items-center gap-2 text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition mb-6">
                     <ArrowLeft size={18} /> Volver a mis productos
                 </button>
 
                 <h1 className="text-3xl font-bold mb-2">Añadir Producto</h1>
-                <p className="text-neutral-400 mb-8">Registra un nuevo producto en tu inventario.</p>
+                <p className="text-neutral-500 dark:text-neutral-400 mb-8">Registra un nuevo producto en tu inventario.</p>
 
                 {/* Error */}
                 {error && (
-                    <div className="bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6">
+                    <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg mb-6">
                         {error}
                     </div>
                 )}
@@ -124,14 +120,14 @@ function AddProductPage() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Nombre */}
                     <div>
-                        <label htmlFor="product-name" className="block text-sm font-medium text-neutral-300 mb-1">
+                        <label htmlFor="product-name" className="form-label">
                             Nombre del producto
                         </label>
                         <input
                             id="product-name"
                             type="text"
                             placeholder="Ej: Leche entera"
-                            className="w-full px-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="form-control"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             maxLength={100}
@@ -140,7 +136,7 @@ function AddProductPage() {
 
                     {/* Categoría */}
                     <div>
-                        <label htmlFor="product-category" className="block text-sm font-medium text-neutral-300 mb-1">
+                        <label htmlFor="product-category" className="form-label">
                             Categoría
                         </label>
                         {loadingCats ? (
@@ -150,7 +146,7 @@ function AddProductPage() {
                         ) : (
                             <select
                                 id="product-category"
-                                className="w-full px-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                                className="form-control"
                                 value={categoryId}
                                 onChange={(e) => setCategoryId(e.target.value ? Number(e.target.value) : "")}
                             >
@@ -166,7 +162,7 @@ function AddProductPage() {
 
                     {/* Cantidad */}
                     <div>
-                        <label htmlFor="product-quantity" className="block text-sm font-medium text-neutral-300 mb-1">
+                        <label htmlFor="product-quantity" className="form-label">
                             Cantidad
                         </label>
                         <input
@@ -174,7 +170,7 @@ function AddProductPage() {
                             type="number"
                             min={1}
                             max={999}
-                            className="w-full px-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="form-control"
                             value={quantity}
                             onChange={(e) => setQuantity(Number(e.target.value))}
                         />
@@ -182,14 +178,14 @@ function AddProductPage() {
 
                     {/* Fecha de caducidad */}
                     <div>
-                        <label htmlFor="product-expiry" className="block text-sm font-medium text-neutral-300 mb-1">
+                        <label htmlFor="product-expiry" className="form-label">
                             Fecha de caducidad
                         </label>
                         <input
                             id="product-expiry"
                             type="date"
                             min={today}
-                            className="w-full px-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="form-control"
                             value={expiryDate}
                             onChange={(e) => setExpiryDate(e.target.value)}
                         />
@@ -200,7 +196,7 @@ function AddProductPage() {
                         <button
                             type="submit"
                             disabled={submitting}
-                            className="flex-1 flex items-center justify-center gap-2 bg-green-600 py-2.5 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-2.5 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {submitting ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
                             {submitting ? "Guardando..." : "Añadir Producto"}
@@ -209,7 +205,7 @@ function AddProductPage() {
                         <button
                             type="button"
                             onClick={() => navigate("/products")}
-                            className="flex-1 bg-neutral-700 py-2.5 rounded-lg font-medium hover:bg-neutral-600 transition"
+                            className="flex-1 bg-neutral-200 dark:bg-neutral-700 py-2.5 rounded-lg font-medium hover:bg-neutral-300 dark:hover:bg-neutral-600 transition"
                         >
                             Cancelar
                         </button>

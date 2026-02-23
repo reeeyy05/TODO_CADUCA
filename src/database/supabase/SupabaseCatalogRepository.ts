@@ -32,4 +32,35 @@ export class SupabaseCatalogRepository implements CatalogRepository {
 
     return { data: data as Producto[] };
   }
+
+  async findProduct(nombre: string, idCategoria: number): Promise<{ data?: Producto | null; error?: any }> {
+    const { data, error } = await supabase
+      .from('productos')
+      .select('*')
+      .eq('nombre', nombre)
+      .eq('id_categoria', idCategoria)
+      .maybeSingle();
+
+    if (error) {
+      console.error('Error findProduct:', error);
+      return { error };
+    }
+
+    return { data: data as Producto | null };
+  }
+
+  async createProduct(nombre: string, idCategoria: number): Promise<{ data?: Producto; error?: any }> {
+    const { data, error } = await supabase
+      .from('productos')
+      .insert({ nombre, id_categoria: idCategoria })
+      .select('*')
+      .single();
+
+    if (error) {
+      console.error('Error createProduct:', error);
+      return { error };
+    }
+
+    return { data: data as Producto };
+  }
 }

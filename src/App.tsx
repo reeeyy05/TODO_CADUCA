@@ -4,7 +4,7 @@ import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import LandingPage from './pages/LandingPage';
 import RegisterPage from './pages/RegisterPage';
-import FormSigin from './components/forms/FormSigin';
+import LoginForm from './components/forms/LoginForm';
 import ProfilePage from './pages/ProfilePage';
 import AddProductPage from "./pages/AddProductPage";
 import ProductsPage from "./pages/ProductsPage";
@@ -47,7 +47,7 @@ function App() {
 
             {/* Rutas públicas: solo visibles sin sesión */}
             <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
-            <Route path="/login" element={<PublicRoute><FormSigin /></PublicRoute>} />
+            <Route path="/login" element={<PublicRoute><LoginForm /></PublicRoute>} />
 
             {/* Rutas privadas: solo visibles con sesión */}
             <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />

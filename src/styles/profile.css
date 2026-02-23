@@ -1,55 +1,71 @@
-/* Colores y Reset básico */
+/* ===================== */
+/*   PROFILE STYLES      */
+/* ===================== */
+
 :root {
-  --green: #2ecc71;
-  --green-dark: #27ae60;
-  --bg:  #262626;
-  --card: #2a2a2a;
-  --border: #374151;
-  --text: #ffffff;
-  --muted: #9ca3af;
+  --profile-green: #2ecc71;
+  --profile-green-dark: #27ae60;
+  --profile-card-bg: #f5f5f5;
+  --profile-border: #d4d4d4;
+  --profile-muted: #525252;
+  --profile-text: #171717;
+  --profile-input-bg: #ffffff;
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, sans-serif;
+.dark {
+  --profile-card-bg: #2a2a2a;
+  --profile-border: #374151;
+  --profile-muted: #9ca3af;
+  --profile-text: #ffffff;
+  --profile-input-bg: #2a2a2a;
 }
 
 .profile-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  color: var(--profile-text);
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 5%;
-  background: #121212;
-  border-bottom: 1px solid var(--border);
-}
-
-main {
+.profile-main {
   flex: 1;
   padding: 2rem 5%;
   max-width: 900px;
   margin: 0 auto;
+  width: 100%;
+}
+
+.title-group h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.title-group p {
+  color: var(--profile-muted);
+  margin-bottom: 1.5rem;
 }
 
 .profile-card {
-  background: var(--card);
+  background: var(--profile-card-bg);
   border-radius: 1.5rem;
   padding: 2.5rem;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 3rem;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4);
+  border: 1px solid var(--profile-border);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.dark .profile-card {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 600px) {
-  .profile-card { grid-template-columns: 1fr; text-align: center; }
+  .profile-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 }
 
 /* Avatar */
@@ -64,8 +80,12 @@ main {
   width: 100%;
   height: 100%;
   border-radius: 50%;
+  background: #d4d4d4;
+  border: 3px solid var(--profile-border);
+}
+
+.dark .avatar-circle {
   background: #4b5563;
-  border: 3px solid var(--border);
 }
 
 /* Formulario y Inputs */
@@ -81,75 +101,73 @@ main {
   gap: 1.5rem;
 }
 
-label {
+.input-field label {
   display: block;
   font-size: 0.75rem;
-  color: var(--muted);
+  color: var(--profile-muted);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
 }
 
-.data-box, input {
+.data-box,
+.profile-card input {
   padding: 0.8rem;
   border-radius: 8px;
-  border: 1px solid var(--border);
-  color: rgb(46, 46, 46);
+  border: 1px solid var(--profile-border);
+  background-color: var(--profile-input-bg);
+  color: var(--profile-text);
+  width: 100%;
 }
 
-.btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
+.profile-card input::placeholder {
+  color: var(--profile-muted);
+}
+
+/* Botones del perfil */
+.save-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
+  border: none;
+  background: var(--profile-green);
+  color: white;
+  transition: background 0.2s;
 }
 
-.btn-primary { background: var(--green); color: white; }
-.btn-primary:hover { background: var(--green-dark); }
-.btn-secondary { background: #6b7280; color: white; }
-
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-footer {
-  background: #121212;
-  padding: 3rem 5% 1.5rem;
-  margin-top: 4rem;
+.save-btn:hover {
+  background: var(--profile-green-dark);
 }
 
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 2rem;
+.save-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-ul { list-style: none; padding: 0; }
-li { color: var(--muted); margin-bottom: 0.5rem; }
+.cancel-btn {
+  background: #4b5563;
+}
+
+.cancel-btn:hover {
+  background: #6b7280;
+}
 
 /* Mensajes de feedback */
-.message {
+.message-box {
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
   border-left: 4px solid;
 }
 
-.success { 
-  background: rgba(46,204,113,0.1); 
-  border-color: var(--green); 
-  color: var(--green); 
+.success-message {
+  background: rgba(46, 204, 113, 0.1);
+  border-color: var(--profile-green);
+  color: var(--profile-green);
 }
-.error { 
-  background: rgba(220,53,69,0.1); 
-  border-color: #dc3545; 
-  color: #dc3545; 
-}
-@variant dark (&:where(.dark, .dark *));
-html.dark {
-  --bg-color: #121212;
-  --text-color: #ffffff;
-  --button-bg: #333333;
+
+.error-message {
+  background: rgba(220, 53, 69, 0.1);
+  border-color: #dc3545;
+  color: #dc3545;
 }

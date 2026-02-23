@@ -12,13 +12,13 @@ export default function Input({ label, error, type, ...props }: InputProps) {
 
     return (
         <div className="mb-4">
-            <label htmlFor={props.name} className="block mb-2 text-neutral-100 font-medium">
+            <label htmlFor={props.name} className="block mb-2 text-neutral-700 dark:text-neutral-100 font-medium">
                 {label}
             </label>
             <div className="relative">
                 <input
                     id={props.name}
-                    className="input w-full"
+                    className="form-control w-full"
                     type={isPassword && showPassword ? "text" : type}
                     {...props}
                 />

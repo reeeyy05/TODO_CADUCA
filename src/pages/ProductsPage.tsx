@@ -5,15 +5,7 @@ import { createProductRepository, createCategoryRepository } from "../database/r
 import type { UsuarioProducto } from "../interfaces/UsuarioProducto";
 import type { Categoria } from "../interfaces/Categoria";
 import ProductCard from "../components/cards/ProductCard";
-
-/** Calcula los días restantes hasta la fecha de caducidad */
-function daysUntilExpiry(fecha: string): number {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const expiry = new Date(fecha);
-    expiry.setHours(0, 0, 0, 0);
-    return Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-}
+import { daysUntilExpiry } from "../utils/dates";
 
 function ProductsPage() {
     const [products, setProducts] = useState<UsuarioProducto[]>([]);
@@ -95,13 +87,13 @@ function ProductsPage() {
     };
 
     return (
-        <div className="text-white flex flex-col">
+        <div className="text-neutral-900 dark:text-white flex flex-col">
             <main className="grow max-w-6xl mx-auto w-full px-6 py-10">
                 {/* Título */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
                     <div>
                         <h1 className="text-3xl font-bold mb-1">Mis Productos</h1>
-                        <p className="text-neutral-400">Gestiona tus productos y fechas de caducidad.</p>
+                        <p className="text-neutral-500 dark:text-neutral-400">Gestiona tus productos y fechas de caducidad.</p>
                     </div>
                     <Link to="/addProducts" className="mt-4 sm:mt-0 inline-flex items-center gap-2 bg-green-600 px-5 py-2.5 rounded-lg text-white font-medium hover:bg-green-700 transition">
                         <Plus size={18} /> Añadir Producto
@@ -110,13 +102,13 @@ function ProductsPage() {
 
                 {/* Filtros */}
                 <div className="flex flex-col md:flex-row gap-4 mb-8">
-                    <div className="flex-1 relative">
-                        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
-                        <input type="text" placeholder="Buscar por nombre..." value={search} onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500" />
+                    <div className="flex-2 relative flex items-center">
+                        <Search size={18} className="absolute left-3 text-neutral-400 pointer-events-none" />
+                        <input type="text" placeholder="    Buscar por nombre..." value={search} onChange={(e) => setSearch(e.target.value)}
+                            className="form-control pl-10" />
                     </div>
                     <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)} aria-label="Filtrar por categoría"
-                        className="px-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500">
+                        className="form-control flex-1 md:max-w-xs">
                         <option value="">Todas las categorías</option>
                         {categories.map((c) => <option key={c.id_categoria} value={c.nombre}>{c.nombre}</option>)}
                     </select>
@@ -124,9 +116,9 @@ function ProductsPage() {
 
                 {/* Error */}
                 {error && (
-                    <div className="bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
+                    <div className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
                         <AlertTriangle size={18} /> {error}
-                        <button onClick={() => setError(null)} className="ml-auto text-red-400 hover:text-red-200">✕</button>
+                        <button onClick={() => setError(null)} className="ml-auto text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-200">✕</button>
                     </div>
                 )}
 
@@ -138,7 +130,7 @@ function ProductsPage() {
                 ) : filtered.length === 0 ? (
                     <div className="text-center py-20">
                         <Package size={48} className="mx-auto text-neutral-600 mb-4" />
-                        <p className="text-neutral-400 text-lg">
+                        <p className="text-neutral-500 dark:text-neutral-400 text-lg">
                             {products.length === 0 ? "No tienes productos todavía. ¡Añade uno para empezar!" : "No se encontraron productos con ese filtro."}
                         </p>
                         {products.length === 0 && (
@@ -163,20 +155,20 @@ function ProductsPage() {
 
                 {/* Tarjetas resumen */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
-                    <div className="bg-neutral-800 p-5 rounded-xl border border-neutral-700">
+                    <div className="bg-white dark:bg-neutral-800 p-5 rounded-xl border border-neutral-200 dark:border-neutral-700">
                         <div className="flex items-center gap-3 mb-2"><AlertTriangle size={20} className="text-red-400" /><h3 className="font-semibold">Caducados</h3></div>
                         <p className="text-3xl font-bold text-red-400">{stats.expired}</p>
-                        <p className="text-sm text-neutral-400 mt-1">Productos vencidos</p>
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">Productos vencidos</p>
                     </div>
-                    <div className="bg-neutral-800 p-5 rounded-xl border border-neutral-700">
+                    <div className="bg-white dark:bg-neutral-800 p-5 rounded-xl border border-neutral-200 dark:border-neutral-700">
                         <div className="flex items-center gap-3 mb-2"><Clock size={20} className="text-yellow-300" /><h3 className="font-semibold">Por caducar</h3></div>
                         <p className="text-3xl font-bold text-yellow-300">{stats.expiringSoon}</p>
-                        <p className="text-sm text-neutral-400 mt-1">En los próximos 3 días</p>
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">En los próximos 3 días</p>
                     </div>
-                    <div className="bg-neutral-800 p-5 rounded-xl border border-neutral-700">
+                    <div className="bg-white dark:bg-neutral-800 p-5 rounded-xl border border-neutral-200 dark:border-neutral-700">
                         <div className="flex items-center gap-3 mb-2"><Package size={20} className="text-green-400" /><h3 className="font-semibold">Total</h3></div>
                         <p className="text-3xl font-bold text-green-400">{stats.total}</p>
-                        <p className="text-sm text-neutral-400 mt-1">Productos en inventario</p>
+                        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">Productos en inventario</p>
                     </div>
                 </div>
             </main>

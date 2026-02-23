@@ -95,9 +95,9 @@ export default function RegistroForm() {
     };
 
     return (
-        <section className="flex-1 w-full bg-[#262626] flex flex-col items-center justify-center py-8 px-4">
-            <div className="bg-[#D9D9D9] w-full max-w-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center">
-                <h2 className="text-3xl font-bold text-[#1a1a1a] mb-2 tracking-wide uppercase">
+        <section className="flex-1 w-full bg-neutral-100 dark:bg-neutral-800 flex flex-col items-center justify-center py-8 px-4">
+            <div className="bg-neutral-300 w-full max-w-lg rounded-3xl shadow-2xl p-10 flex flex-col items-center">
+                <h2 className="text-3xl font-bold text-neutral-900 mb-2 tracking-wide uppercase">
                     Crea tu cuenta
                 </h2>
                 <p className="text-gray-600 mb-8 text-center font-medium">
@@ -117,10 +117,10 @@ export default function RegistroForm() {
                     )}
 
                     <div className="flex gap-4 mt-8">
-                        <Button type="submit" variant="primary" className="w-full py-4 text-white font-bold bg-[#00D97E] hover:bg-[#00c270] rounded-xl transition-all shadow-md active:scale-95" disabled={loading}>
+                        <Button type="submit" variant="primary" className="w-full py-4 text-white font-bold bg-emerald-500 hover:bg-emerald-600 rounded-xl transition-all shadow-md active:scale-95" disabled={loading}>
                             {loading ? 'Registrando...' : 'Aceptar'}
                         </Button>
-                        <Button type="button" variant="secondary" className="w-full py-4 text-gray-700 font-bold bg-white border-2 border-[#00D97E] rounded-xl hover:bg-gray-50 transition-all active:scale-95" onClick={() => navigate("/")}>
+                        <Button type="button" variant="secondary" className="w-full py-4 text-gray-700 font-bold bg-white border-2 border-emerald-500 rounded-xl hover:bg-gray-50 transition-all active:scale-95" onClick={() => navigate("/")}>
                             Cancelar
                         </Button>
                     </div>

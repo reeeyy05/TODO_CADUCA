@@ -1,36 +1,12 @@
 import { Trash2, Calendar, ShoppingBag, CheckCircle2 } from "lucide-react";
 import type { UsuarioProducto } from "../../interfaces/UsuarioProducto";
+import { daysUntilExpiry, getExpiryLevel, getExpiryLabel } from "../../utils/dates";
 
 interface ProductCardProps {
     item: UsuarioProducto;
     deletingId: number | null;
     onMarkConsumed: (id: number) => void;
     onDelete: (id: number) => void;
-}
-
-/** Calcula los días restantes hasta la fecha de caducidad */
-function daysUntilExpiry(fecha: string): number {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const expiry = new Date(fecha);
-    expiry.setHours(0, 0, 0, 0);
-    return Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-}
-
-type ExpiryLevel = "expired" | "urgent" | "warning" | "ok";
-
-function getExpiryLevel(days: number): ExpiryLevel {
-    if (days <= 0) return "expired";
-    if (days <= 3) return "urgent";
-    if (days <= 7) return "warning";
-    return "ok";
-}
-
-function getExpiryLabel(days: number): string {
-    if (days < 0) return "Caducado";
-    if (days === 0) return "Caduca hoy";
-    if (days <= 7) return `Caduca en ${days}d`;
-    return `${days} días`;
 }
 
 const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete }: ProductCardProps) => {
