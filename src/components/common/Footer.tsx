@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white p-10">
+        <footer className="p-10">
 
             {/* Logo a la izquierda, iconos a la derecha */}
             <div className="flex justify-between items-center mb-10">
@@ -11,7 +11,7 @@ export default function Footer() {
                         <div className="bg-green-600 p-2 rounded"></div>
                         <span className="text-2xl font-semibold">Todo Caduca</span>
                     </div>
-                    <p className="text-neutral-500 dark:text-neutral-300">Gestiona tus alimentos, cuida el planeta</p>
+                    <p className="text-neutral-300">Gestiona tus alimentos, cuida el planeta</p>
                 </div>
 
                 {/* Iconos de redes sociales */}
@@ -24,7 +24,7 @@ export default function Footer() {
 
             </div>
 
-            <div className="text-center text-neutral-500 dark:text-neutral-400 text-sm">
+            <div className="text-center text-neutral-400 text-sm">
                 © 2026 Todo Caduca. Todos los derechos reservados.
             </div>
 

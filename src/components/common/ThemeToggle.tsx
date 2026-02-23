@@ -5,18 +5,12 @@ export const ThemeToggle = () => {
   
   // 1. Estado inicial
   const [theme, setTheme] = useState(() => {
-    
-    // ¿Tiene algo guardado en localStorage?
+    // 1) Si hay valor en localStorage, usarlo
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme;
-    }
-    // ¿El sistema tiene el modo oscuro?
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    return 'light'; // Por defecto
+    if (savedTheme === 'dark' || savedTheme === 'light') return savedTheme;
+
+    // 2) Si no hay valor, usar 'dark' como base (requisito del proyecto)
+    return 'dark';
   });
 
   // 2. Cada vez que 'theme' cambia, actualizamos el DOM y localStorage
@@ -25,9 +19,11 @@ export const ThemeToggle = () => {
 
     if (theme === 'dark') {
       root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
     } else {
       root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
     }
   }, [theme]);

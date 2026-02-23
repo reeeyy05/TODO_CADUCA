@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import LandingPage from './pages/LandingPage';
@@ -38,11 +40,12 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <div className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1 flex flex-col w-full">
-          <Routes>
+    <I18nextProvider i18n={i18n}>
+      <BrowserRouter>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-1 flex flex-col w-full">
+            <Routes>
             <Route path="/" element={<LandingPage />} />
 
             {/* Rutas públicas: solo visibles sin sesión */}
@@ -57,10 +60,11 @@ function App() {
             {/* Cualquier otra ruta redirige al inicio */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </main>
-        <Footer />
-      </div>
-    </BrowserRouter>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </I18nextProvider>
   );
 }
 
