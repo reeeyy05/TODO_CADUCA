@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white p-10">
+        <footer className="bg-green-600 dark:bg-neutral-800 text-white p-10">
 
             {/* Logo a la izquierda, iconos a la derecha */}
             <div className="flex justify-between items-center mb-10">
@@ -8,23 +8,23 @@ export default function Footer() {
                 {/* Logo y subtítulo */}
                 <div>
                     <div className="flex items-center gap-2 mb-2">
-                        <div className="bg-green-600 p-2 rounded"></div>
+                        <div className="bg-white/20 dark:bg-green-600 p-2 rounded"></div>
                         <span className="text-2xl font-semibold">Todo Caduca</span>
                     </div>
-                    <p className="text-neutral-500 dark:text-neutral-300">Gestiona tus alimentos, cuida el planeta</p>
+                    <p className="text-white/70 dark:text-neutral-300">Gestiona tus alimentos, cuida el planeta</p>
                 </div>
 
                 {/* Iconos de redes sociales */}
                 <div className="flex gap-3">
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-green-800 dark:bg-blue-900 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-green-800 dark:bg-blue-900 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-green-800 dark:bg-blue-900 rounded-full flex items-center justify-center"></div>
+                    <div className="w-10 h-10 bg-green-800 dark:bg-blue-900 rounded-full flex items-center justify-center"></div>
                 </div>
 
             </div>
 
-            <div className="text-center text-neutral-500 dark:text-neutral-400 text-sm">
+            <div className="text-center text-white/60 dark:text-neutral-400 text-sm">
                 © 2026 Todo Caduca. Todos los derechos reservados.
             </div>
 

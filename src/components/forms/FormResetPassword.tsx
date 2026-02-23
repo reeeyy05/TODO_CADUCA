@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { Mail, Lock, Check, X, ShieldCheck, ArrowLeft } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Lock, Check, X, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { createUserRepository } from '../../database/repositories';
-import { validateField } from '../../utils/regex';
+import { createUserRepository } from '@/database/repositories';
+import { validateField } from '@/utils/regex';
 import Input from './Input';
 
 export default function FormResetPassword() {
     const navigate = useNavigate();
-    const userRepository = createUserRepository();
+    const userRepository = useMemo(() => createUserRepository(), []);
 
     const [email, setEmail] = useState("");
-    const [newPassword, setNewPassword] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
@@ -62,16 +61,6 @@ export default function FormResetPassword() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="tu@email.com"
-                        required
-                    />
-
-                    <Input 
-                        label="Nueva Contraseña"
-                        name="password"
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Nueva clave"
                         required
                     />
 

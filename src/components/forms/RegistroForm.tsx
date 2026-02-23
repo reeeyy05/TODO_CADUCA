@@ -1,17 +1,17 @@
-import { useState, type ChangeEvent, type FocusEvent } from "react";
-import { validateField } from "../../utils/regex";
-import Button from "../ui/Button";
+import { useState, useMemo, type ChangeEvent, type FocusEvent } from "react";
+import { validateField } from "@/utils/regex";
+import Button from "@/components/ui/Button";
 import Input from "./Input";
-import { createUserRepository } from "../../database/repositories";
-import type { RegisterData } from "../../interfaces/Perfil";
-import { useAuthStore } from "../../store/authStore";
+import { createUserRepository } from "@/database/repositories";
+import type { RegisterData } from "@/interfaces/Perfil";
+import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router-dom";
 import { ShieldCheck } from "lucide-react";
-import { isEmailTaken } from "../../database/supabase/RPCs/isEmailTaken";
 
 export default function RegistroForm() {
     const { setPerfil } = useAuthStore();
     const navigate = useNavigate();
+    const userRepository = useMemo(() => createUserRepository(), []);
     
     const [formData, setFormData] = useState({
         nombre: "",
@@ -26,8 +26,6 @@ export default function RegistroForm() {
         password: "",
         password2: ""
     });
-
-    const userRepository = createUserRepository();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -88,7 +86,7 @@ export default function RegistroForm() {
         setErrors((prev) => ({ ...prev, email: error }));
         if (error) return;
 
-        const taken = await isEmailTaken(e.target.value);
+        const taken = await userRepository.isEmailTaken(e.target.value);
         if (taken) {
             setErrors((prev) => ({ ...prev, email: "Este correo electrónico ya está registrado" }));
         }

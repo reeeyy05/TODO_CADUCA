@@ -1,52 +1,35 @@
 import { useState, useEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
 
+type Theme = 'light' | 'dark';
+
 export const ThemeToggle = () => {
-  
-  // 1. Estado inicial
-  const [theme, setTheme] = useState(() => {
-    
-    // ¿Tiene algo guardado en localStorage?
+  const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme;
-    }
-    // ¿El sistema tiene el modo oscuro?
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    
-    return 'light'; // Por defecto
+    if (savedTheme === 'dark' || savedTheme === 'light') return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
-  // 2. Cada vez que 'theme' cambia, actualizamos el DOM y localStorage
   useEffect(() => {
-    const root = window.document.documentElement;
-
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    const root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
-  // 3. Función para alternar
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      className="p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
       aria-label="Cambiar tema"
     >
       {theme === 'dark' ? (
         <Sun size={24} className="text-yellow-400" />
       ) : (
-        <Moon size={24} className="text-gray-700" />
+        <Moon size={24} className="text-neutral-300" />
       )}
     </button>
   );

@@ -8,27 +8,20 @@ import type { CategoryRepository } from "./CategoryRepository";
 import type { CatalogRepository } from "./CatalogRepository";
 
 /**
- * Fábrica de repositorios
+ * Fábrica de repositorios.
  *
- * Estas funciones crean una instancia de un repositorio concreto que se utilizará
- * en la aplicación para gestionar las llamadas a sus tablas.
- *
- * El objetivo de este patrón es abstraer la implementación real (en este caso,
- * Supabase) del resto del código, de modo que si en el futuro se cambia la
- * fuente de datos, no sea necesario modificar el resto de la aplicación.
+ * Abstrae la implementación concreta (Supabase) del resto de la aplicación.
+ * Si en el futuro se cambia la fuente de datos, solo hay que modificar estas funciones.
  */
-export const createProductRepository = (): ProductRepository => {
-  return new SupabaseProductRepository();
-};
 
-export const createUserRepository = (): UserRepository => {
-  return new SupabaseUserRepository();
-};
+export const createProductRepository = (): ProductRepository =>
+  new SupabaseProductRepository();
 
-export const createCategoryRepository = (): CategoryRepository => {
-  return new SupabaseCategoryRepository();
-};
+export const createUserRepository = (): UserRepository =>
+  new SupabaseUserRepository();
 
-export const createCatalogRepository = (): CatalogRepository => {
-  return new SupabaseCatalogRepository();
-};
+export const createCategoryRepository = (): CategoryRepository =>
+  new SupabaseCategoryRepository();
+
+export const createCatalogRepository = (): CatalogRepository =>
+  new SupabaseCatalogRepository();

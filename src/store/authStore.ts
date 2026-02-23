@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Perfil } from '../interfaces/Perfil'
-import { supabase } from '../database/supabase/Client'
+import type { Perfil } from '@/interfaces/Perfil'
+import { createUserRepository } from '@/database/repositories'
 
 interface AuthState {
   perfil: Perfil | null
@@ -16,6 +16,8 @@ interface AuthState {
   sendPasswordRecovery: () => Promise<{ error?: string }>
 }
 
+const userRepository = createUserRepository()
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set, get) => ({
@@ -28,37 +30,30 @@ export const useAuthStore = create<AuthState>()(
       clearSession: () => set({ perfil: null, isAuthenticated: false, loading: false }),
 
       logout: async () => {
-        await supabase.auth.signOut()
+        await userRepository.logout()
         set({ perfil: null, isAuthenticated: false, loading: false })
       },
 
       initSession: async () => {
         set({ loading: true })
-        const { data: { session } } = await supabase.auth.getSession()
+        const { data, error } = await userRepository.getCurrentProfile()
 
-        if (!session?.user) {
+        if (error || !data) {
           set({ perfil: null, isAuthenticated: false, loading: false })
           return
         }
 
-        const { data: profile, error } = await supabase
-          .from('perfiles')
-          .select('*')
-          .eq('user_id', session.user.id)
-          .single()
-
-        if (error || !profile) {
-          set({ perfil: null, isAuthenticated: false, loading: false })
-          return
-        }
-
-        set({ perfil: profile as Perfil, isAuthenticated: true, loading: false })
+        set({ perfil: data, isAuthenticated: true, loading: false })
       },
 
       updateNombre: async (nombre: string) => {
         const perfil = get().perfil
         if (!perfil) return { error: 'No hay sesión activa' }
 
+        // Para updateNombre seguimos usando supabase directamente por ahora,
+        // ya que no hay un método dedicado en el repositorio.
+        // TODO: Añadir updateProfile al UserRepository
+        const { supabase } = await import('@/database/supabase/Client')
         const { error } = await supabase
           .from('perfiles')
           .update({ nombre_completo: nombre })
@@ -74,10 +69,7 @@ export const useAuthStore = create<AuthState>()(
         const perfil = get().perfil
         if (!perfil) return { error: 'No hay sesión activa' }
 
-        const { error } = await supabase.auth.resetPasswordForEmail(perfil.email, {
-          redirectTo: `${window.location.origin}/login`,
-        })
-
+        const { error } = await userRepository.resetPasswordForEmail(perfil.email)
         if (error) return { error: error.message }
         return {}
       },

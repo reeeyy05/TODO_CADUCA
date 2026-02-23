@@ -1,26 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import LandingPage from './pages/LandingPage';
-import RegisterPage from './pages/RegisterPage';
-import LoginForm from './components/forms/LoginForm';
-import ProfilePage from './pages/ProfilePage';
-import AddProductPage from "./pages/AddProductPage";
-import ProductsPage from "./pages/ProductsPage";
-import { useAuthStore } from "./store/authStore";
-
-/** Ruta que solo pueden ver usuarios NO autenticados */
-function PublicRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? <Navigate to="/products" replace /> : <>{children}</>;
-}
-
-/** Ruta que solo pueden ver usuarios autenticados */
-function PrivateRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuthStore();
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
-}
+import Header from "@/components/common/Header";
+import Footer from "@/components/common/Footer";
+import LandingPage from "@/pages/LandingPage";
+import RegisterPage from "@/pages/RegisterPage";
+import LoginForm from "@/components/forms/LoginForm";
+import ProfilePage from "@/pages/ProfilePage";
+import AddProductPage from "@/pages/AddProductPage";
+import ProductsPage from "@/pages/ProductsPage";
+import { PublicRoute, PrivateRoute } from "@/components/routes/ProtectedRoutes";
+import { useAuthStore } from "@/store/authStore";
 
 function App() {
   const { initSession, loading } = useAuthStore();
@@ -31,7 +20,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-900 text-white">
+      <div className="min-h-screen flex items-center justify-center bg-neutral-100 dark:bg-neutral-900 text-neutral-900 dark:text-white">
         <p className="text-lg">Cargando...</p>
       </div>
     );

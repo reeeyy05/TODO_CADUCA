@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Search, Plus, AlertTriangle, Clock, Package } from "lucide-react";
-import { createProductRepository, createCategoryRepository } from "../database/repositories";
-import type { UsuarioProducto } from "../interfaces/UsuarioProducto";
-import type { Categoria } from "../interfaces/Categoria";
-import ProductCard from "../components/cards/ProductCard";
-import { daysUntilExpiry } from "../utils/dates";
+import { createProductRepository, createCategoryRepository } from "@/database/repositories";
+import type { UsuarioProducto } from "@/interfaces/UsuarioProducto";
+import type { Categoria } from "@/interfaces/Categoria";
+import ProductCard from "@/components/cards/ProductCard";
+import { daysUntilExpiry } from "@/utils/dates";
 
 function ProductsPage() {
     const [products, setProducts] = useState<UsuarioProducto[]>([]);
@@ -161,8 +161,8 @@ function ProductsPage() {
                         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">Productos vencidos</p>
                     </div>
                     <div className="bg-white dark:bg-neutral-800 p-5 rounded-xl border border-neutral-200 dark:border-neutral-700">
-                        <div className="flex items-center gap-3 mb-2"><Clock size={20} className="text-yellow-300" /><h3 className="font-semibold">Por caducar</h3></div>
-                        <p className="text-3xl font-bold text-yellow-300">{stats.expiringSoon}</p>
+                        <div className="flex items-center gap-3 mb-2"><Clock size={20} className="text-yellow-500 dark:text-yellow-300" /><h3 className="font-semibold">Por caducar</h3></div>
+                        <p className="text-3xl font-bold text-yellow-500 dark:text-yellow-300">{stats.expiringSoon}</p>
                         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1">En los próximos 3 días</p>
                     </div>
                     <div className="bg-white dark:bg-neutral-800 p-5 rounded-xl border border-neutral-200 dark:border-neutral-700">

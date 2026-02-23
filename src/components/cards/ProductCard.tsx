@@ -1,6 +1,6 @@
 import { Trash2, Calendar, ShoppingBag, CheckCircle2 } from "lucide-react";
-import type { UsuarioProducto } from "../../interfaces/UsuarioProducto";
-import { daysUntilExpiry, getExpiryLevel, getExpiryLabel } from "../../utils/dates";
+import type { UsuarioProducto } from "@/interfaces/UsuarioProducto";
+import { daysUntilExpiry, getExpiryLevel, getExpiryLabel } from "@/utils/dates";
 
 interface ProductCardProps {
     item: UsuarioProducto;

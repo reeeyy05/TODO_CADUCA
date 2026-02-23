@@ -1,6 +1,6 @@
 import { Bell, Package, DollarSign, ShieldCheck, Leaf } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '@/store/authStore';
 
 export default function LandingPage() {
     const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function LandingPage() {
             <section className="container mx-auto px-4 py-20 text-center">
                 <h1 className="text-5xl md:text-6xl font-bold mb-4">
                     Nunca más desperdicies<br />
-                    <span className="text-green-400">comida</span>
+                    <span className="text-green-600 dark:text-green-400">comida</span>
                 </h1>
                 <p className="text-neutral-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
                     Todo Caduca te ayuda a controlar las fechas de caducidad de tus alimentos,
@@ -32,7 +32,7 @@ export default function LandingPage() {
                     {!isAuthenticated && (
                         <button
                             onClick={() => navigate('/login')}
-                            className="px-8 py-3 border border-green-500 text-green-400 rounded-full font-medium text-lg hover:bg-green-500/10 transition-colors"
+                            className="px-8 py-3 border border-green-500 text-green-600 dark:text-green-400 rounded-full font-medium text-lg hover:bg-green-500/10 transition-colors"
                         >
                             Ya tengo cuenta
                         </button>

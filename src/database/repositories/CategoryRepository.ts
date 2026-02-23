@@ -1,11 +1,9 @@
-import type { Categoria } from "../../interfaces/Categoria";
+import type { Categoria } from "@/interfaces/Categoria";
+import type { RepositoryResult } from "@/interfaces/RepositoryResult";
 
 /**
  * Define las operaciones relacionadas con las categorías.
  */
 export interface CategoryRepository {
-  /**
-   * Obtiene todas las categorías disponibles.
-   */
-  getCategories(): Promise<{ data?: Categoria[]; error?: any }>;
+  getCategories(): Promise<RepositoryResult<Categoria[]>>;
 }

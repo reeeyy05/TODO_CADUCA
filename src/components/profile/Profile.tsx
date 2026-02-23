@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useAuthStore } from "../../store/authStore";
+import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router-dom";
-import "../../styles/profile.css";
+import "@/styles/profile.css";
 
 const Profile: React.FC = () => {
   const { perfil, updateNombre, sendPasswordRecovery, logout } = useAuthStore();

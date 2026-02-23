@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, Loader2 } from "lucide-react";
-import { useAuthStore } from "../store/authStore";
-import { createCategoryRepository, createProductRepository, createCatalogRepository } from "../database/repositories";
-import type { Categoria } from "../interfaces/Categoria";
+import { useAuthStore } from "@/store/authStore";
+import { createCategoryRepository, createProductRepository, createCatalogRepository } from "@/database/repositories";
+import type { Categoria } from "@/interfaces/Categoria";
 
 function AddProductPage() {
     const navigate = useNavigate();

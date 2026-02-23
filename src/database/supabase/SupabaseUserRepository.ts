@@ -1,35 +1,30 @@
-import type { RegisterData, Perfil } from "../../interfaces/Perfil";
-import type { SessionUser } from "../../interfaces/SessionUser";
+import type { RegisterData, Perfil } from "@/interfaces/Perfil";
+import type { SessionUser } from "@/interfaces/SessionUser";
+import type { RepositoryResult } from "@/interfaces/RepositoryResult";
 import type { UserRepository } from "../repositories/UserRepository";
 import { supabase } from "./Client";
 
 export class SupabaseUserRepository implements UserRepository {
 
-  async createUser(data: RegisterData): Promise<{ data?: SessionUser; error?: any }> {
-    // 1. Crear usuario en Supabase Auth.
-    //    Pasamos nombre_completo como metadata para que el trigger
-    //    en la BD pueda crear el perfil automáticamente.
+  async createUser(data: RegisterData): Promise<RepositoryResult<SessionUser>> {
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
       options: {
-        data: {
-          nombre_completo: data.nombre_completo || '',
-        },
+        data: { nombre_completo: data.nombre_completo || '' },
       },
     });
 
     if (authError) {
-      console.error("Error en Supabase Auth:", authError);
-      return { error: authError };
+      return { error: { message: authError.message, code: authError.code } };
     }
 
     if (!authData.user) {
       return { error: { message: 'No se recibió usuario después del registro' } };
     }
 
-    // 2. Si hay sesión activa (confirmación de email desactivada),
-    //    leemos el perfil que el trigger ya creó.
+    // Si hay sesión activa (confirmación de email desactivada),
+    // leemos el perfil que el trigger ya creó.
     if (authData.session) {
       const { data: profile, error: profileError } = await supabase
         .from('perfiles')
@@ -38,20 +33,13 @@ export class SupabaseUserRepository implements UserRepository {
         .single();
 
       if (profileError) {
-        return { error: profileError };
+        return { error: { message: profileError.message, code: profileError.code } };
       }
 
-      return {
-        data: {
-          user: authData.user,
-          profile: profile,
-        },
-      };
+      return { data: { user: authData.user, profile } };
     }
 
-    // 3. Sin sesión = confirmación de email pendiente.
-    //    El trigger ya insertó el perfil en la BD.
-    //    Devolvemos el usuario sin perfil (se obtendrá al hacer login).
+    // Sin sesión = confirmación de email pendiente
     return {
       data: {
         user: authData.user,
@@ -60,14 +48,14 @@ export class SupabaseUserRepository implements UserRepository {
     };
   }
 
-  async login(email: string, password: string): Promise<{ data?: SessionUser; error?: any }> {
+  async login(email: string, password: string): Promise<RepositoryResult<SessionUser>> {
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (authError) {
-      return { error: authError };
+      return { error: { message: authError.message, code: authError.code } };
     }
 
     if (!authData.user) {
@@ -82,34 +70,31 @@ export class SupabaseUserRepository implements UserRepository {
 
     if (profileError) {
       await supabase.auth.signOut();
-      return { error: profileError };
+      return { error: { message: profileError.message, code: profileError.code } };
     }
 
-    return {
-      data: {
-        user: authData.user,
-        profile: profile,
-      },
-    };
+    return { data: { user: authData.user, profile } };
   }
 
-  async resetPasswordForEmail(email: string): Promise<{ error?: any }> {
+  async resetPasswordForEmail(email: string): Promise<RepositoryResult<void>> {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/login`,
     });
-    return { error: error || null };
+    if (error) return { error: { message: error.message, code: error.code } };
+    return {};
   }
 
-  async logout(): Promise<{ error?: any }> {
+  async logout(): Promise<RepositoryResult<void>> {
     const { error } = await supabase.auth.signOut();
-    return { error: error || null };
+    if (error) return { error: { message: error.message, code: error.code } };
+    return {};
   }
 
-  async getCurrentProfile(): Promise<{ data?: Perfil; error?: any }> {
+  async getCurrentProfile(): Promise<RepositoryResult<Perfil>> {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return { error: authError || { message: 'No hay usuario autenticado' } };
+      return { error: { message: authError?.message ?? 'No hay usuario autenticado' } };
     }
 
     const { data: profile, error: profileError } = await supabase
@@ -119,9 +104,18 @@ export class SupabaseUserRepository implements UserRepository {
       .single();
 
     if (profileError) {
-      return { error: profileError };
+      return { error: { message: profileError.message, code: profileError.code } };
     }
 
     return { data: profile };
+  }
+
+  async isEmailTaken(email: string): Promise<boolean> {
+    const { data, error } = await supabase.rpc('check_email_exists', { p_email: email });
+    if (error) {
+      console.error("Error comprobando email:", error);
+      return false;
+    }
+    return data === true;
   }
 }
