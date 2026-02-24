@@ -31,7 +31,7 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-main {
+.contenedor-perfil {
   flex: 1;
   padding: 2rem 5%;
   max-width: 900px;
@@ -114,7 +114,6 @@ label {
 footer {
   background: #121212;
   padding: 3rem 5% 1.5rem;
-  margin-top: 4rem;
 }
 
 .footer-content {

@@ -1,3 +1,5 @@
+import { Facebook, Linkedin, Github } from 'lucide-react';
+
 export default function Footer() {
     return (
         <footer className="bg-neutral-800 text-white p-10">
@@ -16,10 +18,15 @@ export default function Footer() {
 
                 {/* Iconos de redes sociales */}
                 <div className="flex gap-3">
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
-                    <div className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center"></div>
+                    <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                        <Facebook size={20} />
+                    </a>
+                    <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                        <Github size={20} />
+                    </a>
+                    <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                        <Linkedin size={20} />
+                    </a>
                 </div>
 
             </div>

@@ -10,7 +10,7 @@ export default function LandingPage() {
                     <span className="text-[#00D9B1]">comida</span>
                 </h1>
                 <p className="text-gray-400 max-w-2xl mx-auto mb-8">
-                    Todo-Caduca te ayuda a controlar las fechas de caducidad de tus alimentos, recibir notificaciones antes de que tus productos expiren y reducir el desperdicio de comida en tu hogar.
+                    Todo Caduca te ayuda a controlar las fechas de caducidad de tus alimentos, recibir notificaciones antes de que tus productos expiren y reducir el desperdicio de comida en tu hogar.
                 </p>
                 <button className="px-8 py-3 bg-[#00D9B1] text-[#2B2B2B] rounded-full font-medium text-lg hover:bg-[#00C4A0] transition-colors">
                     Comenzar gratis
@@ -27,7 +27,7 @@ export default function LandingPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     {/* Card 1 */}
                     <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
-                        <div className="aspect-[4/3] bg-gradient-to-br from-blue-400 to-blue-600"></div>
+                        <div className="aspect-[4/3] bg-blue-500" />
                         <div className="p-6">
                             <div className="w-12 h-12 bg-[#00D9B1] rounded-xl flex items-center justify-center mb-4">
                                 <Bell className="w-6 h-6 text-white" />
@@ -41,7 +41,7 @@ export default function LandingPage() {
 
                     {/* Card 2 */}
                     <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
-                        <div className="aspect-[4/3] bg-gradient-to-br from-purple-400 to-purple-600"></div>
+                        <div className="aspect-[4/3] bg-purple-500" />
                         <div className="p-6">
                             <div className="w-12 h-12 bg-[#00D9B1] rounded-xl flex items-center justify-center mb-4">
                                 <Package className="w-6 h-6 text-white" />
@@ -55,7 +55,7 @@ export default function LandingPage() {
 
                     {/* Card 3 */}
                     <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
-                        <div className="aspect-[4/3] bg-gradient-to-br from-green-400 to-green-600"></div>
+                        <div className="aspect-[4/3] bg-green-500" />
                         <div className="p-6">
                             <div className="w-12 h-12 bg-[#00D9B1] rounded-xl flex items-center justify-center mb-4">
                                 <DollarSign className="w-6 h-6 text-white" />
