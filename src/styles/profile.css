@@ -31,7 +31,7 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-main {
+.profile-container {
   flex: 1;
   padding: 2rem 5%;
   max-width: 900px;
