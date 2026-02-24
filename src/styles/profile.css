@@ -2,7 +2,7 @@
 :root {
   --green: #2ecc71;
   --green-dark: #27ae60;
-  --bg: #1a1a1a;
+  --bg:  #262626;
   --card: #2a2a2a;
   --border: #374151;
   --text: #ffffff;
@@ -31,12 +31,12 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-.contenedor-perfil {
+/* main {
   flex: 1;
   padding: 2rem 5%;
   max-width: 900px;
   margin: 0 auto;
-}
+} */
 
 .profile-card {
   background: var(--card);
@@ -114,6 +114,7 @@ label {
 footer {
   background: #121212;
   padding: 3rem 5% 1.5rem;
+  margin-top: 4rem;
 }
 
 .footer-content {
