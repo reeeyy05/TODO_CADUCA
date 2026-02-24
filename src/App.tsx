@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
-import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 import LandingPage from './pages/LandingPage';
@@ -40,7 +38,7 @@ function App() {
   }
 
   return (
-    <I18nextProvider i18n={i18n}>
+   
       <BrowserRouter>
         <div className="min-h-screen flex flex-col">
           <Header />
@@ -64,7 +62,6 @@ function App() {
           <Footer />
         </div>
       </BrowserRouter>
-    </I18nextProvider>
   );
 }
 
