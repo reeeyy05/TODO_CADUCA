@@ -1,10 +1,12 @@
-import { useContext, useState, useEffect } from "react";
-import { UserContext } from "../../context/UserContext";
+import { useState, useEffect } from "react";
+import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router-dom";
 import "../../styles/profile.css";
 
 const Profile: React.FC = () => {
-  const { user } = useContext(UserContext); // Obtiene el usuario del registro
-  
+  const { perfil, updateNombre, sendPasswordRecovery, logout } = useAuthStore();
+  const navigate = useNavigate();
+
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -12,10 +14,10 @@ const Profile: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user?.username) {
-      setTempName(user.username);
+    if (perfil?.nombre_completo) {
+      setTempName(perfil.nombre_completo);
     }
-  }, [user?.username]);
+  }, [perfil?.nombre_completo]);
 
   useEffect(() => {
     if (successMessage || error) {
@@ -30,36 +32,56 @@ const Profile: React.FC = () => {
   const handlePasswordRecovery = async () => {
     setError(null);
     setIsLoading(true);
-    try {
-      // Simulación de envío de correo (vía Supabase Auth)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccessMessage(`Se ha enviado un correo de recuperación a ${user?.username}`);
-    } catch (err) {
-      setError("Error al enviar el correo.");
-    } finally {
-      setIsLoading(false);
+    const result = await sendPasswordRecovery();
+    setIsLoading(false);
+
+    if (result.error) {
+      setError(result.error);
+    } else {
+      setSuccessMessage(`Se ha enviado un correo de recuperación a ${perfil?.email}`);
     }
   };
 
   const handleSaveName = async () => {
     if (!tempName.trim() || tempName.trim().length < 3) {
-      setError("Nombre inválido");
+      setError("El nombre debe tener al menos 3 caracteres");
       return;
     }
     setIsLoading(true);
-    try {
-      // Aquí iría el .update() de Supabase
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    const result = await updateNombre(tempName.trim());
+    setIsLoading(false);
+
+    if (result.error) {
+      setError(result.error);
+    } else {
       setSuccessMessage("Nombre actualizado correctamente");
       setIsEditing(false);
-    } catch (err) {
-      setError("Error al actualizar");
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  if (!user) return <div className="profile-container"><div className="profile-main">Inicia sesión para ver tu perfil</div></div>;
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
+  };
+
+  // Formateamos la fecha de registro
+  const fechaRegistro = perfil?.fecha_registro
+    ? new Date(perfil.fecha_registro).toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    : '';
+
+  const nombre = perfil?.nombre_completo || "Usuario";
+
+  if (!perfil) {
+    return (
+      <div className="profile-container">
+        <div className="profile-main">Inicia sesión para ver tu perfil</div>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-container">
@@ -84,11 +106,11 @@ const Profile: React.FC = () => {
           <div className="info-section">
             <div className="input-grid">
               <div className="input-field">
-                <label>Nombre de usuario</label>
+                <label>Nombre</label>
                 {isEditing ? (
                   <div className="edit-form">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       className="data-input"
                       value={tempName}
                       onChange={(e) => setTempName(e.target.value)}
@@ -97,17 +119,17 @@ const Profile: React.FC = () => {
                       placeholder="Introduce tu nombre"
                       style={{ backgroundColor: 'var(--bg-input)', color: 'var(--text-main)', border: '1px solid var(--border-color)', padding: '0.75rem', borderRadius: '0.5rem' }}
                     />
-                    <button 
-                      className="save-small-btn" 
+                    <button
+                      className="save-small-btn"
                       onClick={handleSaveName}
                       disabled={isLoading}
                       style={{ backgroundColor: 'var(--primary-green)', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
                     >
                       {isLoading ? "Guardando..." : "Guardar"}
                     </button>
-                    <button 
-                      className="cancel-small-btn" 
-                      onClick={() => setIsEditing(false)}
+                    <button
+                      className="cancel-small-btn"
+                      onClick={() => { setIsEditing(false); setTempName(nombre); }}
                       disabled={isLoading}
                       style={{ backgroundColor: '#4b5563', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
                     >
@@ -115,7 +137,7 @@ const Profile: React.FC = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="data-box">{tempName || "Usuario"}</div>
+                  <div className="data-box">{nombre}</div>
                 )}
               </div>
             </div>
@@ -123,26 +145,33 @@ const Profile: React.FC = () => {
             <div className="input-field">
               <label>Información de membresía</label>
               <div className="data-box">
-                {tempName || "Usuario"} es miembro desde el {user.registeredAt}
+                {nombre} es miembro desde el {fechaRegistro}
               </div>
             </div>
 
             <div className="action-row" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               {!isEditing && (
-                <button 
-                  className="save-btn" 
+                <button
+                  className="save-btn"
                   onClick={() => setIsEditing(true)}
                   disabled={isLoading}
                 >
                   Editar Nombre
                 </button>
               )}
-              <button 
-                className="save-btn" 
+              <button
+                className="save-btn"
                 onClick={handlePasswordRecovery}
                 disabled={isLoading}
               >
                 {isLoading ? "Enviando..." : "Recuperar Contraseña"}
+              </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
+              >
+                Cerrar Sesión
               </button>
             </div>
           </div>
