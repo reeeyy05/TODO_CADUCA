@@ -31,13 +31,6 @@ header {
   border-bottom: 1px solid var(--border);
 }
 
-/* main {
-  flex: 1;
-  padding: 2rem 5%;
-  max-width: 900px;
-  margin: 0 auto;
-} */
-
 .profile-card {
   background: var(--card);
   border-radius: 1.5rem;
