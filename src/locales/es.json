@@ -3,5 +3,35 @@
   "actions": {
     "save": "Guardar",
     "cancel": "Cancelar"
+  },
+  "header": {
+    "myProducts": "Mis Productos",
+    "profile": "Perfil",
+    "register": "Registrarse",
+    "login": "Iniciar Sesión"
+  },
+  "footer": {
+
+  },
+  "LandingPage": {
+
+  },
+  "Profile": {
+
+  },
+  "RegistroForm": {
+
+  },
+  "Login": {
+
+  },
+  "FormResetPassword": {
+
+  },
+  "ProductsPage": {
+
+  },
+  "AddProductPage": {
+    
   }
 }
