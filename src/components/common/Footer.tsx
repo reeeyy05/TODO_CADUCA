@@ -1,6 +1,9 @@
 import { Facebook, Linkedin, Github } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; 
 
 export default function Footer() {
+    const { t } = useTranslation(); 
+
     return (
         <footer className="p-10">
 
@@ -13,7 +16,8 @@ export default function Footer() {
                         <div className="bg-green-600 p-2 rounded"></div>
                         <span className="text-2xl font-semibold">Todo Caduca</span>
                     </div>
-                    <p className="text-neutral-300">Gestiona tus alimentos, cuida el planeta</p>
+                    {/* Usamos t('footer.subtitle') */}
+                    <p className="text-neutral-300">{t('footer.subtitle')}</p>
                 </div>
 
                 {/* Iconos de redes sociales */}
@@ -32,7 +36,7 @@ export default function Footer() {
             </div>
 
             <div className="text-center text-neutral-400 text-sm">
-                © 2026 Todo Caduca. Todos los derechos reservados.
+                {t('footer.rights')}
             </div>
 
         </footer>

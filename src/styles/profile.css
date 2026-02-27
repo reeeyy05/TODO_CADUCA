@@ -88,12 +88,14 @@ label {
   margin-bottom: 0.5rem;
   text-transform: uppercase;
 }
-
+.data-box{
+  color: white;
+}
 .data-box, input {
   padding: 0.8rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  color: rgb(46, 46, 46);
+  
 }
 
 .btn {
