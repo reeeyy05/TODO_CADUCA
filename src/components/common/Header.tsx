@@ -30,10 +30,23 @@ export default function Header() {
                             <span className="hidden sm:inline">{t('header.myProducts')}</span>
                         </button>
                         <button
-                            className="bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 transition-colors"
+                            className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded font-bold hover:bg-green-700 transition-colors"
                             onClick={() => navigate("/profile")}
                         >
-                            {perfil.nombre_completo || t('header.profile')}
+                            {perfil.avatar_url ? (
+                                <img 
+                                    src={perfil.avatar_url} 
+                                    alt="Avatar" 
+                                    className="w-7 h-7 rounded-full object-cover"
+                                />
+                            ) : (
+                                <span className="w-7 h-7 rounded-full bg-green-800 flex items-center justify-center text-sm">
+                                    {(perfil.nombre_completo || 'U').charAt(0).toUpperCase()}
+                                </span>
+                            )}
+                            <span className="hidden sm:inline">
+                                {perfil.nombre_completo || t('header.profile')}
+                            </span>
                         </button>
                     </>
                 ) : (

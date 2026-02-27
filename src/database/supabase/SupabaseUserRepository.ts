@@ -124,4 +124,44 @@ export class SupabaseUserRepository implements UserRepository {
 
     return { data: profile };
   }
+
+  async fetchRole(userId: string): Promise<{ data?: string | null; error?: any }> {
+    const { data, error } = await supabase
+      .from('perfiles')
+      .select('rol')
+      .eq('user_id', userId)
+      .single();
+
+    if (error) return { error };
+    return { data: data?.rol ?? null };
+  }
+
+  async uploadAvatar(userId: string, file: File): Promise<{ data?: string; error?: any }> {
+    const fileExt = file.name.split('.').pop();
+    const filePath = `${userId}/avatar.${fileExt}`;
+
+    // Subir imagen al bucket "avatars"
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) return { error: uploadError };
+
+    // Obtener URL pública
+    const { data: urlData } = supabase.storage
+      .from('avatars')
+      .getPublicUrl(filePath);
+
+    const publicUrl = urlData.publicUrl;
+
+    // Actualizar la columna avatar_url en perfiles
+    const { error: updateError } = await supabase
+      .from('perfiles')
+      .update({ avatar_url: publicUrl })
+      .eq('user_id', userId);
+
+    if (updateError) return { error: updateError };
+
+    return { data: publicUrl };
+  }
 }

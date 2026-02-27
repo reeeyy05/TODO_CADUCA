@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Perfil } from '../interfaces/Perfil'
 import { supabase } from '../database/supabase/Client'
+import { createUserRepository } from '../database/repositories'
 
 interface AuthState {
   perfil: Perfil | null
@@ -14,6 +15,7 @@ interface AuthState {
   initSession: () => Promise<void>
   updateNombre: (nombre: string) => Promise<{ error?: string }>
   sendPasswordRecovery: () => Promise<{ error?: string }>
+  uploadAvatar: (file: File) => Promise<{ error?: string }>
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -79,6 +81,19 @@ export const useAuthStore = create<AuthState>()(
         })
 
         if (error) return { error: error.message }
+        return {}
+      },
+
+      uploadAvatar: async (file: File) => {
+        const perfil = get().perfil
+        if (!perfil) return { error: 'No hay sesión activa' }
+
+        const repo = createUserRepository()
+        const { data: avatarUrl, error } = await repo.uploadAvatar(perfil.user_id, file)
+
+        if (error) return { error: error.message }
+
+        set({ perfil: { ...perfil, avatar_url: avatarUrl! } })
         return {}
       },
     }),

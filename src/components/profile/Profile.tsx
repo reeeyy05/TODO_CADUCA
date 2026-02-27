@@ -1,17 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuthStore } from "../../store/authStore";
 import { useNavigate } from "react-router-dom";
 import "../../styles/profile.css";
 
 const Profile: React.FC = () => {
-  const { perfil, updateNombre, sendPasswordRecovery, logout } = useAuthStore();
+  const { perfil, updateNombre, sendPasswordRecovery, logout, uploadAvatar } = useAuthStore();
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [isEditing, setIsEditing] = useState(false);
   const [tempName, setTempName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (perfil?.nombre_completo) {
@@ -64,6 +66,39 @@ const Profile: React.FC = () => {
     navigate("/");
   };
 
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validar tipo y tamaño (max 2MB)
+    if (!file.type.startsWith('image/')) {
+      setError('Solo se permiten archivos de imagen');
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      setError('La imagen no puede superar los 2MB');
+      return;
+    }
+
+    // Preview local inmediato
+    setAvatarPreview(URL.createObjectURL(file));
+
+    setIsLoading(true);
+    const result = await uploadAvatar(file);
+    setIsLoading(false);
+
+    if (result.error) {
+      setError(result.error);
+      setAvatarPreview(null);
+    } else {
+      setSuccessMessage('Avatar actualizado correctamente');
+    }
+  };
+
   // Formateamos la fecha de registro
   const fechaRegistro = perfil?.fecha_registro
     ? new Date(perfil.fecha_registro).toLocaleDateString('es-ES', {
@@ -96,11 +131,37 @@ const Profile: React.FC = () => {
 
         <section className="profile-card">
           <div className="avatar-section">
-            <div className="avatar-circle">
-              <svg fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
-              </svg>
+            <div 
+              className="avatar-circle" 
+              onClick={handleAvatarClick} 
+              title="Haz clic para cambiar tu avatar"
+            >
+              {(avatarPreview || perfil?.avatar_url) ? (
+                <img 
+                  src={avatarPreview || perfil!.avatar_url!} 
+                  alt="Avatar" 
+                  className="avatar-img" 
+                />
+              ) : (
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
+                </svg>
+              )}
+              <div className="avatar-overlay">Cambiar</div>
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarChange}
+              className="avatar-file-input"
+              aria-label="Subir avatar"
+            />
+            {perfil?.rol && (
+              <span className={`role-badge role-badge--${perfil.rol}`}>
+                {perfil.rol}
+              </span>
+            )}
           </div>
 
           <div className="info-section">
