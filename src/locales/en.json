@@ -3,5 +3,137 @@
   "actions": {
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "header": {
+    "myProducts": "My Products",
+    "profile": "Profile",
+    "register": "Register",
+    "login": "Login"
+  },
+  "footer": {
+    "subtitle": "Manage your food, care for the planet",
+    "rights": "© 2026 Todo Caduca. All rights reserved."
+  },
+  "landing": {
+    "hero": {
+      "title": "Never waste",
+      "highlight": "food",
+      "description": "Todo Caduca helps you track food expiration dates, receive notifications before products expire, and reduce food waste in your home.",
+      "cta": "Get started for free"
+    },
+    "howItWorks": {
+      "title": "How it works?",
+      "subtitle": "Manage your pantry intelligently and save money while caring for the planet",
+      "cards": {
+        "alerts": {
+          "title": "Receive alerts",
+          "text": "We notify you when your food is about to expire so you can consume it on time"
+        },
+        "inventory": {
+          "title": "Organize your pantry",
+          "text": "Keep a digital inventory of all your food, sorted by category and expiration date"
+        },
+        "savings": {
+          "title": "Save money",
+          "text": "Stop throwing food away and save money by making the most of your products before they expire"
+        }
+      }
+    },
+    "stats": {
+      "users": "Active users",
+      "products": "Registered products",
+      "reduction": "Waste reduction"
+    },
+    "cta_final": {
+      "title": "Join the revolution against waste",
+      "subtitle": "Download Todo-Caduca today and start managing your food intelligently",
+      "button": "Start now - It's free!"
+    }
+  },
+  "Profile": {
+
+  },
+   "register": {
+    "title": "Create your account",
+    "subtitle": "Sign up to start managing your products",
+    "form": {
+      "full_name": "Full name",
+      "full_name_placeholder": "Enter your full name",
+      "email": "Email address",
+      "email_placeholder": "Enter your email address",
+      "password": "Password",
+      "password_placeholder": "Minimum 8 characters, letters and numbers",
+      "password_confirm": "Repeat password",
+      "password_confirm_placeholder": "Repeat your password"
+    },
+    "buttons": {
+      "submit": "Accept",
+      "submitting": "Registering...",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "success": "✅ Registration successful.",
+      "check_email": "✅ Check your email to confirm your account.",
+      "error": "❌ Error: {{message}}"
+    },
+    "errors": {
+      "passwords_not_match": "Passwords do not match",
+      "email_taken": "This email address is already registered",
+      "invalid_name": "Name must be at least 3 characters long",
+      "invalid_email": "Invalid email address",
+      "invalid_password": "Password must be at least 8 characters long and include letters and numbers"
+    },
+    "footer": {
+      "data_protected": "Your data is protected and encrypted"
+    }
+  },
+  "login": {
+    "title": "Sign In",
+    "subtitle": "Access your account",
+    "form": {
+      "email": "Email address",
+      "email_placeholder": "your@email.com",
+      "password": "Password",
+      "password_placeholder": "Your password"
+    },
+    "buttons": {
+      "submit": "Sign In",
+      "submitting": "Signing in..."
+    },
+    "forgot_password": "Forgot your password?",
+    "no_account": "Don't have an account?",
+    "register_link": "Sign up here"
+  },
+  "Login": {
+    "title": "Login",
+    "subtitle": "Enter your credentials to access the system",
+    "recovery_title": "Recover Password",
+    "recovery_subtitle": "Enter your email address to receive a recovery link",
+    "email_label": "Email address",
+    "email_placeholder": "Enter your email",
+    "password_label": "Password",
+    "password_placeholder": "Enter your password",
+    "btn_accept": "Login",
+    "btn_loading": "Logging in...",
+    "btn_cancel": "Cancel",
+    "btn_forgot": "Forgot your password?",
+    "btn_recovery_send": "Send recovery email",
+    "btn_recovery_loading": "Sending...",
+    "btn_back_login": "Back to login",
+    "security_note": "Your data is protected with SSL encryption",
+    "messages": {
+      "error_auth": "❌ Incorrect credentials or error: {{message}}",
+      "recovery_success": "✅ A recovery email has been sent. Check your inbox.",
+      "recovery_error": "❌ {{message}}"
+    }
+  },
+  "FormResetPassword": {
+
+  },
+  "ProductsPage": {
+
+  },
+  "AddProductPage": {
+    
   }
 }

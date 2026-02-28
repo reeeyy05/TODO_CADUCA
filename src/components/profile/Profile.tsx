@@ -149,7 +149,7 @@ const Profile: React.FC = () => {
               </div>
             </div>
 
-            <div className="action-row" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <div className="action-row" style={{ color: 'white', display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               {!isEditing && (
                 <button
                   className="save-btn"

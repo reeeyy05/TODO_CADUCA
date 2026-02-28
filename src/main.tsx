@@ -1,8 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/index.css'
+import './i18n';
 import App from './App.tsx'
-
 // Aplicar tema inicial antes de montar React para evitar parpadeos
 try {
   const saved = localStorage.getItem('theme');

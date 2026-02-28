@@ -3,5 +3,137 @@
   "actions": {
     "save": "Guardar",
     "cancel": "Cancelar"
+  },
+  "header": {
+    "myProducts": "Mis Productos",
+    "profile": "Perfil",
+    "register": "Registrarse",
+    "login": "Iniciar Sesión"
+  },
+  "footer": {
+    "subtitle": "Gestiona tus alimentos, cuida el planeta",
+    "rights": "© 2026 Todo Caduca. Todos los derechos reservados."
+  },
+"landing": {
+    "hero": {
+      "title": "Nunca más desperdicies",
+      "highlight": "comida",
+      "description": "Todo Caduca te ayuda a controlar las fechas de caducidad de tus alimentos, recibir notificaciones antes de que tus productos expiren y reducir el desperdicio de comida en tu hogar.",
+      "cta": "Comenzar gratis"
+    },
+    "howItWorks": {
+      "title": "¿Cómo funciona?",
+      "subtitle": "Gestiona tu alacena de forma inteligente y ahorra dinero mientras cuidas el planeta",
+      "cards": {
+        "alerts": {
+          "title": "Recibe alertas",
+          "text": "Te notificamos cuando tus alimentos están próximos a caducar para que puedas consumirlos a tiempo"
+        },
+        "inventory": {
+          "title": "Organiza tu despensa",
+          "text": "Mantén un inventario digital de todos tus alimentos, ordenados por categoría y fecha de caducidad"
+        },
+        "savings": {
+          "title": "Ahorra dinero",
+          "text": "Deja de tirar comida y ahorra dinero al aprovechar mejor tus productos antes de que caduquen"
+        }
+      }
+    },
+    "stats": {
+      "users": "Usuarios activos",
+      "products": "Productos registrados",
+      "reduction": "Reducción de desperdicios"
+    },
+    "cta_final": {
+      "title": "Únete a la revolución contra el desperdicio",
+      "subtitle": "Descarga Todo-Caduca hoy y comienza a gestionar tus alimentos de manera inteligente",
+      "button": "Empezar ahora - ¡Es gratis!"
+    }
+  },
+  "Profile": {
+
+  },
+  "register": {
+    "title": "Crea tu cuenta",
+    "subtitle": "Regístrate para empezar a gestionar tus productos",
+    "form": {
+      "full_name": "Nombre completo",
+      "full_name_placeholder": "Introduzca su nombre completo",
+      "email": "Correo electrónico",
+      "email_placeholder": "Introduzca su correo electrónico",
+      "password": "Contraseña",
+      "password_placeholder": "Mínimo 8 caracteres, letras y números",
+      "password_confirm": "Repita contraseña",
+      "password_confirm_placeholder": "Repita su contraseña"
+    },
+    "buttons": {
+      "submit": "Aceptar",
+      "submitting": "Registrando...",
+      "cancel": "Cancelar"
+    },
+    "messages": {
+      "success": "✅ Registro exitoso.",
+      "check_email": "✅ Revisa tu correo electrónico para confirmar tu cuenta.",
+      "error": "❌ Error: {{message}}"
+    },
+    "errors": {
+      "passwords_not_match": "Las contraseñas no coinciden",
+      "email_taken": "Este correo electrónico ya está registrado",
+      "invalid_name": "El nombre debe tener al menos 3 caracteres",
+      "invalid_email": "Correo electrónico inválido",
+      "invalid_password": "La contraseña debe tener al menos 8 caracteres, incluir letras y números"
+    },
+    "footer": {
+      "data_protected": "Sus datos están protegidos y cifrados"
+    }
+  },
+  "login": {
+    "title": "Iniciar Sesión",
+    "subtitle": "Accede a tu cuenta",
+    "form": {
+      "email": "Correo electrónico",
+      "email_placeholder": "tu@email.com",
+      "password": "Contraseña",
+      "password_placeholder": "Tu contraseña"
+    },
+    "buttons": {
+      "submit": "Entrar",
+      "submitting": "Iniciando sesión..."
+    },
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "no_account": "¿No tienes cuenta?",
+    "register_link": "Regístrate aquí"
+  },
+  "Login": {
+    "title": "Iniciar Sesión",
+    "subtitle": "Ingresa tus credenciales para acceder al sistema",
+    "recovery_title": "Recuperar Contraseña",
+    "recovery_subtitle": "Introduce tu correo electrónico para recibir un enlace de recuperación",
+    "email_label": "Correo electrónico",
+    "email_placeholder": "Ingresa tu correo electrónico",
+    "password_label": "Contraseña",
+    "password_placeholder": "Ingresa tu contraseña",
+    "btn_accept": "Aceptar",
+    "btn_loading": "Iniciando sesión...",
+    "btn_cancel": "Cancelar",
+    "btn_forgot": "¿Olvidaste tu contraseña?",
+    "btn_recovery_send": "Enviar correo de recuperación",
+    "btn_recovery_loading": "Enviando...",
+    "btn_back_login": "Volver al login",
+    "security_note": "Tus datos están protegidos con encriptación SSL",
+    "messages": {
+      "error_auth": "❌ Credenciales incorrectas o error: {{message}}",
+      "recovery_success": "✅ Se ha enviado un correo de recuperación. Revisa tu bandeja de entrada.",
+      "recovery_error": "❌ {{message}}"
+    }
+  },
+  "FormResetPassword": {
+
+  },
+  "ProductsPage": {
+
+  },
+  "AddProductPage": {
+    
   }
 }

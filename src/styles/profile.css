@@ -88,12 +88,14 @@ label {
   margin-bottom: 0.5rem;
   text-transform: uppercase;
 }
-
+.data-box{
+  color: white;
+}
 .data-box, input {
   padding: 0.8rem;
   border-radius: 8px;
   border: 1px solid var(--border);
-  color: rgb(255, 255, 255);
+  
 }
 
 .btn {
@@ -151,5 +153,5 @@ li { color: var(--muted); margin-bottom: 0.5rem; }
 html.dark {
   --bg-color: #121212;
   --text-color: #ffffff;
-  --button-bg: #ffffff;
+  --button-bg: #333333;
 }
