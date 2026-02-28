@@ -131,9 +131,50 @@
 
   },
   "ProductsPage": {
-
+    "title": "My Products",
+    "subtitle": "Manage your products and expiration dates.",
+    "add": "Add Product",
+    "search_placeholder": "Search by name...",
+    "all_categories": "All categories",
+    "close_error": "✕",
+    "no_products": "You don't have any products yet. Add one to get started!",
+    "no_results": "No products found with that filter.",
+    "add_first": "Add my first product",
+    "expired_title": "Expired",
+    "expired_desc": "Expired products",
+    "expiring_title": "Expiring soon",
+    "expiring_desc": "In the next 3 days",
+    "total_title": "Total",
+    "total_desc": "Products in inventory"
   },
   "AddProductPage": {
-    
+    "back": "Back to my products",
+    "title": "Add Product",
+    "subtitle": "Register a new product in your inventory.",
+    "form": {
+      "name": "Product name",
+      "name_placeholder": "E.g.: Whole milk",
+      "category": "Category",
+      "category_placeholder": "Select category",
+      "quantity": "Quantity",
+      "expiry": "Expiration date"
+    },
+    "loading_categories": "Loading categories...",
+    "buttons": {
+      "submit": "Add Product",
+      "submitting": "Saving...",
+      "cancel": "Cancel"
+    },
+    "errors": {
+      "name_required": "Enter the product name.",
+      "category_required": "Select a category.",
+      "expiry_required": "Select the expiration date.",
+      "quantity_min": "Minimum quantity is 1.",
+      "no_session": "No active session. Please log in again.",
+      "no_permission": "No permission to create products. Check RLS policies in Supabase.",
+      "create_failed": "Error creating product: {{message}}",
+      "save_failed": "Error saving the product to your inventory.",
+      "unexpected": "Unexpected error. Please try again."
+    }
   }
 }

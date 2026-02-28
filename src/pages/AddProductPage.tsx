@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus, Loader2 } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
@@ -7,6 +8,7 @@ import { supabase } from "../database/supabase/Client";
 import type { Categoria } from "../interfaces/Categoria";
 
 function AddProductPage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { perfil } = useAuthStore();
 
@@ -37,11 +39,11 @@ function AddProductPage() {
         e.preventDefault();
         setError(null);
 
-        if (!name.trim()) { setError("Introduce el nombre del producto."); return; }
-        if (!categoryId) { setError("Selecciona una categoría."); return; }
-        if (!expiryDate) { setError("Selecciona la fecha de caducidad."); return; }
-        if (quantity < 1) { setError("La cantidad mínima es 1."); return; }
-        if (!perfil) { setError("No hay sesión activa. Inicia sesión de nuevo."); return; }
+        if (!name.trim()) { setError(t("AddProductPage.errors.name_required", "Introduce el nombre del producto.")); return; }
+        if (!categoryId) { setError(t("AddProductPage.errors.category_required", "Selecciona una categoría.")); return; }
+        if (!expiryDate) { setError(t("AddProductPage.errors.expiry_required", "Selecciona la fecha de caducidad.")); return; }
+        if (quantity < 1) { setError(t("AddProductPage.errors.quantity_min", "La cantidad mínima es 1.")); return; }
+        if (!perfil) { setError(t("AddProductPage.errors.no_session", "No hay sesión activa. Inicia sesión de nuevo.")); return; }
 
         setSubmitting(true);
 
@@ -70,8 +72,8 @@ function AddProductPage() {
                     console.error("Error INSERT productos:", prodErr);
                     setError(
                         prodErr?.code === "42501" || prodErr?.message?.includes("policy")
-                            ? "Sin permisos para crear productos. Verifica las políticas RLS en Supabase."
-                            : `Error al crear el producto: ${prodErr?.message ?? "desconocido"}`
+                            ? t("AddProductPage.errors.no_permission", "Sin permisos para crear productos. Verifica las políticas RLS en Supabase.")
+                            : t("AddProductPage.errors.create_failed", `Error al crear el producto: ${prodErr?.message ?? "desconocido"}`)
                     );
                     setSubmitting(false);
                     return;
@@ -88,14 +90,14 @@ function AddProductPage() {
             });
 
             if (insertErr) {
-                setError("Error al guardar el producto en tu inventario.");
+                setError(t("AddProductPage.errors.save_failed", "Error al guardar el producto en tu inventario."));
                 setSubmitting(false);
                 return;
             }
 
             navigate("/products");
         } catch {
-            setError("Error inesperado. Inténtalo de nuevo.");
+            setError(t("AddProductPage.errors.unexpected", "Error inesperado. Inténtalo de nuevo."));
             setSubmitting(false);
         }
     };
@@ -108,11 +110,11 @@ function AddProductPage() {
             <main className="max-w-lg mx-auto px-6 py-10">
                 {/* Cabecera */}
                 <button onClick={() => navigate("/products")} className="flex items-center gap-2 text-neutral-400 hover:text-white transition mb-6">
-                    <ArrowLeft size={18} /> Volver a mis productos
+                    <ArrowLeft size={18} /> {t("AddProductPage.back", "Volver a mis productos")}
                 </button>
 
-                <h1 className="text-3xl font-bold mb-2">Añadir Producto</h1>
-                <p className="text-neutral-400 mb-8">Registra un nuevo producto en tu inventario.</p>
+                <h1 className="text-3xl font-bold mb-2">{t("AddProductPage.title", "Añadir Producto")}</h1>
+                <p className="text-neutral-400 mb-8">{t("AddProductPage.subtitle", "Registra un nuevo producto en tu inventario.")}</p>
 
                 {/* Error */}
                 {error && (
@@ -125,12 +127,12 @@ function AddProductPage() {
                     {/* Nombre */}
                     <div>
                         <label htmlFor="product-name" className="block text-sm font-medium text-neutral-300 mb-1">
-                            Nombre del producto
+                            {t("AddProductPage.form.name", "Nombre del producto")}
                         </label>
                         <input
                             id="product-name"
                             type="text"
-                            placeholder="Ej: Leche entera"
+                            placeholder={t("AddProductPage.form.name_placeholder", "Ej: Leche entera")}
                             className="w-full px-4 py-2.5 rounded-lg bg-neutral-800 border border-neutral-700 text-white placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-green-500"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -141,11 +143,11 @@ function AddProductPage() {
                     {/* Categoría */}
                     <div>
                         <label htmlFor="product-category" className="block text-sm font-medium text-neutral-300 mb-1">
-                            Categoría
+                            {t("AddProductPage.form.category", "Categoría")}
                         </label>
                         {loadingCats ? (
                             <div className="flex items-center gap-2 text-neutral-400 text-sm py-2">
-                                <Loader2 size={16} className="animate-spin" /> Cargando categorías...
+                                <Loader2 size={16} className="animate-spin" /> {t("AddProductPage.loading_categories", "Cargando categorías...")}
                             </div>
                         ) : (
                             <select
@@ -154,7 +156,7 @@ function AddProductPage() {
                                 value={categoryId}
                                 onChange={(e) => setCategoryId(e.target.value ? Number(e.target.value) : "")}
                             >
-                                <option value="">Selecciona categoría</option>
+                                <option value="">{t("AddProductPage.form.category_placeholder", "Selecciona categoría")}</option>
                                 {categories.map((c) => (
                                     <option key={c.id_categoria} value={c.id_categoria}>
                                         {c.nombre}
@@ -167,7 +169,7 @@ function AddProductPage() {
                     {/* Cantidad */}
                     <div>
                         <label htmlFor="product-quantity" className="block text-sm font-medium text-neutral-300 mb-1">
-                            Cantidad
+                            {t("AddProductPage.form.quantity", "Cantidad")}
                         </label>
                         <input
                             id="product-quantity"
@@ -183,7 +185,7 @@ function AddProductPage() {
                     {/* Fecha de caducidad */}
                     <div>
                         <label htmlFor="product-expiry" className="block text-sm font-medium text-neutral-300 mb-1">
-                            Fecha de caducidad
+                            {t("AddProductPage.form.expiry", "Fecha de caducidad")}
                         </label>
                         <input
                             id="product-expiry"
@@ -203,7 +205,7 @@ function AddProductPage() {
                             className="flex-1 flex items-center justify-center gap-2 bg-green-600 py-2.5 rounded-lg font-medium hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {submitting ? <Loader2 size={18} className="animate-spin" /> : <Plus size={18} />}
-                            {submitting ? "Guardando..." : "Añadir Producto"}
+                            {submitting ? t("AddProductPage.buttons.submitting", "Guardando...") : t("AddProductPage.buttons.submit", "Añadir Producto")}
                         </button>
 
                         <button
@@ -211,7 +213,7 @@ function AddProductPage() {
                             onClick={() => navigate("/products")}
                             className="flex-1 bg-neutral-700 py-2.5 rounded-lg font-medium hover:bg-neutral-600 transition"
                         >
-                            Cancelar
+                            {t("AddProductPage.buttons.cancel", "Cancelar")}
                         </button>
                     </div>
                 </form>

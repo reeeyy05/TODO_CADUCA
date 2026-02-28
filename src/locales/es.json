@@ -131,9 +131,50 @@
 
   },
   "ProductsPage": {
-
+    "title": "Mis Productos",
+    "subtitle": "Gestiona tus productos y fechas de caducidad.",
+    "add": "Añadir Producto",
+    "search_placeholder": "Buscar por nombre...",
+    "all_categories": "Todas las categorías",
+    "close_error": "✕",
+    "no_products": "No tienes productos todavía. ¡Añade uno para empezar!",
+    "no_results": "No se encontraron productos con ese filtro.",
+    "add_first": "Añadir mi primer producto",
+    "expired_title": "Caducados",
+    "expired_desc": "Productos vencidos",
+    "expiring_title": "Por caducar",
+    "expiring_desc": "En los próximos 3 días",
+    "total_title": "Total",
+    "total_desc": "Productos en inventario"
   },
   "AddProductPage": {
-    
+    "back": "Volver a mis productos",
+    "title": "Añadir Producto",
+    "subtitle": "Registra un nuevo producto en tu inventario.",
+    "form": {
+      "name": "Nombre del producto",
+      "name_placeholder": "Ej: Leche entera",
+      "category": "Categoría",
+      "category_placeholder": "Selecciona categoría",
+      "quantity": "Cantidad",
+      "expiry": "Fecha de caducidad"
+    },
+    "loading_categories": "Cargando categorías...",
+    "buttons": {
+      "submit": "Añadir Producto",
+      "submitting": "Guardando...",
+      "cancel": "Cancelar"
+    },
+    "errors": {
+      "name_required": "Introduce el nombre del producto.",
+      "category_required": "Selecciona una categoría.",
+      "expiry_required": "Selecciona la fecha de caducidad.",
+      "quantity_min": "La cantidad mínima es 1.",
+      "no_session": "No hay sesión activa. Inicia sesión de nuevo.",
+      "no_permission": "Sin permisos para crear productos. Verifica las políticas RLS en Supabase.",
+      "create_failed": "Error al crear el producto: {{message}}",
+      "save_failed": "Error al guardar el producto en tu inventario.",
+      "unexpected": "Error inesperado. Inténtalo de nuevo."
+    }
   }
 }
