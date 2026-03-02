@@ -51,7 +51,26 @@
     }
   },
   "Profile": {
-
+    "title": "My Profile",
+    "subtitle": "Manage your personal information and account preferences",
+    "login_to_see": "Log in to see your profile",
+    "default_name": "User",
+    "edit_name": "Edit Name",
+    "saving": "Saving...",
+    "sending": "Sending...",
+    "recover_password": "Recover Password",
+    "logout": "Log Out",
+    "avatar_change": "Change",
+    "avatar_change_title": "Click to change your avatar",
+    "avatar_alt": "Avatar",
+    "avatar_upload_aria": "Upload avatar",
+    "avatar_only_image": "Only image files are allowed",
+    "avatar_max_size": "Image cannot exceed 2MB",
+    "avatar_updated": "Avatar updated successfully",
+    "name_updated": "Name updated successfully",
+    "recovery_success": "A recovery email has been sent to {{email}}",
+    "membership_info_label": "Membership information",
+    "membership_info": "{{name}} has been a member since {{date}}"
   },
    "register": {
     "title": "Create your account",

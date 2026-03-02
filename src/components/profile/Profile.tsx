@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
 import { useNavigate } from "react-router-dom";
 import "../../styles/profile.css";
 
 const Profile: React.FC = () => {
   const { perfil, updateNombre, sendPasswordRecovery, logout, uploadAvatar } = useAuthStore();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -40,13 +42,13 @@ const Profile: React.FC = () => {
     if (result.error) {
       setError(result.error);
     } else {
-      setSuccessMessage(`Se ha enviado un correo de recuperación a ${perfil?.email}`);
+      setSuccessMessage(t("Profile.recovery_success", { email: perfil?.email }));
     }
   };
 
   const handleSaveName = async () => {
     if (!tempName.trim() || tempName.trim().length < 3) {
-      setError("El nombre debe tener al menos 3 caracteres");
+      setError(t("register.errors.invalid_name"));
       return;
     }
     setIsLoading(true);
@@ -56,7 +58,7 @@ const Profile: React.FC = () => {
     if (result.error) {
       setError(result.error);
     } else {
-      setSuccessMessage("Nombre actualizado correctamente");
+      setSuccessMessage(t("Profile.name_updated", "Nombre actualizado correctamente"));
       setIsEditing(false);
     }
   };
@@ -76,11 +78,11 @@ const Profile: React.FC = () => {
 
     // Validar tipo y tamaño (max 2MB)
     if (!file.type.startsWith('image/')) {
-      setError('Solo se permiten archivos de imagen');
+      setError(t('Profile.avatar_only_image', 'Solo se permiten archivos de imagen'));
       return;
     }
     if (file.size > 2 * 1024 * 1024) {
-      setError('La imagen no puede superar los 2MB');
+      setError(t('Profile.avatar_max_size', 'La imagen no puede superar los 2MB'));
       return;
     }
 
@@ -95,25 +97,25 @@ const Profile: React.FC = () => {
       setError(result.error);
       setAvatarPreview(null);
     } else {
-      setSuccessMessage('Avatar actualizado correctamente');
+      setSuccessMessage(t('Profile.avatar_updated', 'Avatar actualizado correctamente'));
     }
   };
 
   // Formateamos la fecha de registro
   const fechaRegistro = perfil?.fecha_registro
     ? new Date(perfil.fecha_registro).toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    })
     : '';
 
-  const nombre = perfil?.nombre_completo || "Usuario";
+  const nombre = perfil?.nombre_completo || t("Profile.default_name", "Usuario");
 
   if (!perfil) {
     return (
       <div className="profile-container">
-        <div className="profile-main">Inicia sesión para ver tu perfil</div>
+        <div className="profile-main">{t("Profile.login_to_see", "Inicia sesión para ver tu perfil")}</div>
       </div>
     );
   }
@@ -122,8 +124,8 @@ const Profile: React.FC = () => {
     <div className="profile-container">
       <main className="profile-main">
         <div className="title-group">
-          <h2>Mi Perfil</h2>
-          <p>Gestiona tu información personal y preferencias de cuenta</p>
+          <h2>{t("Profile.title", "Mi Perfil")}</h2>
+          <p>{t("Profile.subtitle", "Gestiona tu información personal y preferencias de cuenta")}</p>
         </div>
 
         {successMessage && <div className="message-box success-message">{successMessage}</div>}
@@ -131,23 +133,23 @@ const Profile: React.FC = () => {
 
         <section className="profile-card">
           <div className="avatar-section">
-            <div 
-              className="avatar-circle" 
-              onClick={handleAvatarClick} 
-              title="Haz clic para cambiar tu avatar"
+            <div
+              className="avatar-circle"
+              onClick={handleAvatarClick}
+              title={t("Profile.avatar_change_title", "Haz clic para cambiar tu avatar")}
             >
               {(avatarPreview || perfil?.avatar_url) ? (
-                <img 
-                  src={avatarPreview || perfil!.avatar_url!} 
-                  alt="Avatar" 
-                  className="avatar-img" 
+                <img
+                  src={avatarPreview || perfil!.avatar_url!}
+                  alt={t("Profile.avatar_alt", "Avatar")}
+                  className="avatar-img"
                 />
               ) : (
                 <svg fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                 </svg>
               )}
-              <div className="avatar-overlay">Cambiar</div>
+              <div className="avatar-overlay">{t("Profile.avatar_change", "Cambiar")}</div>
             </div>
             <input
               ref={fileInputRef}
@@ -155,7 +157,7 @@ const Profile: React.FC = () => {
               accept="image/*"
               onChange={handleAvatarChange}
               className="avatar-file-input"
-              aria-label="Subir avatar"
+              aria-label={t("Profile.avatar_upload_aria", "Subir avatar")}
             />
             {perfil?.rol && (
               <span className={`role-badge role-badge--${perfil.rol}`}>
@@ -167,7 +169,7 @@ const Profile: React.FC = () => {
           <div className="info-section">
             <div className="input-grid">
               <div className="input-field">
-                <label>Nombre</label>
+                <label>{t("register.form.full_name", "Nombre")}</label>
                 {isEditing ? (
                   <div className="edit-form">
                     <input
@@ -177,7 +179,7 @@ const Profile: React.FC = () => {
                       onChange={(e) => setTempName(e.target.value)}
                       disabled={isLoading}
                       autoFocus
-                      placeholder="Introduce tu nombre"
+                      placeholder={t("register.form.full_name_placeholder", "Introduce tu nombre")}
                       style={{ backgroundColor: 'var(--bg-input)', color: 'var(--text-main)', border: '1px solid var(--border-color)', padding: '0.75rem', borderRadius: '0.5rem' }}
                     />
                     <button
@@ -186,7 +188,7 @@ const Profile: React.FC = () => {
                       disabled={isLoading}
                       style={{ backgroundColor: 'var(--primary-green)', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
                     >
-                      {isLoading ? "Guardando..." : "Guardar"}
+                      {isLoading ? t("Profile.saving", "Guardando...") : t("actions.save", "Guardar")}
                     </button>
                     <button
                       className="cancel-small-btn"
@@ -194,7 +196,7 @@ const Profile: React.FC = () => {
                       disabled={isLoading}
                       style={{ backgroundColor: '#4b5563', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
                     >
-                      Cancelar
+                      {t("actions.cancel", "Cancelar")}
                     </button>
                   </div>
                 ) : (
@@ -204,9 +206,9 @@ const Profile: React.FC = () => {
             </div>
 
             <div className="input-field">
-              <label>Información de membresía</label>
+              <label>{t("Profile.membership_info_label", "Información de membresía")}</label>
               <div className="data-box">
-                {nombre} es miembro desde el {fechaRegistro}
+                {t("Profile.membership_info", "{{name}} es miembro desde el {{date}}", { name: nombre, date: fechaRegistro })}
               </div>
             </div>
 
@@ -217,7 +219,7 @@ const Profile: React.FC = () => {
                   onClick={() => setIsEditing(true)}
                   disabled={isLoading}
                 >
-                  Editar Nombre
+                  {t("Profile.edit_name", "Editar Nombre")}
                 </button>
               )}
               <button
@@ -225,14 +227,14 @@ const Profile: React.FC = () => {
                 onClick={handlePasswordRecovery}
                 disabled={isLoading}
               >
-                {isLoading ? "Enviando..." : "Recuperar Contraseña"}
+                {isLoading ? t("Profile.sending", "Enviando...") : t("Profile.recover_password", "Recuperar Contraseña")}
               </button>
               <button
                 type="button"
                 onClick={handleLogout}
                 className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
               >
-                Cerrar Sesión
+                {t("Profile.logout", "Cerrar Sesión")}
               </button>
             </div>
           </div>
