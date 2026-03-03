@@ -2,10 +2,12 @@ import { SupabaseProductRepository } from "../supabase/SupabaseProductRepository
 import { SupabaseUserRepository } from "../supabase/SupabaseUserRepository";
 import { SupabaseCategoryRepository } from "../supabase/SupabaseCategoryRepository";
 import { SupabaseCatalogRepository } from "../supabase/SupabaseCatalogRepository";
+import { SupabaseAdminRepository } from "../supabase/SupabaseAdminRepository";
 import type { ProductRepository } from "./ProductRepository";
 import type { UserRepository } from "./UserRepository";
 import type { CategoryRepository } from "./CategoryRepository";
 import type { CatalogRepository } from "./CatalogRepository";
+import type { AdminRepository } from "./AdminRepository";
 
 /**
  * Fábrica de repositorios
@@ -31,4 +33,8 @@ export const createCategoryRepository = (): CategoryRepository => {
 
 export const createCatalogRepository = (): CatalogRepository => {
   return new SupabaseCatalogRepository();
+};
+
+export const createAdminRepository = (): AdminRepository => {
+  return new SupabaseAdminRepository();
 };

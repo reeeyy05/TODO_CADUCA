@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./admin.css";
 
 @theme {
   /* PALETE DE COLORES */

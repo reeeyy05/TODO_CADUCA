@@ -8,7 +8,8 @@
     "myProducts": "Mis Productos",
     "profile": "Perfil",
     "register": "Registrarse",
-    "login": "Iniciar Sesión"
+    "login": "Iniciar Sesión",
+    "admin": "Panel Admin"
   },
   "footer": {
     "subtitle": "Gestiona tus alimentos, cuida el planeta",
@@ -129,6 +130,37 @@
   },
   "FormResetPassword": {
 
+  },
+  "admin": {
+    "title": "Panel de Administración",
+    "subtitle": "Gestión de usuarios y estadísticas de la aplicación",
+    "loading": "Cargando datos...",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.",
+    "stats": {
+      "totalUsers": "Usuarios registrados",
+      "totalProducts": "Total de productos",
+      "expiredProducts": "Productos caducados",
+      "activeProducts": "Productos vigentes"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "user": "Usuario"
+    },
+    "usersTable": {
+      "title": "Usuarios Registrados",
+      "searchPlaceholder": "Buscar por nombre, email o rol...",
+      "avatar": "",
+      "name": "Nombre",
+      "email": "Email",
+      "role": "Rol",
+      "products": "Productos",
+      "expired": "Caducados",
+      "registered": "Fecha registro",
+      "actions": "Acciones",
+      "delete": "Eliminar usuario",
+      "you": "Tú",
+      "noResults": "No se encontraron usuarios."
+    }
   },
   "ProductsPage": {
     "title": "Mis Productos",

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { ThemeToggle } from "./ThemeToggle";
-import { Package } from "lucide-react";
+import { Package, ShieldCheck } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useTranslation } from "react-i18next";
 
@@ -22,6 +22,15 @@ export default function Header() {
             <div className="flex gap-4 items-center">
                 {isAuthenticated && perfil ? (
                     <>
+                        {perfil.rol === 'admin' && (
+                            <button
+                                className="flex items-center gap-2 text-amber-400 hover:text-amber-300 px-3 py-2 rounded transition-colors"
+                                onClick={() => navigate("/admin")}
+                            >
+                                <ShieldCheck size={18} />
+                                <span className="hidden sm:inline">{t('header.admin')}</span>
+                            </button>
+                        )}
                         <button
                             className="flex items-center gap-2 text-neutral-300 hover:text-white px-3 py-2 rounded transition-colors"
                             onClick={() => navigate("/products")}
