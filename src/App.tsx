@@ -8,6 +8,7 @@ import LoginForm from './components/forms/LoginForm';
 import ProfilePage from './pages/ProfilePage';
 import AddProductPage from "./pages/AddProductPage";
 import ProductsPage from "./pages/ProductsPage";
+import AdminPage from "./pages/AdminPage";
 import { useAuthStore } from "./store/authStore";
 
 /** Ruta que solo pueden ver usuarios NO autenticados */
@@ -20,6 +21,14 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
 function PrivateRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
+}
+
+/** Ruta exclusiva para administradores */
+function AdminRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, perfil } = useAuthStore();
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (perfil?.rol !== 'admin') return <Navigate to="/products" replace />;
+  return <>{children}</>;
 }
 
 function App() {
@@ -53,6 +62,9 @@ function App() {
             <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
             <Route path="/products" element={<PrivateRoute><ProductsPage /></PrivateRoute>} />
             <Route path="/addProducts" element={<PrivateRoute><AddProductPage /></PrivateRoute>} />
+
+            {/* Ruta exclusiva para administradores */}
+            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
             {/* Cualquier otra ruta redirige al inicio */}
             <Route path="*" element={<Navigate to="/" replace />} />

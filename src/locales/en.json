@@ -8,7 +8,8 @@
     "myProducts": "My Products",
     "profile": "Profile",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "admin": "Admin Panel"
   },
   "footer": {
     "subtitle": "Manage your food, care for the planet",
@@ -148,6 +149,37 @@
   },
   "FormResetPassword": {
 
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "subtitle": "User management and application statistics",
+    "loading": "Loading data...",
+    "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone.",
+    "stats": {
+      "totalUsers": "Registered users",
+      "totalProducts": "Total products",
+      "expiredProducts": "Expired products",
+      "activeProducts": "Active products"
+    },
+    "roles": {
+      "admin": "Administrator",
+      "user": "User"
+    },
+    "usersTable": {
+      "title": "Registered Users",
+      "searchPlaceholder": "Search by name, email or role...",
+      "avatar": "",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "products": "Products",
+      "expired": "Expired",
+      "registered": "Registered",
+      "actions": "Actions",
+      "delete": "Delete user",
+      "you": "You",
+      "noResults": "No users found."
+    }
   },
   "ProductsPage": {
     "title": "My Products",
