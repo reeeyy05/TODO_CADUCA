@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { createAdminRepository } from '../../database/repositories';
 import type { AdminStats, UserWithStats } from '../../database/repositories/AdminRepository';
-import { Users, Package, AlertTriangle, CheckCircle, Trash2, Search, ShieldCheck } from 'lucide-react';
+import { Users, Package, AlertTriangle, CheckCircle, Trash2, Search, ShieldCheck, BarChart3, LayoutDashboard } from 'lucide-react';
+import { MensualChart } from '../charts/MensualChart';
 
 export default function AdminDashboard() {
   const { t } = useTranslation();
@@ -17,6 +18,9 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // NUEVO: Estado para alternar la vista entre gráficas y tabla
+  const [showCharts, setShowCharts] = useState(false);
 
   const repo = createAdminRepository();
 
@@ -79,18 +83,44 @@ export default function AdminDashboard() {
     navigate('/products');
     return null;
   }
+// NUEVO: Generamos automáticamente 30 días de datos aleatorios para probar la vista mensual
+  const accesosMes = Array.from({ length: 30 }, (_, index) => {
+    return {
+      name: `Día ${index + 1}`,
+      // Generamos un número de accesos aleatorio entre 10 y 60 para que la gráfica tenga curvas realistas
+      value: Math.floor(Math.random() * 50) + 10 
+    };
+  });
 
   return (
     <div className="admin-container">
-      {/* Cabecera */}
-      <div className="admin-header">
+      {/* Cabecera modificada para incluir el botón a la derecha */}
+      <div className="admin-header flex justify-between items-center flex-wrap gap-4 mb-6">
         <div>
-          <h1 className="admin-title">
+          <h1 className="admin-title flex items-center gap-2">
             <ShieldCheck size={28} />
             {t('admin.title')}
           </h1>
           <p className="admin-subtitle">{t('admin.subtitle')}</p>
         </div>
+
+        {/* NUEVO: Botón para alternar vistas */}
+        <button
+          onClick={() => setShowCharts(!showCharts)}
+          className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white border border-neutral-700 hover:bg-neutral-700 rounded-lg transition-colors font-medium shadow-sm"
+        >
+          {showCharts ? (
+            <>
+              <LayoutDashboard size={18} />
+              Volver al Tablero
+            </>
+          ) : (
+            <>
+              <BarChart3 size={18} />
+              Ver Gráficas
+            </>
+          )}
+        </button>
       </div>
 
       {/* Error */}
@@ -108,145 +138,158 @@ export default function AdminDashboard() {
         </div>
       ) : (
         <>
-          {/* Tarjetas de estadísticas */}
-          {stats && (
-            <div className="admin-stats-grid">
-              <div className="admin-stat-card admin-stat--users">
-                <div className="admin-stat-icon">
-                  <Users size={24} />
-                </div>
-                <div>
-                  <p className="admin-stat-value">{stats.totalUsers}</p>
-                  <p className="admin-stat-label">{t('admin.stats.totalUsers')}</p>
-                </div>
-              </div>
+          {/* NUEVO: Lógica condicional (Muestra gráfica si es true, muestra stats+tabla si es false) */}
+          {showCharts ? (
+            <div className="animate-fade-in w-full mb-8">
+              {/* Insertamos tu gráfica pasando los datos */}
+              <MensualChart
+                title="Accesos últimos 7 días"
+                data={accesosMes}
+              />
+            </div>
+          ) : (
+            <div className="animate-fade-in w-full">
+              {/* Tarjetas de estadísticas */}
+              {stats && (
+                <div className="admin-stats-grid">
+                  <div className="admin-stat-card admin-stat--users">
+                    <div className="admin-stat-icon">
+                      <Users size={24} />
+                    </div>
+                    <div>
+                      <p className="admin-stat-value">{stats.totalUsers}</p>
+                      <p className="admin-stat-label">{t('admin.stats.totalUsers')}</p>
+                    </div>
+                  </div>
 
-              <div className="admin-stat-card admin-stat--products">
-                <div className="admin-stat-icon">
-                  <Package size={24} />
-                </div>
-                <div>
-                  <p className="admin-stat-value">{stats.totalProducts}</p>
-                  <p className="admin-stat-label">{t('admin.stats.totalProducts')}</p>
-                </div>
-              </div>
+                  <div className="admin-stat-card admin-stat--products">
+                    <div className="admin-stat-icon">
+                      <Package size={24} />
+                    </div>
+                    <div>
+                      <p className="admin-stat-value">{stats.totalProducts}</p>
+                      <p className="admin-stat-label">{t('admin.stats.totalProducts')}</p>
+                    </div>
+                  </div>
 
-              <div className="admin-stat-card admin-stat--expired">
-                <div className="admin-stat-icon">
-                  <AlertTriangle size={24} />
-                </div>
-                <div>
-                  <p className="admin-stat-value">{stats.expiredProducts}</p>
-                  <p className="admin-stat-label">{t('admin.stats.expiredProducts')}</p>
-                </div>
-              </div>
+                  <div className="admin-stat-card admin-stat--expired">
+                    <div className="admin-stat-icon">
+                      <AlertTriangle size={24} />
+                    </div>
+                    <div>
+                      <p className="admin-stat-value">{stats.expiredProducts}</p>
+                      <p className="admin-stat-label">{t('admin.stats.expiredProducts')}</p>
+                    </div>
+                  </div>
 
-              <div className="admin-stat-card admin-stat--active">
-                <div className="admin-stat-icon">
-                  <CheckCircle size={24} />
+                  <div className="admin-stat-card admin-stat--active">
+                    <div className="admin-stat-icon">
+                      <CheckCircle size={24} />
+                    </div>
+                    <div>
+                      <p className="admin-stat-value">{stats.activeProducts}</p>
+                      <p className="admin-stat-label">{t('admin.stats.activeProducts')}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="admin-stat-value">{stats.activeProducts}</p>
-                  <p className="admin-stat-label">{t('admin.stats.activeProducts')}</p>
+              )}
+
+              {/* Tabla de usuarios */}
+              <div className="admin-users-section">
+                <div className="admin-users-header">
+                  <h2 className="admin-users-title">{t('admin.usersTable.title')}</h2>
+                  <div className="admin-search-box">
+                    <Search size={18} />
+                    <input
+                      type="text"
+                      placeholder={t('admin.usersTable.searchPlaceholder')}
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="admin-search-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="admin-table-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th>{t('admin.usersTable.avatar')}</th>
+                        <th>{t('admin.usersTable.name')}</th>
+                        <th>{t('admin.usersTable.email')}</th>
+                        <th>{t('admin.usersTable.role')}</th>
+                        <th>{t('admin.usersTable.products')}</th>
+                        <th>{t('admin.usersTable.expired')}</th>
+                        <th>{t('admin.usersTable.registered')}</th>
+                        <th>{t('admin.usersTable.actions')}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredUsers.length === 0 ? (
+                        <tr>
+                          <td colSpan={8} className="admin-no-results">
+                            {t('admin.usersTable.noResults')}
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredUsers.map((user) => (
+                          <tr key={user.user_id}>
+                            <td>
+                              <div className="admin-user-avatar">
+                                {user.avatar_url ? (
+                                  <img src={user.avatar_url} alt="" className="admin-avatar-img" />
+                                ) : (
+                                  <span className="admin-avatar-initial">
+                                    {(user.nombre_completo || 'U').charAt(0).toUpperCase()}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="admin-cell-name">
+                              {user.nombre_completo || '—'}
+                            </td>
+                            <td className="admin-cell-email">{user.email}</td>
+                            <td>
+                              <span className={`admin-role-badge admin-role--${user.rol}`}>
+                                {user.rol === 'admin' ? t('admin.roles.admin') : t('admin.roles.user')}
+                              </span>
+                            </td>
+                            <td className="admin-cell-center">{user.total_productos}</td>
+                            <td className="admin-cell-center">
+                              <span className={user.productos_caducados > 0 ? 'admin-text-danger' : ''}>
+                                {user.productos_caducados}
+                              </span>
+                            </td>
+                            <td className="admin-cell-date">
+                              {new Date(user.fecha_registro).toLocaleDateString()}
+                            </td>
+                            <td>
+                              {user.user_id !== perfil?.user_id ? (
+                                <button
+                                  onClick={() => handleDeleteUser(user.user_id)}
+                                  disabled={deletingId === user.user_id}
+                                  className="admin-btn-delete"
+                                  title={t('admin.usersTable.delete')}
+                                >
+                                  {deletingId === user.user_id ? (
+                                    <div className="admin-spinner-small" />
+                                  ) : (
+                                    <Trash2 size={16} />
+                                  )}
+                                </button>
+                              ) : (
+                                <span className="admin-you-badge">{t('admin.usersTable.you')}</span>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           )}
-
-          {/* Tabla de usuarios */}
-          <div className="admin-users-section">
-            <div className="admin-users-header">
-              <h2 className="admin-users-title">{t('admin.usersTable.title')}</h2>
-              <div className="admin-search-box">
-                <Search size={18} />
-                <input
-                  type="text"
-                  placeholder={t('admin.usersTable.searchPlaceholder')}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="admin-search-input"
-                />
-              </div>
-            </div>
-
-            <div className="admin-table-wrapper">
-              <table className="admin-table">
-                <thead>
-                  <tr>
-                    <th>{t('admin.usersTable.avatar')}</th>
-                    <th>{t('admin.usersTable.name')}</th>
-                    <th>{t('admin.usersTable.email')}</th>
-                    <th>{t('admin.usersTable.role')}</th>
-                    <th>{t('admin.usersTable.products')}</th>
-                    <th>{t('admin.usersTable.expired')}</th>
-                    <th>{t('admin.usersTable.registered')}</th>
-                    <th>{t('admin.usersTable.actions')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredUsers.length === 0 ? (
-                    <tr>
-                      <td colSpan={8} className="admin-no-results">
-                        {t('admin.usersTable.noResults')}
-                      </td>
-                    </tr>
-                  ) : (
-                    filteredUsers.map((user) => (
-                      <tr key={user.user_id}>
-                        <td>
-                          <div className="admin-user-avatar">
-                            {user.avatar_url ? (
-                              <img src={user.avatar_url} alt="" className="admin-avatar-img" />
-                            ) : (
-                              <span className="admin-avatar-initial">
-                                {(user.nombre_completo || 'U').charAt(0).toUpperCase()}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-                        <td className="admin-cell-name">
-                          {user.nombre_completo || '—'}
-                        </td>
-                        <td className="admin-cell-email">{user.email}</td>
-                        <td>
-                          <span className={`admin-role-badge admin-role--${user.rol}`}>
-                            {user.rol === 'admin' ? t('admin.roles.admin') : t('admin.roles.user')}
-                          </span>
-                        </td>
-                        <td className="admin-cell-center">{user.total_productos}</td>
-                        <td className="admin-cell-center">
-                          <span className={user.productos_caducados > 0 ? 'admin-text-danger' : ''}>
-                            {user.productos_caducados}
-                          </span>
-                        </td>
-                        <td className="admin-cell-date">
-                          {new Date(user.fecha_registro).toLocaleDateString()}
-                        </td>
-                        <td>
-                          {user.user_id !== perfil?.user_id ? (
-                            <button
-                              onClick={() => handleDeleteUser(user.user_id)}
-                              disabled={deletingId === user.user_id}
-                              className="admin-btn-delete"
-                              title={t('admin.usersTable.delete')}
-                            >
-                              {deletingId === user.user_id ? (
-                                <div className="admin-spinner-small" />
-                              ) : (
-                                <Trash2 size={16} />
-                              )}
-                            </button>
-                          ) : (
-                            <span className="admin-you-badge">{t('admin.usersTable.you')}</span>
-                          )}
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
         </>
       )}
     </div>

@@ -3,11 +3,13 @@ import { SupabaseUserRepository } from "../supabase/SupabaseUserRepository";
 import { SupabaseCategoryRepository } from "../supabase/SupabaseCategoryRepository";
 import { SupabaseCatalogRepository } from "../supabase/SupabaseCatalogRepository";
 import { SupabaseAdminRepository } from "../supabase/SupabaseAdminRepository";
+//import { SupabaseUltimosAccesosRepository } from "../supabase/SupabaseUltimosAccesosRepository";
 import type { ProductRepository } from "./ProductRepository";
 import type { UserRepository } from "./UserRepository";
 import type { CategoryRepository } from "./CategoryRepository";
 import type { CatalogRepository } from "./CatalogRepository";
 import type { AdminRepository } from "./AdminRepository";
+//import type { UltimosAccesosRepository } from "./UltimosAccesosRepository";
 
 /**
  * Fábrica de repositorios
@@ -38,3 +40,7 @@ export const createCatalogRepository = (): CatalogRepository => {
 export const createAdminRepository = (): AdminRepository => {
   return new SupabaseAdminRepository();
 };
+
+// export const createUltimosAccesosRepository = (): UltimosAccesosRepository => {
+//   return new SupabaseUltimosAccesosRepository();
+// };

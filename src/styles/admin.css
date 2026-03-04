@@ -84,7 +84,9 @@
 }
 
 @keyframes admin-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* === Tarjetas de Estadísticas === */
@@ -96,11 +98,15 @@
 }
 
 @media (max-width: 900px) {
-  .admin-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 500px) {
-  .admin-stats-grid { grid-template-columns: 1fr; }
+  .admin-stats-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .admin-stat-card {
@@ -373,3 +379,12 @@
 
 /* Dark mode compatibility */
 @variant dark (&:where(.dark, .dark *));
+
+/* Contenedor de los gráficos */
+.chart-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
