@@ -7,9 +7,10 @@ interface ProductCardProps {
     deletingId: number | null;
     onMarkConsumed: (id: number) => void;
     onDelete: (id: number) => void;
+    imageUrl: string;
 }
 
-const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete }: ProductCardProps) => {
+const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete, imageUrl }: ProductCardProps) => {
     const days = daysUntilExpiry(item.fecha_caducidad);
     const isConsumed = item.estado === "consumido";
     const level = isConsumed ? "consumed" : getExpiryLevel(days);
@@ -32,9 +33,9 @@ const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete }: ProductCard
     // Color del icono
     const iconColor =
         isConsumed ? "text-neutral-400"
-        : days <= 0 ? "text-red-400"
-        : days <= 3 ? "text-orange-400"
-        : "text-green-400";
+            : days <= 0 ? "text-red-400"
+                : days <= 3 ? "text-orange-400"
+                    : "text-green-400";
 
     return (
         <div className={`product-card ${isConsumed ? "product-card--consumed" : ""}`}>
@@ -42,6 +43,14 @@ const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete }: ProductCard
             <div className={`product-card__accent product-card__accent--${level}`} />
 
             <div className="product-card__body">
+
+                {/* Etiqueta de la imagen */}
+                <img
+                    src={imageUrl}
+                    alt={item.producto?.nombre ?? "Producto"}
+                    className="w-full h-32 object-cover rounded-md mb-4"
+                />
+
                 {/* Cabecera */}
                 <div className="product-card__header">
                     <div className={`product-card__icon product-card__icon--${level}`}>
