@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
-// Importamos los dos repositorios
 import { createAdminRepository, createUltimosAccesosRepository } from '../../database/repositories';
 import type { AdminStats, UserWithStats } from '../../database/repositories/AdminRepository';
 import { Users, Package, AlertTriangle, CheckCircle, Trash2, Search, ShieldCheck, BarChart3, LayoutDashboard } from 'lucide-react';
-// Importamos la gráfica y su tipo
 import { MensualChart, type AccesoData } from '../charts/MensualChart';
 
 export default function AdminDashboard() {
@@ -57,26 +55,24 @@ export default function AdminDashboard() {
       setUsers(usersRes.data ?? []);
     }
 
-    // LÓGICA JUNIOR PARA CREAR LOS 30 DÍAS EXACTOS ("Día 1", "Día 2"...)
     if (accesosRes.data) {
       const diasDelMes: AccesoData[] = [];
 
-      // 1. Creamos 30 días vacíos hacia atrás desde hoy
+      // Creamos 30 días vacíos hacia atrás desde hoy
       for (let i = 29; i >= 0; i--) {
         const fecha = new Date();
         fecha.setDate(fecha.getDate() - i);
-        const fechaISO = fecha.toISOString().split('T')[0]; // "2026-03-10"
+        const fechaISO = fecha.toISOString().split('T')[0]; 
 
         diasDelMes.push({
-          name: `Día ${fecha.getDate()}`, // Ej: "Día 10"
+          name: `Día ${fecha.getDate()}`, 
           value: 0,
-          _fechaReal: fechaISO // Campo oculto para buscar más fácil luego
+          _fechaReal: fechaISO 
         } as any);
       }
 
-      // 2. Rellenamos esos días con los datos reales que llegan de Supabase
+      // Rellenamos esos días con los datos reales que llegan de Supabase
       accesosRes.data.forEach((item) => {
-        // Tu supabase devuelve "day" y "total_logins"
         const fechaSupabase = new Date(item.day).toISOString().split('T')[0];
         const diaEncontrado = diasDelMes.find(d => (d as any)._fechaReal === fechaSupabase);
 
@@ -85,7 +81,7 @@ export default function AdminDashboard() {
         }
       });
 
-      // 3. Pasamos los datos listos a la gráfica
+      // Pasamos los datos listos a la gráfica
       setChartData(diasDelMes);
     }
 
@@ -123,7 +119,6 @@ export default function AdminDashboard() {
   }
 
   return (
-    // ESTO ESTIRA LA GRÁFICA: Eliminamos el límite de 1200px de tu admin.css cuando showCharts es true
     <div
       className="admin-container"
       style={{

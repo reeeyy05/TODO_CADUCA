@@ -27,9 +27,6 @@ export function MensualChart({ title, data }: MensualChartProps) {
         <div className="p-6 bg-neutral-800 border border-neutral-700 rounded-xl shadow-md w-full">
             <h3 className="text-2xl font-bold mb-8 text-white">{title}</h3>
 
-            {/* AQUI ESTÁ EL TRUCO PARA EL ERROR: 
-                Usamos style={{ height: '600px' }} en lugar de clases raras de Tailwind 
-                para forzar a que sea ENORME y nunca de error. */}
             <div style={{ width: '100%', height: '600px' }}>
                 <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
                     <AreaChart
@@ -38,16 +35,15 @@ export function MensualChart({ title, data }: MensualChartProps) {
                     >
                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" strokeOpacity={0.5} />
 
-                        {/* AQUÍ ESTÁ LA MAGIA DE LOS 30 DÍAS EXACTOS */}
                         <XAxis
                             dataKey="name"
                             stroke="#9ca3af"
                             tickLine={false}
                             axisLine={false}
-                            interval={0}         /* ¡ESTO OBLIGA A PINTAR LOS 30 DÍAS SIN SALTARSE NI UNO! */
-                            angle={-45}          /* INCLINAMOS EL TEXTO PARA QUE NO CHOCA (Día 1, Día 2...) */
-                            textAnchor="end"     /* ALINEA EL TEXTO INCLINADO */
-                            height={60}          /* DEJAMOS HUECO ABAJO PARA EL TEXTO */
+                            interval={0}        
+                            angle={-45}          
+                            textAnchor="end"     
+                            height={60}         
                             fontSize={12}
                         />
 
