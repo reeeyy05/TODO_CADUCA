@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
-import { createAdminRepository } from '../../database/repositories';
+// Importamos los dos repositorios
+import { createAdminRepository, createUltimosAccesosRepository } from '../../database/repositories';
 import type { AdminStats, UserWithStats } from '../../database/repositories/AdminRepository';
 import { Users, Package, AlertTriangle, CheckCircle, Trash2, Search, ShieldCheck, BarChart3, LayoutDashboard } from 'lucide-react';
-import { MensualChart } from '../charts/MensualChart';
+// Importamos la gráfica y su tipo
+import { MensualChart, type AccesoData } from '../charts/MensualChart';
 
 export default function AdminDashboard() {
   const { t } = useTranslation();
@@ -19,10 +21,13 @@ export default function AdminDashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // NUEVO: Estado para alternar la vista entre gráficas y tabla
+  // Estados para la gráfica
   const [showCharts, setShowCharts] = useState(false);
+  const [chartData, setChartData] = useState<AccesoData[]>([]);
 
+  // Instanciamos los repositorios
   const repo = createAdminRepository();
+  const repoAccesos = createUltimosAccesosRepository();
 
   useEffect(() => {
     loadData();
@@ -33,9 +38,11 @@ export default function AdminDashboard() {
     setLoading(true);
     setError(null);
 
-    const [statsRes, usersRes] = await Promise.all([
+    // Pedimos las 3 cosas a la vez a Supabase
+    const [statsRes, usersRes, accesosRes] = await Promise.all([
       repo.getGlobalStats(),
       repo.getUsersWithStats(),
+      repoAccesos.getAccesosUltimos30Dias(),
     ]);
 
     if (statsRes.error) {
@@ -48,6 +55,38 @@ export default function AdminDashboard() {
       setError(prev => prev ? `${prev} | ${usersRes.error!.message}` : usersRes.error!.message);
     } else {
       setUsers(usersRes.data ?? []);
+    }
+
+    // LÓGICA JUNIOR PARA CREAR LOS 30 DÍAS EXACTOS ("Día 1", "Día 2"...)
+    if (accesosRes.data) {
+      const diasDelMes: AccesoData[] = [];
+
+      // 1. Creamos 30 días vacíos hacia atrás desde hoy
+      for (let i = 29; i >= 0; i--) {
+        const fecha = new Date();
+        fecha.setDate(fecha.getDate() - i);
+        const fechaISO = fecha.toISOString().split('T')[0]; // "2026-03-10"
+
+        diasDelMes.push({
+          name: `Día ${fecha.getDate()}`, // Ej: "Día 10"
+          value: 0,
+          _fechaReal: fechaISO // Campo oculto para buscar más fácil luego
+        } as any);
+      }
+
+      // 2. Rellenamos esos días con los datos reales que llegan de Supabase
+      accesosRes.data.forEach((item) => {
+        // Tu supabase devuelve "day" y "total_logins"
+        const fechaSupabase = new Date(item.day).toISOString().split('T')[0];
+        const diaEncontrado = diasDelMes.find(d => (d as any)._fechaReal === fechaSupabase);
+
+        if (diaEncontrado) {
+          diaEncontrado.value = item.total_logins;
+        }
+      });
+
+      // 3. Pasamos los datos listos a la gráfica
+      setChartData(diasDelMes);
     }
 
     setLoading(false);
@@ -63,7 +102,6 @@ export default function AdminDashboard() {
       setError(err.message);
     } else {
       setUsers(prev => prev.filter(u => u.user_id !== userId));
-      // Recargamos stats
       const statsRes = await repo.getGlobalStats();
       if (statsRes.data) setStats(statsRes.data);
     }
@@ -83,18 +121,17 @@ export default function AdminDashboard() {
     navigate('/products');
     return null;
   }
-// NUEVO: Generamos automáticamente 30 días de datos aleatorios para probar la vista mensual
-  const accesosMes = Array.from({ length: 30 }, (_, index) => {
-    return {
-      name: `Día ${index + 1}`,
-      // Generamos un número de accesos aleatorio entre 10 y 60 para que la gráfica tenga curvas realistas
-      value: Math.floor(Math.random() * 50) + 10 
-    };
-  });
 
   return (
-    <div className="admin-container">
-      {/* Cabecera modificada para incluir el botón a la derecha */}
+    // ESTO ESTIRA LA GRÁFICA: Eliminamos el límite de 1200px de tu admin.css cuando showCharts es true
+    <div
+      className="admin-container"
+      style={{
+        maxWidth: showCharts ? '100%' : '1200px',
+        padding: showCharts ? '2rem 3%' : '2rem 1.5rem',
+        transition: 'max-width 0.3s ease'
+      }}
+    >
       <div className="admin-header flex justify-between items-center flex-wrap gap-4 mb-6">
         <div>
           <h1 className="admin-title flex items-center gap-2">
@@ -104,7 +141,6 @@ export default function AdminDashboard() {
           <p className="admin-subtitle">{t('admin.subtitle')}</p>
         </div>
 
-        {/* NUEVO: Botón para alternar vistas */}
         <button
           onClick={() => setShowCharts(!showCharts)}
           className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white border border-neutral-700 hover:bg-neutral-700 rounded-lg transition-colors font-medium shadow-sm"
@@ -123,7 +159,6 @@ export default function AdminDashboard() {
         </button>
       </div>
 
-      {/* Error */}
       {error && (
         <div className="admin-error">
           <span>{error}</span>
@@ -138,18 +173,16 @@ export default function AdminDashboard() {
         </div>
       ) : (
         <>
-          {/* NUEVO: Lógica condicional (Muestra gráfica si es true, muestra stats+tabla si es false) */}
           {showCharts ? (
             <div className="animate-fade-in w-full mb-8">
-              {/* Insertamos tu gráfica pasando los datos */}
+              {/* Renderizamos tu MensualChart pasándole el chartData completo */}
               <MensualChart
-                title="Accesos últimos 7 días"
-                data={accesosMes}
+                title="Usuarios registrados en los últimos 30 días"
+                data={chartData}
               />
             </div>
           ) : (
             <div className="animate-fade-in w-full">
-              {/* Tarjetas de estadísticas */}
               {stats && (
                 <div className="admin-stats-grid">
                   <div className="admin-stat-card admin-stat--users">
@@ -194,7 +227,6 @@ export default function AdminDashboard() {
                 </div>
               )}
 
-              {/* Tabla de usuarios */}
               <div className="admin-users-section">
                 <div className="admin-users-header">
                   <h2 className="admin-users-title">{t('admin.usersTable.title')}</h2>

@@ -1,7 +1,5 @@
-// import type { AccesosTotales } from "../../interfaces/AccesosTotales";
+import type { AccesosTotales } from "../../interfaces/AccesosTotales";
 
-// export interface AccesosTotales {
-//     day: Date;
-//     total_logins: number;
-// }
-
+export interface UltimosAccesosRepository {
+    getAccesosUltimos30Dias(): Promise<{ data: AccesosTotales[] | null; error: { message: string } | null }>;
+}
