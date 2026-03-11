@@ -18,14 +18,14 @@ export default function Input({ label, error, type, ...props }: InputProps) {
             <div className="relative">
                 <input
                     id={props.name}
-                    className="form-control w-full"
+                    className="input w-full"
                     type={isPassword && showPassword ? "text" : type}
                     {...props}
                 />
                 {isPassword && (
                     <button
                         type="button"
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-800 transition-colors"
                         onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                         tabIndex={-1}

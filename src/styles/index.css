@@ -200,11 +200,35 @@ button {
   color: var(--color-neutral-900);
   background-color: var(--color-neutral-100);
   transition: border-color 0.3s;
+  color: #1a1a1a !important; 
+  background-color: #ffffff !important;
 }
+
+.input::placeholder {
+  color: #666666 !important;
+  opacity: 1; 
+}
+
 .input:focus {
   border-color: var(--color-green-400);
   outline: none;
   box-shadow: 0 0 0 2px var(--color-green-300);
+  color: var(--color-neutral-900) !important;
+  color: #000000 !important;
+}
+
+.input:focus::placeholder {
+  color: var(--color-neutral-500);
+}
+
+
+.container-custom {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-3);
+  padding-right: var(--spacing-3);
 }
 
 
