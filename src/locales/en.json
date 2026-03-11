@@ -159,6 +159,9 @@
       "accessTitle": "User logins (Last 7 days)",
       "placeholder": "Space for another chart (e.g. Products by category)"
     },
+    "chart": {
+      "title": "Login activity over the last 30 days"
+    },
     "stats": {
       "totalUsers": "Registered users",
       "totalProducts": "Total products",

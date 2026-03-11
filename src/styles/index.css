@@ -2,7 +2,7 @@
 @import "./admin.css";
 
 @theme {
-  /* PALETE DE COLORES */
+  /* PALETA DE COLORES INTACTA */
   --color-neutral-950: #0A0A0A;
   --color-neutral-900: #171717;
   --color-neutral-800: #262626;
@@ -64,64 +64,84 @@
   --color-blue-50: #EFF6FF;
 }
 
-/* VARIABLES BASE (modo claro por defecto) */
+/* ===================== */
+/* VARIABLES BASE        */
+/* ===================== */
 :root {
-  --site-bg: var(--color-neutral-50);
-  --site-text: var(--color-neutral-900);
-
-  --bg-verde: var(--color-green-300);
-  --text-verde: var(--color-neutral-900);
-  --header-footer-bg: var(--bg-verde); /* Verde en modo claro */
-
-  --spacing-1: 0.25rem; /* 4px */
-  --spacing-2: 0.5rem;  /* 8px */
-  --spacing-3: 1rem;    /* 16px */
-  --spacing-4: 1.5rem;  /* 24px */
-  --spacing-5: 2rem;    /* 32px */
-
-  --font-size-sm: 0.875rem; /* 14px */
-  --font-size-md: 1rem;     /* 16px */
-  --font-size-lg: 1.25rem;  /* 20px */
-  --font-size-xl: 1.5rem;   /* 24px */
-}
-
-/* ===================== */
-/*   LÓGICA DE TEMAS     */
-/* ===================== */
-
-/* MODO OSCURO: reemplaza el verde por colores oscuros */
-@variant dark (&:where(.dark, .dark *));
-html.dark,
-[data-theme='dark'] {
+  /* MODO OSCURO POR DEFECTO PARA EL BODY */
   --site-bg: var(--color-neutral-950);
   --site-text: var(--color-neutral-50);
+
+  /* HEADER Y FOOTER FIJOS */
   --header-footer-bg: var(--color-neutral-900);
-  --text-verde: var(--color-neutral-50);
+  --header-footer-text: var(--color-neutral-50);
+
+  /* UNIFICACIÓN DE VERDE */
+  --theme-green: var(--color-green-600);
+
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 1rem;
+  --spacing-4: 1.5rem;
+  --spacing-5: 2rem;
+
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
 }
 
-/* MODO CLARO: verde en header/footer */
+/* ===================== */
+/* LÓGICA DE TEMAS       */
+/* ===================== */
+
+/* MODO CLARO */
 html[data-theme='light'],
-html:not(.dark) {
-  --site-bg: var(--color-neutral-50);
+html.light {
+  /* Fondo gris claro, NO blanco total (#E5E5E5) */
+  --site-bg: var(--color-neutral-200);
+  /* Textos generales en negro (#171717) */
   --site-text: var(--color-neutral-900);
-  --header-footer-bg: var(--color-green-300);
-  --text-verde: var(--color-neutral-900);
 }
 
-/* Anular clases estáticas de Tailwind en modo claro */
+/* Limpieza de fondo general en modo claro */
 html[data-theme='light'] body,
 html[data-theme='light'] .min-h-screen,
 html[data-theme='light'] main {
   background-color: var(--site-bg) !important;
   color: var(--site-text) !important;
 }
-html[data-theme='light'] .bg-neutral-800 { background-color: var(--site-bg) !important; }
-html[data-theme='light'] .bg-neutral-900 { background-color: var(--site-bg) !important; }
-html[data-theme='light'] .text-white      { color: var(--site-text) !important; }
-html[data-theme='light'] .text-neutral-950 { color: var(--site-text) !important; }
+
+/* 1. INPUTS Y SELECTS: Cambiar el fondo negro a blanco/clarito */
+html[data-theme='light'] input,
+html[data-theme='light'] select,
+html.light input,
+html.light select {
+  background-color: var(--color-neutral-50) !important; 
+  color: var(--color-neutral-900) !important;
+  border-color: var(--color-neutral-300) !important;
+}
+
+html[data-theme='light'] input::placeholder,
+html.light input::placeholder {
+  color: var(--color-neutral-500) !important;
+  opacity: 1;
+}
+
+/* 2. FORZAR TEXTOS A NEGRO EN MODO CLARO (CON EXCLUSIONES) */
+/* Obligamos a que cualquier texto que Tailwind intentaba pintar de blanco, se ponga negro... 
+   PERO excluimos (.not) lo que está dentro de las tarjetas, del header y del footer */
+html[data-theme='light'] .text-white:not(.product-card *):not(header *):not(footer *),
+html[data-theme='light'] .text-neutral-50:not(.product-card *):not(header *):not(footer *),
+html[data-theme='light'] .text-neutral-100:not(.product-card *):not(header *):not(footer *),
+html[data-theme='light'] .text-neutral-200:not(.product-card *):not(header *):not(footer *),
+html[data-theme='light'] .text-neutral-300:not(.product-card *):not(header *):not(footer *),
+html[data-theme='light'] .text-neutral-400:not(.product-card *):not(header *):not(footer *) {
+  color: var(--color-neutral-900) !important;
+}
 
 /* ===================== */
-/*   ESTILOS GLOBALES    */
+/* ESTILOS GLOBALES      */
 /* ===================== */
 
 body {
@@ -134,33 +154,14 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Header y footer siempre usan su variable dedicada */
 header, footer {
   background-color: var(--header-footer-bg) !important;
-  color: var(--text-verde) !important;
-  transition: background-color 0.3s, color 0.3s;
+  color: var(--header-footer-text) !important;
 }
 
-/* Textos secundarios dentro de header/footer en modo claro */
-header .text-neutral-300,
-header .text-neutral-400,
-footer .text-neutral-300,
-footer .text-neutral-400 {
-  color: var(--color-neutral-700) !important;
-}
+h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: bold; }
+button { cursor: pointer; border: none; outline: none; }
 
-h1, h2, h3, h4, h5, h6 {
-  margin: 0;
-  font-weight: bold;
-}
-
-button {
-  cursor: pointer;
-  border: none;
-  outline: none;
-}
-
-/* CLASES UTILITARIAS */
 .text-center { text-align: center; }
 .flex        { display: flex; }
 .flex-center { display: flex; justify-content: center; align-items: center; }
@@ -171,25 +172,28 @@ button {
 
 /* COMPONENTES */
 .btn-primary {
-  background-color: var(--color-green-600);
-  color: var(--color-neutral-100);
+  background-color: var(--theme-green);
+  color: var(--color-neutral-50);
   padding: var(--spacing-2) var(--spacing-3);
   border-radius: 0.5rem;
   font-size: var(--font-size-md);
-  transition: background-color 0.3s;
+  transition: opacity 0.3s;
 }
-.btn-primary:hover { background-color: var(--color-green-700); }
+.btn-primary:hover { opacity: 0.85; }
 
 .btn-secondary {
-  background-color: var(--color-neutral-100);
-  color: var(--color-green-600);
+  background-color: transparent;
+  color: var(--theme-green);
   padding: var(--spacing-2) var(--spacing-3);
-  border: 1px solid var(--color-green-600);
+  border: 1px solid var(--theme-green);
   border-radius: 0.5rem;
   font-size: var(--font-size-md);
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
-.btn-secondary:hover { background-color: var(--color-green-50); }
+.btn-secondary:hover { 
+  background-color: var(--theme-green); 
+  color: var(--color-neutral-50);
+}
 
 .input {
   width: 100%;
@@ -197,19 +201,18 @@ button {
   border: 1px solid var(--color-neutral-600);
   border-radius: 0.5rem;
   font-size: var(--font-size-md);
-  color: var(--color-neutral-900);
-  background-color: var(--color-neutral-100);
-  transition: border-color 0.3s;
+  color: var(--site-text);
+  background-color: var(--site-bg);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 .input:focus {
-  border-color: var(--color-green-400);
+  border-color: var(--theme-green);
   outline: none;
-  box-shadow: 0 0 0 2px var(--color-green-300);
+  box-shadow: 0 0 0 2px var(--theme-green);
 }
 
-
 /* ===================== */
-/*   PRODUCT CARD        */
+/* PRODUCT CARD          */
 /* ===================== */
 
 .product-card {
@@ -231,34 +234,18 @@ button {
   opacity: 0.55;
 }
 
-/* Acento superior con gradiente */
 .product-card__accent {
   height: 4px;
   width: 100%;
   border-radius: 1rem 1rem 0 0;
 }
 
-.product-card__accent--expired {
-  background: linear-gradient(to right, var(--color-red-600), var(--color-red-400));
-}
+.product-card__accent--expired { background: var(--color-red-600); }
+.product-card__accent--urgent { background: var(--color-orange-600); }
+.product-card__accent--warning { background: var(--color-orange-400); }
+.product-card__accent--ok { background: var(--theme-green); }
+.product-card__accent--consumed { background: var(--color-neutral-600); }
 
-.product-card__accent--urgent {
-  background: linear-gradient(to right, var(--color-orange-600), var(--color-orange-400));
-}
-
-.product-card__accent--warning {
-  background: linear-gradient(to right, #ca8a04, #facc15);
-}
-
-.product-card__accent--ok {
-  background: linear-gradient(to right, var(--color-green-600), var(--color-green-400));
-}
-
-.product-card__accent--consumed {
-  background: linear-gradient(to right, var(--color-neutral-600), var(--color-neutral-500));
-}
-
-/* Cuerpo de la tarjeta */
 .product-card__body {
   display: flex;
   flex-direction: column;
@@ -267,7 +254,6 @@ button {
   gap: 0.75rem;
 }
 
-/* Cabecera */
 .product-card__header {
   display: flex;
   align-items: flex-start;
@@ -284,21 +270,10 @@ button {
   justify-content: center;
 }
 
-.product-card__icon--expired {
-  background-color: rgba(130, 24, 26, 0.4);
-}
-
-.product-card__icon--urgent {
-  background-color: rgba(126, 42, 12, 0.3);
-}
-
-.product-card__icon--ok {
-  background-color: rgba(13, 84, 43, 0.3);
-}
-
-.product-card__icon--consumed {
-  background-color: rgba(64, 64, 64, 0.5);
-}
+.product-card__icon--expired { background-color: rgba(231, 0, 11, 0.2); }
+.product-card__icon--urgent { background-color: rgba(245, 73, 0, 0.2); }
+.product-card__icon--ok { background-color: rgba(0, 166, 62, 0.2); }
+.product-card__icon--consumed { background-color: rgba(64, 64, 64, 0.5); }
 
 .product-card__info {
   flex: 1;
@@ -309,7 +284,7 @@ button {
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.3;
-  color: var(--color-neutral-100);
+  color: var(--color-neutral-50);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -318,11 +293,10 @@ button {
 
 .product-card__category {
   font-size: 0.75rem;
-  color: var(--color-neutral-500);
+  color: var(--color-neutral-400);
   margin-top: 2px;
 }
 
-/* Badge de estado */
 .product-card__badge {
   flex-shrink: 0;
   font-size: 0.6875rem;
@@ -333,32 +307,12 @@ button {
   line-height: 1.4;
 }
 
-.product-card__badge--expired {
-  background-color: rgba(130, 24, 26, 0.4);
-  color: var(--color-red-400);
-}
+.product-card__badge--expired { background-color: rgba(231, 0, 11, 0.2); color: var(--color-red-400); }
+.product-card__badge--urgent { background-color: rgba(245, 73, 0, 0.2); color: var(--color-orange-400); }
+.product-card__badge--warning { background-color: rgba(255, 137, 4, 0.2); color: var(--color-orange-400); }
+.product-card__badge--ok { background-color: rgba(0, 166, 62, 0.2); color: var(--theme-green); }
+.product-card__badge--consumed { background-color: rgba(64, 64, 64, 0.4); color: var(--color-neutral-400); }
 
-.product-card__badge--urgent {
-  background-color: rgba(126, 42, 12, 0.3);
-  color: var(--color-orange-400);
-}
-
-.product-card__badge--warning {
-  background-color: rgba(113, 93, 14, 0.2);
-  color: #facc15;
-}
-
-.product-card__badge--ok {
-  background-color: rgba(13, 84, 43, 0.2);
-  color: var(--color-green-400);
-}
-
-.product-card__badge--consumed {
-  background-color: rgba(64, 64, 64, 0.4);
-  color: var(--color-neutral-400);
-}
-
-/* Meta: fecha + cantidad */
 .product-card__meta {
   display: flex;
   align-items: center;
@@ -373,9 +327,7 @@ button {
   color: var(--color-neutral-300);
 }
 
-.product-card__date svg {
-  color: var(--color-neutral-500);
-}
+.product-card__date svg { color: var(--color-neutral-400); }
 
 .product-card__quantity {
   background-color: rgba(64, 64, 64, 0.6);
@@ -386,7 +338,6 @@ button {
   border-radius: 9999px;
 }
 
-/* Barra de progreso */
 .product-card__progress {
   display: flex;
   flex-direction: column;
@@ -397,24 +348,13 @@ button {
   display: flex;
   justify-content: space-between;
   font-size: 0.6875rem;
-  color: var(--color-neutral-500);
+  color: var(--color-neutral-400);
 }
 
-.product-card__progress-value--expired {
-  color: var(--color-red-400);
-}
-
-.product-card__progress-value--urgent {
-  color: var(--color-orange-400);
-}
-
-.product-card__progress-value--warning {
-  color: #facc15;
-}
-
-.product-card__progress-value--ok {
-  color: var(--color-green-400);
-}
+.product-card__progress-value--expired { color: var(--color-red-400); }
+.product-card__progress-value--urgent { color: var(--color-orange-400); }
+.product-card__progress-value--warning { color: var(--color-orange-400); }
+.product-card__progress-value--ok { color: var(--theme-green); }
 
 .product-card__progress-track {
   width: 100%;
@@ -430,30 +370,17 @@ button {
   transition: width 0.5s ease;
 }
 
-.product-card__progress-bar--expired {
-  background-color: var(--color-red-500);
-}
+.product-card__progress-bar--expired { background-color: var(--color-red-500); }
+.product-card__progress-bar--urgent { background-color: var(--color-orange-500); }
+.product-card__progress-bar--warning { background-color: var(--color-orange-400); }
+.product-card__progress-bar--ok { background-color: var(--theme-green); }
 
-.product-card__progress-bar--urgent {
-  background-color: var(--color-orange-500);
-}
-
-.product-card__progress-bar--warning {
-  background-color: #facc15;
-}
-
-.product-card__progress-bar--ok {
-  background-color: var(--color-green-500);
-}
-
-/* Separador */
 .product-card__divider {
   border: none;
   border-top: 1px solid rgba(64, 64, 64, 0.5);
   margin: 0;
 }
 
-/* Botones */
 .product-card__actions {
   display: flex;
   gap: 0.5rem;
@@ -475,25 +402,25 @@ button {
 
 .product-card__btn--consume {
   flex: 1;
-  background-color: rgba(13, 84, 43, 0.2);
-  color: var(--color-green-400);
-  border-color: rgba(1, 102, 48, 0.3);
+  background-color: rgba(0, 166, 62, 0.1);
+  color: var(--theme-green);
+  border-color: rgba(0, 166, 62, 0.3);
 }
 
 .product-card__btn--consume:hover {
-  background-color: rgba(13, 84, 43, 0.4);
-  border-color: rgba(1, 102, 48, 0.5);
+  background-color: rgba(0, 166, 62, 0.25);
+  border-color: rgba(0, 166, 62, 0.6);
 }
 
 .product-card__btn--delete {
-  background-color: rgba(130, 24, 26, 0.2);
+  background-color: rgba(231, 0, 11, 0.1);
   color: var(--color-red-400);
-  border-color: rgba(159, 7, 18, 0.3);
+  border-color: rgba(231, 0, 11, 0.3);
 }
 
 .product-card__btn--delete:hover {
-  background-color: rgba(130, 24, 26, 0.4);
-  border-color: rgba(159, 7, 18, 0.5);
+  background-color: rgba(231, 0, 11, 0.25);
+  border-color: rgba(231, 0, 11, 0.6);
 }
 
 .product-card__btn:disabled {
@@ -501,7 +428,6 @@ button {
   cursor: not-allowed;
 }
 
-/* Grid de productos */
 .products-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);

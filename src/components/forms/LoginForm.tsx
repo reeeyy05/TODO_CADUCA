@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { User, Lock, Eye, EyeOff, Check, X, ShieldCheck, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next'; // 1. Importar
+import { useTranslation } from 'react-i18next';
 import { validateField } from '../../utils/regex';
 import { createUserRepository } from '../../database/repositories';
 import { useAuthStore } from '../../store/authStore';
 import { supabase } from '../../database/supabase/Client';
 
 const Login = () => {
-  const { t } = useTranslation(); // 2. Inicializar hook
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { setPerfil } = useAuthStore();
   const userRepository = createUserRepository();
@@ -42,7 +42,7 @@ const Login = () => {
     setLoading(false);
 
     if (error) {
-      setSubmitMessage(t('Login.messages.error_auth', { message: error.message })); // Traducido con variable
+      setSubmitMessage(t('Login.messages.error_auth', { message: error.message }));
       return;
     }
 
@@ -76,13 +76,14 @@ const Login = () => {
   };
 
   return (
-    <section className="flex-1 w-full flex flex-col items-center justify-center py-12">
+    /* SE HA AÑADIDO 'px-4' PARA EL PADDING LATERAL EN MÓVILES */
+    <section className="flex-1 w-full flex flex-col items-center justify-center py-12 px-4">
       <div className="bg-[#D9D9D9] w-full max-w-md rounded-3xl shadow-2xl p-8 flex flex-col items-center mx-4">
         <div className="bg-[#10B981] p-4 rounded-2xl mb-4 shadow-lg">
           <User size={48} color="white" />
         </div>
 
-        <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2">
+        <h1 className="text-3xl font-bold text-[#1a1a1a] mb-2 text-center">
           {showRecovery ? t('Login.recovery_title') : t('Login.title')}
         </h1>
         <p className="text-gray-600 mb-8 text-center font-medium">
