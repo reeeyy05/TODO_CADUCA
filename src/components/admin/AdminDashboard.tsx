@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { createAdminRepository, createUltimosAccesosRepository } from '../../database/repositories';
 import type { AdminStats, UserWithStats } from '../../database/repositories/AdminRepository';
-import { Users, Package, AlertTriangle, CheckCircle, Trash2, Search, ShieldCheck, BarChart3, LayoutDashboard } from 'lucide-react';
+import { Users, Package, AlertTriangle, CheckCircle, Trash2, Pencil, Check, X, Search, ShieldCheck, BarChart3, LayoutDashboard } from 'lucide-react';
 import { MensualChart, type AccesoData } from '../charts/MensualChart';
 
 export default function AdminDashboard() {
@@ -18,6 +18,8 @@ export default function AdminDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
 
   // Estados para la gráfica
   const [showCharts, setShowCharts] = useState(false);
@@ -102,6 +104,30 @@ export default function AdminDashboard() {
       if (statsRes.data) setStats(statsRes.data);
     }
     setDeletingId(null);
+  }
+
+  function startEditing(user: UserWithStats) {
+    setEditingId(user.user_id);
+    setEditName(user.nombre_completo || '');
+  }
+
+  function cancelEditing() {
+    setEditingId(null);
+    setEditName('');
+  }
+
+  async function handleSaveName(userId: string) {
+    const trimmed = editName.trim();
+    if (!trimmed) return;
+
+    const { error: err } = await repo.updateUserName(userId, trimmed);
+    if (err) {
+      setError(err.message);
+    } else {
+      setUsers(prev => prev.map(u => u.user_id === userId ? { ...u, nombre_completo: trimmed } : u));
+    }
+    setEditingId(null);
+    setEditName('');
   }
 
   const filteredUsers = users.filter(u => {
@@ -273,7 +299,30 @@ export default function AdminDashboard() {
                               </div>
                             </td>
                             <td className="admin-cell-name">
-                              {user.nombre_completo || '—'}
+                              {editingId === user.user_id ? (
+                                <div className="admin-edit-inline">
+                                  <input
+                                    type="text"
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
+                                    onKeyDown={(e) => {
+                                      if (e.key === 'Enter') handleSaveName(user.user_id);
+                                      if (e.key === 'Escape') cancelEditing();
+                                    }}
+                                    className="admin-edit-input"
+                                    placeholder={t('admin.usersTable.name')}
+                                    autoFocus
+                                  />
+                                  <button onClick={() => handleSaveName(user.user_id)} className="admin-btn-confirm" title={t('actions.save')}>
+                                    <Check size={14} />
+                                  </button>
+                                  <button onClick={cancelEditing} className="admin-btn-cancel" title={t('actions.cancel')}>
+                                    <X size={14} />
+                                  </button>
+                                </div>
+                              ) : (
+                                user.nombre_completo || '—'
+                              )}
                             </td>
                             <td className="admin-cell-email">{user.email}</td>
                             <td>
@@ -292,18 +341,28 @@ export default function AdminDashboard() {
                             </td>
                             <td>
                               {user.user_id !== perfil?.user_id ? (
-                                <button
-                                  onClick={() => handleDeleteUser(user.user_id)}
-                                  disabled={deletingId === user.user_id}
-                                  className="admin-btn-delete"
-                                  title={t('admin.usersTable.delete')}
-                                >
-                                  {deletingId === user.user_id ? (
-                                    <div className="admin-spinner-small" />
-                                  ) : (
-                                    <Trash2 size={16} />
-                                  )}
-                                </button>
+                                <div className="admin-actions-row">
+                                  <button
+                                    onClick={() => startEditing(user)}
+                                    className="admin-btn-edit"
+                                    title={t('admin.usersTable.edit')}
+                                    disabled={editingId === user.user_id}
+                                  >
+                                    <Pencil size={16} />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteUser(user.user_id)}
+                                    disabled={deletingId === user.user_id}
+                                    className="admin-btn-delete"
+                                    title={t('admin.usersTable.delete')}
+                                  >
+                                    {deletingId === user.user_id ? (
+                                      <div className="admin-spinner-small" />
+                                    ) : (
+                                      <Trash2 size={16} />
+                                    )}
+                                  </button>
+                                </div>
                               ) : (
                                 <span className="admin-you-badge">{t('admin.usersTable.you')}</span>
                               )}

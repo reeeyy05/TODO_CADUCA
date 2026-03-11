@@ -183,6 +183,7 @@
       "expired": "Expired",
       "registered": "Registered",
       "actions": "Actions",
+      "edit": "Edit name",
       "delete": "Delete user",
       "you": "You",
       "noResults": "No users found."

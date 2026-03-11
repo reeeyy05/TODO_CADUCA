@@ -183,6 +183,7 @@
       "expired": "Caducados",
       "registered": "Fecha registro",
       "actions": "Acciones",
+      "edit": "Editar nombre",
       "delete": "Eliminar usuario",
       "you": "Tú",
       "noResults": "No se encontraron usuarios."

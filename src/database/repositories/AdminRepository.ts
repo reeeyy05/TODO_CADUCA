@@ -24,4 +24,7 @@ export interface AdminRepository {
 
   /** Elimina un usuario por su user_id (y su perfil asociado) */
   deleteUser(userId: string): Promise<{ error: { message: string } | null }>;
+
+  /** Actualiza el nombre de un usuario */
+  updateUserName(userId: string, newName: string): Promise<{ error: { message: string } | null }>;
 }

@@ -109,4 +109,14 @@ export class SupabaseAdminRepository implements AdminRepository {
 
     return { error: null };
   }
+
+  async updateUserName(userId: string, newName: string): Promise<{ error: { message: string } | null }> {
+    const { error } = await supabase
+      .from('perfiles')
+      .update({ nombre_completo: newName })
+      .eq('user_id', userId);
+
+    if (error) return { error: { message: error.message } };
+    return { error: null };
+  }
 }
