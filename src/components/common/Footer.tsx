@@ -25,7 +25,7 @@ export default function Footer() {
                     <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
                         <Facebook size={20} />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                    <a href="https://github.com/reeeyy05/TODO_CADUCA" target="_blank" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
                         <Github size={20} />
                     </a>
                     <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">

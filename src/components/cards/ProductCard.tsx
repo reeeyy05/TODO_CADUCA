@@ -53,13 +53,6 @@ const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete, imageUrl }: P
 
                 {/* Cabecera */}
                 <div className="product-card__header">
-                    <div className={`product-card__icon product-card__icon--${level}`}>
-                        {isConsumed
-                            ? <CheckCircle2 size={18} className="text-neutral-400" />
-                            : <ShoppingBag size={18} className={iconColor} />
-                        }
-                    </div>
-
                     <div className="product-card__info">
                         <h3 className="product-card__name">
                             {item.producto?.nombre ?? "Producto"}
@@ -82,24 +75,6 @@ const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete, imageUrl }: P
                     </span>
                     <span className="product-card__quantity">×{item.cantidad} ud.</span>
                 </div>
-
-                {/* Barra de progreso */}
-                {!isConsumed && (
-                    <div className="product-card__progress">
-                        <div className="product-card__progress-header">
-                            <span>Tiempo restante</span>
-                            <span className={`product-card__progress-value product-card__progress-value--${barLevel}`}>
-                                {days <= 0 ? "Vencido" : `${days}d`}
-                            </span>
-                        </div>
-                        <div className="product-card__progress-track">
-                            <div
-                                className={`product-card__progress-bar product-card__progress-bar--${barLevel}`}
-                                style={{ width: `${progressPercent}%` }}
-                            />
-                        </div>
-                    </div>
-                )}
 
                 {/* Separador */}
                 <hr className="product-card__divider" />
