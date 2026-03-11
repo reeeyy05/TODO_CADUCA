@@ -1,4 +1,4 @@
-import { Trash2, Calendar, ShoppingBag, CheckCircle2 } from "lucide-react";
+import { Trash2, Calendar, CheckCircle2 } from "lucide-react";
 import type { UsuarioProducto } from "../../interfaces/UsuarioProducto";
 import { daysUntilExpiry, getExpiryLevel, getExpiryLabel } from "../../utils/dates";
 
@@ -21,21 +21,6 @@ const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete, imageUrl }: P
         month: "short",
         year: "numeric",
     });
-
-    // Barra de progreso (máximo 30 días)
-    const progressMax = 30;
-    const progressValue = Math.max(0, Math.min(days, progressMax));
-    const progressPercent = (progressValue / progressMax) * 100;
-
-    // Nivel para la barra (sin "consumed")
-    const barLevel = getExpiryLevel(days);
-
-    // Color del icono
-    const iconColor =
-        isConsumed ? "text-neutral-400"
-            : days <= 0 ? "text-red-400"
-                : days <= 3 ? "text-orange-400"
-                    : "text-green-400";
 
     return (
         <div className={`product-card ${isConsumed ? "product-card--consumed" : ""}`}>
