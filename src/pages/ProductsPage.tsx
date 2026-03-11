@@ -20,23 +20,23 @@ function daysUntilExpiry(fecha: string): number {
 function getCategoryImage(categoryId?: number): string {
     switch (categoryId) {
         case 1: // Frutas
-            return "/frutas.jpg";
+            return "/frutas.webp";
         case 2: // Verduras
-            return "/verduras.jpg";
+            return "/verduras.webp";
         case 3: // Carnes
-            return "/carnes.jpg"; 
+            return "/carnes.webp"; 
         case 4: // Lácteos
-            return "/lacteos.jpg";
+            return "/lacteos.webp";
         case 5: // Bebidas
-            return "/bebidas.jpg";
+            return "/bebidas.webp";
         case 6: // Congelados
-            return "/congelados.jpg";
+            return "/congelados.webp";
         case 7: // Pescado
-            return "/pescado.jpg";
+            return "/pescado.webp";
         case 8: // Bollería
-            return "/bolleria.jpg";
+            return "/bolleria.webp";
         default: // Otros
-            return "/otros.jpg";
+            return "/otros.webp";
     }
 }
 

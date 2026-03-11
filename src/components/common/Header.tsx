@@ -14,7 +14,7 @@ export default function Header() {
         <header className="h-20 px-8 flex justify-between items-center border-b border-neutral-800">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
                 <img
-                    src="/logo.png"
+                    src="/logo.webp"
                     alt="Logo Todo Caduca"
                     className="w-20 h-20 object-contain"
                 />
