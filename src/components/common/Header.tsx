@@ -13,9 +13,11 @@ export default function Header() {
     return (
         <header className="h-20 px-8 flex justify-between items-center border-b border-neutral-800">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
-                <div className="bg-green-600 p-2 rounded text-white">
-                    <Package size={24} />
-                </div>
+                <img
+                    src="/logo.png"
+                    alt="Logo Todo Caduca"
+                    className="w-20 h-20 object-contain"
+                />
                 <span className="text-2xl font-bold text-white">Todo Caduca</span>
             </div>
 
@@ -43,9 +45,9 @@ export default function Header() {
                             onClick={() => navigate("/profile")}
                         >
                             {perfil.avatar_url ? (
-                                <img 
-                                    src={perfil.avatar_url} 
-                                    alt="Avatar" 
+                                <img
+                                    src={perfil.avatar_url}
+                                    alt="Avatar"
                                     className="w-7 h-7 rounded-full object-cover"
                                 />
                             ) : (
@@ -66,7 +68,7 @@ export default function Header() {
                         >
                             {t('header.register')}
                         </button>
-                        <button 
+                        <button
                             className="bg-green-400 text-white px-4 py-2 rounded font-bold hover:bg-green-500"
                             onClick={() => navigate("/login")}
                         >
@@ -74,7 +76,7 @@ export default function Header() {
                         </button>
                     </>
                 )}
-                <ThemeToggle /> 
+                <ThemeToggle />
                 <LanguageSwitcher />
             </div>
         </header>

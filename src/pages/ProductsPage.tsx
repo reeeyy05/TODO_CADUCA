@@ -16,27 +16,27 @@ function daysUntilExpiry(fecha: string): number {
     return Math.ceil((expiry.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 }
 
-// obtener la imagen por defecto según el ID de la categoría
+// obtener la imagen por defecto según el ID de la categoría 
 function getCategoryImage(categoryId?: number): string {
     switch (categoryId) {
         case 1: // Frutas
-            return "https://images.unsplash.com/photo-1610832958506-aa56368176cf?auto=format&fit=crop&w=300&q=80";
+            return "/frutas.jpg";
         case 2: // Verduras
-            return "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=300&q=80";
+            return "/verduras.jpg";
         case 3: // Carnes
-            return "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=300&q=80";
+            return "/carnes.jpg"; 
         case 4: // Lácteos
-            return "https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=300&q=80";
+            return "/lacteos.jpg";
         case 5: // Bebidas
-            return "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=300&q=80";
+            return "/bebidas.jpg";
         case 6: // Congelados
-            return "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=300&q=80";
+            return "/congelados.jpg";
         case 7: // Pescado
-            return "https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?auto=format&fit=crop&w=300&q=80";
+            return "/pescado.jpg";
         case 8: // Bollería
-            return "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=300&q=80";
+            return "/bolleria.jpg";
         default: // Otros
-            return "https://images.unsplash.com/photo-1584308666744-24d5e478ac5c?auto=format&fit=crop&w=300&q=80";
+            return "/otros.jpg";
     }
 }
 

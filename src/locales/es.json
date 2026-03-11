@@ -159,6 +159,9 @@
       "accessTitle": "Accesos de usuarios (Últimos 7 días)",
       "placeholder": "Espacio para otra gráfica (Ej: Productos por categoría)"
     },
+    "chart": {
+      "title": "Actividad de accesos en los últimos 30 días"
+    },
     "stats": {
       "totalUsers": "Usuarios registrados",
       "totalProducts": "Total de productos",
