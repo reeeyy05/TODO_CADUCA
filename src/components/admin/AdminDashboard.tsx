@@ -172,7 +172,7 @@ export default function AdminDashboard() {
             <div className="animate-fade-in w-full mb-8">
               {/* Renderizamos tu MensualChart pasándole el chartData completo */}
               <MensualChart
-                title="Usuarios registrados en los últimos 30 días"
+                title={t('admin.chart.title')}
                 data={chartData}
               />
             </div>
