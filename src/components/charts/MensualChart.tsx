@@ -1,4 +1,4 @@
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 export interface AccesoData {
     name: string;
@@ -15,7 +15,7 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?:
         return (
             <div className="bg-neutral-900 border border-neutral-700 p-3 rounded-lg shadow-xl">
                 <p className="text-white font-medium mb-1 text-sm">{label}</p>
-                <p className="text-green-500 font-bold text-lg">{payload[0].value} accesos</p>
+                <p className="text-green-400 font-bold text-lg">{payload[0].value} acceso{payload[0].value !== 1 ? 's' : ''}</p>
             </div>
         );
     }
@@ -23,44 +23,65 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean, payload?:
 };
 
 export function MensualChart({ title, data }: MensualChartProps) {
+    const maxValue = Math.max(...data.map(d => d.value), 1);
+
     return (
         <div className="p-6 bg-neutral-800 border border-neutral-700 rounded-xl shadow-md w-full">
-            <h3 className="text-2xl font-bold mb-8 text-white">{title}</h3>
+            <h3 className="text-xl font-bold mb-6 text-white">{title}</h3>
 
-            <div style={{ width: '100%', height: '600px' }}>
-                <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
-                    <AreaChart
+            <div style={{ width: '100%', height: '350px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
                         data={data}
-                        margin={{ top: 10, right: 10, left: -20, bottom: 20 }}
+                        margin={{ top: 10, right: 10, left: -10, bottom: 5 }}
                     >
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" strokeOpacity={0.5} />
+                        <CartesianGrid
+                            strokeDasharray="3 3"
+                            vertical={false}
+                            stroke="#374151"
+                            strokeOpacity={0.4}
+                        />
 
                         <XAxis
                             dataKey="name"
-                            stroke="#9ca3af"
+                            stroke="#6b7280"
                             tickLine={false}
                             axisLine={false}
-                            interval={0}        
-                            angle={-45}          
-                            textAnchor="end"     
-                            height={60}         
+                            fontSize={11}
+                            interval={data.length > 15 ? 2 : 0}
+                            angle={data.length > 10 ? -45 : 0}
+                            textAnchor={data.length > 10 ? 'end' : 'middle'}
+                            height={data.length > 10 ? 50 : 30}
+                        />
+
+                        <YAxis
+                            stroke="#6b7280"
+                            tickLine={false}
+                            axisLine={false}
                             fontSize={12}
+                            allowDecimals={false}
+                            domain={[0, Math.max(maxValue + 1, 5)]}
                         />
 
-                        <YAxis stroke="#9ca3af" tickLine={false} axisLine={false} dx={-10} fontSize={13} />
+                        <Tooltip
+                            content={<CustomTooltip />}
+                            cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                        />
 
-                        <Tooltip content={<CustomTooltip />} cursor={{ stroke: '#525252' }} />
-
-                        <Area
-                            type="monotone"
+                        <Bar
                             dataKey="value"
-                            stroke="#15803d"
-                            strokeWidth={4}
-                            fill="#15803d"
-                            fillOpacity={0.2}
-                            activeDot={{ r: 7 }}
-                        />
-                    </AreaChart>
+                            radius={[4, 4, 0, 0]}
+                            maxBarSize={40}
+                        >
+                            {data.map((entry, index) => (
+                                <Cell
+                                    key={index}
+                                    fill={entry.value > 0 ? '#22c55e' : '#1f2937'}
+                                    fillOpacity={entry.value > 0 ? 0.85 : 0.3}
+                                />
+                            ))}
+                        </Bar>
+                    </BarChart>
                 </ResponsiveContainer>
             </div>
         </div>
