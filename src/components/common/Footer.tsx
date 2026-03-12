@@ -5,7 +5,7 @@ export default function Footer() {
     const { t } = useTranslation(); 
 
     return (
-        <footer className="p-10">
+        <footer className="p-10 relative z-20">
 
             {/* Logo a la izquierda, iconos a la derecha */}
             <div className="flex justify-between items-center mb-10">
@@ -22,13 +22,13 @@ export default function Footer() {
 
                 {/* Iconos de redes sociales */}
                 <div className="flex gap-3">
-                    <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                    <a href="#" aria-label="Facebook" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
                         <Facebook size={20} />
                     </a>
-                    <a href="https://github.com/reeeyy05/TODO_CADUCA" target="_blank" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                    <a href="https://github.com/reeeyy05/TODO_CADUCA" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
                         <Github size={20} />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
+                    <a href="#" aria-label="LinkedIn" className="w-10 h-10 bg-blue-900 hover:bg-blue-700 transition-colors rounded-full flex items-center justify-center text-white">
                         <Linkedin size={20} />
                     </a>
                 </div>

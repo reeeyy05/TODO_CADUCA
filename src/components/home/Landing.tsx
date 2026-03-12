@@ -1,11 +1,35 @@
 import { Bell, Package, DollarSign } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import Antigravity from '../animaciones/Antigravity';
 
 export default function LandingPage() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-[#2B2B2B] text-white">
+        <div className="min-h-screen bg-[#2B2B2B] text-white relative">
+            {/* Fondo animado */}
+            <div className="fixed inset-0 z-0 pointer-events-none">
+                <Antigravity
+                    count={250}
+                    color="#00D9B1"
+                    particleSize={1.5}
+                    particleShape="sphere"
+                    autoAnimate
+                    waveSpeed={0.3}
+                    waveAmplitude={0.8}
+                    lerpSpeed={0.06}
+                    magnetRadius={12}
+                    ringRadius={8}
+                    depthFactor={1.2}
+                    pulseSpeed={2}
+                    fieldStrength={8}
+                />
+            </div>
+
+            {/* Contenido por encima de la animación */}
+            <div className="relative z-10">
             {/* Hero Section */}
             <section className="container mx-auto px-4 py-20 text-center">
                 <h1 className="text-5xl md:text-6xl font-bold mb-4">
@@ -15,7 +39,7 @@ export default function LandingPage() {
                 <p className="text-gray-400 max-w-2xl mx-auto mb-8">
                     {t('landing.hero.description')}
                 </p>
-                <button className="px-8 py-3 bg-[#00D9B1] text-[#2B2B2B] rounded-full font-medium text-lg hover:bg-[#00C4A0] transition-colors">
+                <button onClick={() => navigate('/register')} className="px-8 py-3 bg-[#00D9B1] text-[#2B2B2B] rounded-full font-medium text-lg hover:bg-[#00C4A0] transition-colors">
                     {t('landing.hero.cta')}
                 </button>
             </section>
@@ -29,7 +53,7 @@ export default function LandingPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
                     {/* Card 1 */}
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg">
                         <div className="aspect-4/3 bg-blue-500" />
                         <div className="p-6">
                             <div className="w-12 h-12 bg-[#00D9B1] rounded-xl flex items-center justify-center mb-4">
@@ -41,7 +65,7 @@ export default function LandingPage() {
                     </div>
 
                     {/* Card 2 */}
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg">
                         <div className="aspect-4/3 bg-purple-500" />
                         <div className="p-6">
                             <div className="w-12 h-12 bg-[#00D9B1] rounded-xl flex items-center justify-center mb-4">
@@ -53,7 +77,7 @@ export default function LandingPage() {
                     </div>
 
                     {/* Card 3 */}
-                    <div className="bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div className="bg-white/90 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg">
                         <div className="aspect-4/3 bg-green-500" />
                         <div className="p-6">
                             <div className="w-12 h-12 bg-[#00D9B1] rounded-xl flex items-center justify-center mb-4">
@@ -67,7 +91,7 @@ export default function LandingPage() {
             </section>
 
             {/* Stats Section */}
-            <section className="bg-[#00D9B1] py-16">
+            <section className="bg-[#00D9B1]/85 backdrop-blur-sm py-16">
                 <div className="container mx-auto px-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto text-center">
                         <div>
@@ -90,10 +114,11 @@ export default function LandingPage() {
             <section className="container mx-auto px-4 py-20 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('landing.cta_final.title')}</h2>
                 <p className="text-gray-400 max-w-2xl mx-auto mb-8">{t('landing.cta_final.subtitle')}</p>
-                <button className="px-8 py-3 bg-[#00D9B1] text-[#2B2B2B] rounded-full font-medium text-lg hover:bg-[#00C4A0] transition-colors">
+                <button onClick={() => navigate('/register')} className="px-8 py-3 bg-[#00D9B1] text-[#2B2B2B] rounded-full font-medium text-lg hover:bg-[#00C4A0] transition-colors">
                     {t('landing.cta_final.button')}
                 </button>
             </section>
+            </div>
         </div>
     );
 }

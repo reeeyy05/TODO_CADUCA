@@ -11,7 +11,7 @@ export default function Header() {
     const { t } = useTranslation();
 
     return (
-        <header className="h-20 px-8 flex justify-between items-center border-b border-neutral-800">
+        <header className="h-20 px-8 flex justify-between items-center border-b border-neutral-800 relative z-20">
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
                 <img
                     src="/logo.webp"
