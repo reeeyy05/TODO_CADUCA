@@ -192,17 +192,17 @@ function ProductsPage() {
 
                 {/* Tarjetas resumen */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mt-10">
-                    <div className="bg-neutral-800 p-5 rounded-xl border border-neutral-700">
+                    <div className="bg-neutral-700 p-5 rounded-xl border border-neutral-700">
                         <div className="flex items-center gap-3 mb-2"><AlertTriangle size={20} className="text-red-400" /><h3 className="font-semibold">{t("ProductsPage.expired_title", "Caducados")}</h3></div>
                         <p className="text-3xl font-bold text-red-400">{stats.expired}</p>
                         <p className="text-sm text-neutral-400 mt-1">{t("ProductsPage.expired_desc", "Productos vencidos")}</p>
                     </div>
-                    <div className="bg-neutral-800 p-5 rounded-xl border border-neutral-700">
+                    <div className="bg-neutral-700 p-5 rounded-xl border border-neutral-700">
                         <div className="flex items-center gap-3 mb-2"><Clock size={20} className="text-yellow-300" /><h3 className="font-semibold">{t("ProductsPage.expiring_title", "Por caducar")}</h3></div>
                         <p className="text-3xl font-bold text-yellow-300">{stats.expiringSoon}</p>
                         <p className="text-sm text-neutral-400 mt-1">{t("ProductsPage.expiring_desc", "En los próximos 3 días")}</p>
                     </div>
-                    <div className="bg-neutral-800 p-5 rounded-xl border border-neutral-700">
+                    <div className="bg-neutral-700 p-5 rounded-xl border border-neutral-700">
                         <div className="flex items-center gap-3 mb-2"><Package size={20} className="text-green-400" /><h3 className="font-semibold">{t("ProductsPage.total_title", "Total")}</h3></div>
                         <p className="text-3xl font-bold text-green-400">{stats.total}</p>
                         <p className="text-sm text-neutral-400 mt-1">{t("ProductsPage.total_desc", "Productos en inventario")}</p>
