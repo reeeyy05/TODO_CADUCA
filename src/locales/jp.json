@@ -1,0 +1,239 @@
+{
+  "welcome": "ようこそ {{user}} さん",
+  "actions": {
+    "save": "保存",
+    "cancel": "キャンセル"
+  },
+  "header": {
+    "myProducts": "マイプロダクト",
+    "profile": "プロフィール",
+    "register": "新規登録",
+    "login": "ログイン",
+    "admin": "管理者パネル"
+  },
+  "footer": {
+    "subtitle": "食品を管理して、地球を守ろう",
+    "rights": "© 2026 Todo Caduca. All rights reserved."
+  },
+  "landing": {
+    "hero": {
+      "title": "もう二度と",
+      "highlight": "食べ物",
+      "description": "Todo Caducaは食品の賞味期限を管理し、期限が切れる前に通知を送ることで、家庭での食品ロス削減をサポートします。",
+      "cta": "無料で始める"
+    },
+    "howItWorks": {
+      "title": "使い方は？",
+      "subtitle": "賢くパントリーを管理して、節約しながら地球環境に貢献しましょう",
+      "cards": {
+        "alerts": {
+          "title": "通知を受け取る",
+          "text": "食品の期限が近づくと通知が届くので、期限内に消費できます"
+        },
+        "inventory": {
+          "title": "在庫を整理",
+          "text": "すべての食品をカテゴリーや期限別にデジタル管理できます"
+        },
+        "savings": {
+          "title": "お金を節約",
+          "text": "食品を捨てるのをやめ、期限前に賢く使い切ることで節約につながります"
+        }
+      }
+    },
+    "stats": {
+      "users": "アクティブユーザー",
+      "products": "登録製品数",
+      "reduction": "廃棄削減量"
+    },
+    "cta_final": {
+      "title": "食品ロス削減革命に参加しよう",
+      "subtitle": "今すぐTodo-Caducaをダウンロードして、スマートな食品管理を始めましょう",
+      "button": "今すぐ開始 - 無料です！"
+    }
+  },
+  "Profile": {
+    "title": "マイプロフィール",
+    "subtitle": "個人情報とアカウント設定の管理",
+    "login_to_see": "プロフィールを表示するにはログインしてください",
+    "default_name": "ユーザー",
+    "edit_name": "名前を編集",
+    "saving": "保存中...",
+    "sending": "送信中...",
+    "recover_password": "パスワードを再設定",
+    "logout": "ログアウト",
+    "avatar_change": "変更",
+    "avatar_change_title": "クリックしてアバターを変更",
+    "avatar_alt": "アバター",
+    "avatar_upload_aria": "アバターをアップロード",
+    "avatar_only_image": "画像ファイルのみ許可されています",
+    "avatar_max_size": "画像サイズは2MB以内にする必要があります",
+    "avatar_updated": "アバターを更新しました",
+    "name_updated": "名前を更新しました",
+    "recovery_success": "{{email}} に再設定用のメールを送信しました",
+    "membership_info_label": "会員情報",
+    "membership_info": "{{name}} さんは {{date}} から利用しています"
+  },
+  "register": {
+    "title": "アカウント作成",
+    "subtitle": "登録して製品管理を始めましょう",
+    "form": {
+      "full_name": "氏名",
+      "full_name_placeholder": "フルネームを入力してください",
+      "email": "メールアドレス",
+      "email_placeholder": "メールアドレスを入力してください",
+      "password": "パスワード",
+      "password_placeholder": "8文字以上の英数字",
+      "password_confirm": "パスワード（確認用）",
+      "password_confirm_placeholder": "もう一度パスワードを入力してください"
+    },
+    "buttons": {
+      "submit": "確定",
+      "submitting": "登録中...",
+      "cancel": "キャンセル"
+    },
+    "messages": {
+      "success": "✅ 登録が完了しました。",
+      "check_email": "✅ メールを確認してアカウントを有効化してください。",
+      "error": "❌ エラー: {{message}}"
+    },
+    "errors": {
+      "passwords_not_match": "パスワードが一致しません",
+      "email_taken": "このメールアドレスは既に登録されています",
+      "invalid_name": "名前は3文字以上である必要があります",
+      "invalid_email": "無効なメールアドレスです",
+      "invalid_password": "パスワードは8文字以上の英数字である必要があります"
+    },
+    "footer": {
+      "data_protected": "データは暗号化され保護されています"
+    }
+  },
+  "login": {
+    "title": "ログイン",
+    "subtitle": "アカウントにアクセス",
+    "form": {
+      "email": "メールアドレス",
+      "email_placeholder": "your@email.com",
+      "password": "パスワード",
+      "password_placeholder": "パスワード"
+    },
+    "buttons": {
+      "submit": "ログイン",
+      "submitting": "ログイン中..."
+    },
+    "forgot_password": "パスワードをお忘れですか？",
+    "no_account": "アカウントをお持ちでないですか？",
+    "register_link": "こちらから新規登録"
+  },
+  "Login": {
+    "title": "ログイン",
+    "subtitle": "システムにアクセスするための情報を入力してください",
+    "recovery_title": "パスワード再設定",
+    "recovery_subtitle": "再設定用リンクを受け取るためのメールアドレスを入力してください",
+    "email_label": "メールアドレス",
+    "email_placeholder": "メールアドレスを入力",
+    "password_label": "パスワード",
+    "password_placeholder": "パスワードを入力",
+    "btn_accept": "確定",
+    "btn_loading": "ログイン中...",
+    "btn_cancel": "キャンセル",
+    "btn_forgot": "パスワードをお忘れですか？",
+    "btn_recovery_send": "再設定メールを送信",
+    "btn_recovery_loading": "送信中...",
+    "btn_back_login": "ログインに戻る",
+    "security_note": "データはSSL暗号化で保護されています",
+    "messages": {
+      "error_auth": "❌ 認証に失敗しました: {{message}}",
+      "recovery_success": "✅ 再設定メールを送信しました。受信トレイを確認してください。",
+      "recovery_error": "❌ {{message}}"
+    }
+  },
+  "FormResetPassword": {},
+  "admin": {
+    "title": "管理パネル",
+    "subtitle": "ユーザー管理およびアプリの統計",
+    "loading": "データを読み込み中...",
+    "confirmDelete": "このユーザーを削除してもよろしいですか？この操作は取り消せません。",
+    "viewCharts": "グラフを表示",
+    "hideCharts": "グラフを非表示",
+    "charts": {
+      "accessTitle": "ユーザーアクセス数（過去7日間）",
+      "placeholder": "その他のグラフ（例：カテゴリー別製品数）"
+    },
+    "chart": {
+      "title": "過去30日間のアクセスアクティビティ"
+    },
+    "stats": {
+      "totalUsers": "登録ユーザー数",
+      "totalProducts": "総製品数",
+      "expiredProducts": "期限切れ製品",
+      "activeProducts": "有効な製品"
+    },
+    "roles": {
+      "admin": "管理者",
+      "user": "ユーザー"
+    },
+    "usersTable": {
+      "title": "登録ユーザー一覧",
+      "searchPlaceholder": "名前、メール、またはロールで検索...",
+      "avatar": "",
+      "name": "名前",
+      "email": "メールアドレス",
+      "role": "ロール",
+      "products": "製品数",
+      "expired": "期限切れ",
+      "registered": "登録日",
+      "actions": "操作",
+      "edit": "名前を編集",
+      "delete": "ユーザーを削除",
+      "you": "あなた",
+      "noResults": "ユーザーが見つかりませんでした。"
+    }
+  },
+  "ProductsPage": {
+    "title": "マイプロダクト",
+    "subtitle": "製品と賞味期限を管理します。",
+    "add": "製品を追加",
+    "search_placeholder": "名前で検索...",
+    "all_categories": "すべてのカテゴリー",
+    "close_error": "✕",
+    "no_products": "まだ製品がありません。最初の一つを追加しましょう！",
+    "no_results": "フィルターに一致する製品が見つかりませんでした。",
+    "add_first": "最初の製品を追加する",
+    "expired_title": "期限切れ",
+    "expired_desc": "期限を過ぎた製品",
+    "expiring_title": "期限間近",
+    "expiring_desc": "3日以内に切れるもの",
+    "total_title": "合計",
+    "total_desc": "在庫内の製品数"
+  },
+  "AddProductPage": {
+    "back": "製品一覧に戻る",
+    "title": "製品を追加",
+    "subtitle": "在庫に新しい製品を登録します。",
+    "form": {
+      "name": "製品名",
+      "name_placeholder": "例：牛乳",
+      "category": "カテゴリー",
+      "category_placeholder": "カテゴリーを選択",
+      "quantity": "数量",
+      "expiry": "賞味期限"
+    },
+    "loading_categories": "カテゴリーを読み込み中...",
+    "buttons": {
+      "submit": "製品を追加",
+      "submitting": "保存中...",
+      "cancel": "キャンセル"
+    },
+    "errors": {
+      "name_required": "製品名を入力してください。",
+      "category_required": "カテゴリーを選択してください。",
+      "expiry_required": "賞味期限を選択してください。",
+      "quantity_min": "数量は1以上にしてください。",
+      "no_session": "セッションが切れました。再度ログインしてください。",
+      "no_permission": "製品を作成する権限がありません。SupabaseのRLSポリシーを確認してください。",
+      "create_failed": "製品の作成に失敗しました: {{message}}",
+      "save_failed": "在庫への保存に失敗しました。",
+      "unexpected": "予期せぬエラーが発生しました。もう一度お試しください。"
+    }
+  }
+}

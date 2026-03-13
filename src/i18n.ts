@@ -4,12 +4,16 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import es from './locales/es.json';
 import en from './locales/en.json';
+import fr from './locales/fr.json';
+import jp from './locales/jp.json';
 
 // Definimos los recursos
 export const defaultNS = 'translation';
 export const resources = {
   es: { translation: es },
   en: { translation: en },
+  fr: { translation: fr },
+  jp: { translation: jp },
 } as const; // <--- 'as const' para el tipado estricto
 
 i18n

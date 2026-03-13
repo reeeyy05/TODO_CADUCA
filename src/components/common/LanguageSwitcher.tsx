@@ -50,7 +50,28 @@ export const LanguageSwitcher = () => {
             <span>English</span>
             {currentLang === 'en' && <Check size={16} />}
           </button>
-
+          
+          {/* Opción: Francés */}
+          <button
+            onClick={() => changeLanguage('fr')}
+            className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-gray-50
+              ${currentLang === 'en' ? 'text-blue-600 font-medium' : 'text-gray-700'}
+            `}
+          >
+            <span>France</span>
+            {currentLang === 'fr' && <Check size={16} />}
+          </button>
+          
+          {/* Opción: Japanese */}
+          <button
+            onClick={() => changeLanguage('jp')}
+            className={`w-full text-left px-4 py-2 text-sm flex items-center justify-between hover:bg-gray-50
+              ${currentLang === 'jp' ? 'text-blue-600 font-medium' : 'text-gray-700'}
+            `}
+          >
+            <span>Japanese</span>
+            {currentLang === 'jp' && <Check size={16} />}
+          </button>
         </div>
       )}
       

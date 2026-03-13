@@ -1,0 +1,239 @@
+{
+  "welcome": "Bienvenue {{user}}",
+  "actions": {
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  },
+  "header": {
+    "myProducts": "Mes Produits",
+    "profile": "Profil",
+    "register": "S'inscrire",
+    "login": "Connexion",
+    "admin": "Panel Admin"
+  },
+  "footer": {
+    "subtitle": "Gérez vos aliments, prenez soin de la planète",
+    "rights": "© 2026 Todo Caduca. Tous droits réservés."
+  },
+  "landing": {
+    "hero": {
+      "title": "Ne gaspillez plus",
+      "highlight": "nourriture",
+      "description": "Todo Caduca vous aide à suivre les dates d'expiration, à recevoir des notifications avant que les produits ne périment et à réduire le gaspillage alimentaire chez vous.",
+      "cta": "Commencer gratuitement"
+    },
+    "howItWorks": {
+      "title": "Comment ça marche ?",
+      "subtitle": "Gérez votre garde-manger intelligemment et économisez de l'argent tout en protégeant la planète",
+      "cards": {
+        "alerts": {
+          "title": "Recevez des alertes",
+          "text": "Nous vous informons quand vos aliments sont sur le point d'expirer pour que vous puissiez les consommer à temps"
+        },
+        "inventory": {
+          "title": "Organisez votre cellier",
+          "text": "Gardez un inventaire numérique de tous vos aliments, triés par catégorie et date d'expiration"
+        },
+        "savings": {
+          "title": "Économisez de l'argent",
+          "text": "Arrêtez de jeter de la nourriture et faites des économies en profitant de vos produits avant qu'ils ne périment"
+        }
+      }
+    },
+    "stats": {
+      "users": "Utilisateurs actifs",
+      "products": "Produits enregistrés",
+      "reduction": "Réduction du gaspillage"
+    },
+    "cta_final": {
+      "title": "Rejoignez la révolution contre le gaspillage",
+      "subtitle": "Téléchargez Todo Caduca dès aujourd'hui et commencez à gérer vos aliments intelligemment",
+      "button": "Commencer maintenant - C'est gratuit !"
+    }
+  },
+  "Profile": {
+    "title": "Mon Profil",
+    "subtitle": "Gérez vos informations personnelles et vos préférences de compte",
+    "login_to_see": "Connectez-vous pour voir votre profil",
+    "default_name": "Utilisateur",
+    "edit_name": "Modifier le nom",
+    "saving": "Enregistrement...",
+    "sending": "Envoi en cours...",
+    "recover_password": "Récupérer le mot de passe",
+    "logout": "Déconnexion",
+    "avatar_change": "Changer",
+    "avatar_change_title": "Cliquez pour changer votre avatar",
+    "avatar_alt": "Avatar",
+    "avatar_upload_aria": "Télécharger un avatar",
+    "avatar_only_image": "Seuls les fichiers image sont autorisés",
+    "avatar_max_size": "L'image ne peut pas dépasser 2 Mo",
+    "avatar_updated": "Avatar mis à jour avec succès",
+    "name_updated": "Nom mis à jour avec succès",
+    "recovery_success": "Un e-mail de récupération a été envoyé à {{email}}",
+    "membership_info_label": "Informations de membre",
+    "membership_info": "{{name}} est membre depuis le {{date}}"
+  },
+  "register": {
+    "title": "Créez votre compte",
+    "subtitle": "Inscrivez-vous pour commencer à gérer vos produits",
+    "form": {
+      "full_name": "Nom complet",
+      "full_name_placeholder": "Entrez votre nom complet",
+      "email": "Adresse e-mail",
+      "email_placeholder": "Entrez votre adresse e-mail",
+      "password": "Mot de passe",
+      "password_placeholder": "Minimum 8 caractères, lettres et chiffres",
+      "password_confirm": "Répéter le mot de passe",
+      "password_confirm_placeholder": "Répétez votre mot de passe"
+    },
+    "buttons": {
+      "submit": "Accepter",
+      "submitting": "Inscription...",
+      "cancel": "Annuler"
+    },
+    "messages": {
+      "success": "✅ Inscription réussie.",
+      "check_email": "✅ Vérifiez votre boîte mail pour confirmer votre compte.",
+      "error": "❌ Erreur : {{message}}"
+    },
+    "errors": {
+      "passwords_not_match": "Les mots de passe ne correspondent pas",
+      "email_taken": "Cette adresse e-mail est déjà enregistrée",
+      "invalid_name": "Le nom doit comporter au moins 3 caractères",
+      "invalid_email": "Adresse e-mail invalide",
+      "invalid_password": "Le mot de passe doit comporter au moins 8 caractères et inclure des lettres et des chiffres"
+    },
+    "footer": {
+      "data_protected": "Vos données sont protégées et cryptées"
+    }
+  },
+  "login": {
+    "title": "Se connecter",
+    "subtitle": "Accédez à votre compte",
+    "form": {
+      "email": "Adresse e-mail",
+      "email_placeholder": "votre@email.com",
+      "password": "Mot de passe",
+      "password_placeholder": "Votre mot de passe"
+    },
+    "buttons": {
+      "submit": "Se connecter",
+      "submitting": "Connexion en cours..."
+    },
+    "forgot_password": "Mot de passe oublié ?",
+    "no_account": "Vous n'avez pas de compte ?",
+    "register_link": "Inscrivez-vous ici"
+  },
+  "Login": {
+    "title": "Connexion",
+    "subtitle": "Entrez vos identifiants pour accéder au système",
+    "recovery_title": "Récupérer le mot de passe",
+    "recovery_subtitle": "Entrez votre adresse e-mail pour recevoir un lien de récupération",
+    "email_label": "Adresse e-mail",
+    "email_placeholder": "Entrez votre e-mail",
+    "password_label": "Mot de passe",
+    "password_placeholder": "Entrez votre mot de passe",
+    "btn_accept": "Se connecter",
+    "btn_loading": "Connexion...",
+    "btn_cancel": "Annuler",
+    "btn_forgot": "Mot de passe oublié ?",
+    "btn_recovery_send": "Envoyer l'e-mail de récupération",
+    "btn_recovery_loading": "Envoi...",
+    "btn_back_login": "Retour à la connexion",
+    "security_note": "Vos données sont protégées par un cryptage SSL",
+    "messages": {
+      "error_auth": "❌ Identifiants incorrects ou erreur : {{message}}",
+      "recovery_success": "✅ Un e-mail de récupération a été envoyé. Vérifiez votre boîte de réception.",
+      "recovery_error": "❌ {{message}}"
+    }
+  },
+  "FormResetPassword": {},
+  "admin": {
+    "title": "Tableau de bord Admin",
+    "subtitle": "Gestion des utilisateurs et statistiques de l'application",
+    "loading": "Chargement des données...",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.",
+    "viewCharts": "Voir les graphiques",
+    "hideCharts": "Masquer les graphiques",
+    "charts": {
+      "accessTitle": "Connexions utilisateurs (7 derniers jours)",
+      "placeholder": "Espace pour un autre graphique (ex: Produits par catégorie)"
+    },
+    "chart": {
+      "title": "Activité de connexion sur les 30 derniers jours"
+    },
+    "stats": {
+      "totalUsers": "Utilisateurs enregistrés",
+      "totalProducts": "Total des produits",
+      "expiredProducts": "Produits périmés",
+      "activeProducts": "Produits actifs"
+    },
+    "roles": {
+      "admin": "Administrateur",
+      "user": "Utilisateur"
+    },
+    "usersTable": {
+      "title": "Utilisateurs enregistrés",
+      "searchPlaceholder": "Chercher par nom, e-mail ou rôle...",
+      "avatar": "",
+      "name": "Nom",
+      "email": "E-mail",
+      "role": "Rôle",
+      "products": "Produits",
+      "expired": "Périmés",
+      "registered": "Inscrit le",
+      "actions": "Actions",
+      "edit": "Modifier le nom",
+      "delete": "Supprimer l'utilisateur",
+      "you": "Vous",
+      "noResults": "Aucun utilisateur trouvé."
+    }
+  },
+  "ProductsPage": {
+    "title": "Mes Produits",
+    "subtitle": "Gérez vos produits et les dates d'expiration.",
+    "add": "Ajouter un produit",
+    "search_placeholder": "Chercher par nom...",
+    "all_categories": "Toutes les catégories",
+    "close_error": "✕",
+    "no_products": "Vous n'avez pas encore de produits. Ajoutez-en un pour commencer !",
+    "no_results": "Aucun produit trouvé avec ce filtre.",
+    "add_first": "Ajouter mon premier produit",
+    "expired_title": "Périmé",
+    "expired_desc": "Produits périmés",
+    "expiring_title": "Expire bientôt",
+    "expiring_desc": "Dans les 3 prochains jours",
+    "total_title": "Total",
+    "total_desc": "Produits en inventaire"
+  },
+  "AddProductPage": {
+    "back": "Retour à mes produits",
+    "title": "Ajouter un produit",
+    "subtitle": "Enregistrez un nouveau produit dans votre inventaire.",
+    "form": {
+      "name": "Nom du produit",
+      "name_placeholder": "Ex: Lait entier",
+      "category": "Catégorie",
+      "category_placeholder": "Sélectionnez une catégorie",
+      "quantity": "Quantité",
+      "expiry": "Date d'expiration"
+    },
+    "loading_categories": "Chargement des catégories...",
+    "buttons": {
+      "submit": "Ajouter le produit",
+      "submitting": "Enregistrement...",
+      "cancel": "Annuler"
+    },
+    "errors": {
+      "name_required": "Entrez le nom du produit.",
+      "category_required": "Sélectionnez une catégorie.",
+      "expiry_required": "Sélectionnez la date d'expiration.",
+      "quantity_min": "La quantité minimale est de 1.",
+      "no_session": "Aucune session active. Veuillez vous reconnecter.",
+      "no_permission": "Permission refusée pour créer des produits. Vérifiez les politiques RLS.",
+      "create_failed": "Erreur lors de la création du produit : {{message}}",
+      "save_failed": "Erreur lors de l'enregistrement du produit dans votre inventaire.",
+      "unexpected": "Une erreur inattendue est survenue. Veuillez réessayer."
+    }
+  }
+}
