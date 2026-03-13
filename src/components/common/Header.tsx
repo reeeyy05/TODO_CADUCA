@@ -47,20 +47,31 @@ export default function Header() {
                         </button>
                     </div>
                 ) : (
-                    /* Botón de Perfil cuando está logueado */
-                    <button
-                        className="flex items-center gap-2 bg-green-600 text-white px-3 py-2 rounded-xl font-bold shrink-0 transition-all hover:bg-green-700"
-                        onClick={() => navigate("/profile")}
-                    >
-                        <div className="w-6 h-6 rounded-full bg-green-800 flex items-center justify-center text-xs overflow-hidden">
-                            {perfil?.avatar_url ? (
-                                <img src={perfil.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
-                            ) : (
-                                (perfil?.nombre_completo || 'U').charAt(0).toUpperCase()
-                            )}
-                        </div>
-                        <span className="hidden md:inline text-sm">{perfil?.nombre_completo?.split(' ')[0]}</span>
-                    </button>
+                    /* Botones cuando está logueado */
+                    <div className="flex items-center gap-2">
+                        {perfil?.rol === 'admin' && (
+                            <button
+                                className="hidden sm:flex items-center gap-2 bg-amber-600 text-white px-3 py-2 rounded-xl font-bold shrink-0 transition-all hover:bg-amber-700"
+                                onClick={() => navigate("/admin")}
+                            >
+                                <ShieldCheck size={18} />
+                                <span className="hidden md:inline text-sm">{t('header.admin')}</span>
+                            </button>
+                        )}
+                        <button
+                            className="flex items-center gap-2 bg-green-600 text-white px-3 py-2 rounded-xl font-bold shrink-0 transition-all hover:bg-green-700"
+                            onClick={() => navigate("/profile")}
+                        >
+                            <div className="w-6 h-6 rounded-full bg-green-800 flex items-center justify-center text-xs overflow-hidden">
+                                {perfil?.avatar_url ? (
+                                    <img src={perfil.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                                ) : (
+                                    (perfil?.nombre_completo || 'U').charAt(0).toUpperCase()
+                                )}
+                            </div>
+                            <span className="hidden md:inline text-sm">{perfil?.nombre_completo?.split(' ')[0]}</span>
+                        </button>
+                    </div>
                 )}
 
                 {/* SELECTORES DESKTOP: Se ven a partir de 640px (sm) */}
