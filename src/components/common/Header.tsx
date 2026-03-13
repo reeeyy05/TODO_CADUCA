@@ -59,6 +59,13 @@ export default function Header() {
                             </button>
                         )}
                         <button
+                            className="hidden sm:flex items-center gap-2 bg-neutral-700 text-white px-3 py-2 rounded-xl font-bold shrink-0 transition-all hover:bg-neutral-600"
+                            onClick={() => navigate("/products")}
+                        >
+                            <Package size={18} />
+                            <span className="hidden md:inline text-sm">{t('header.myProducts')}</span>
+                        </button>
+                        <button
                             className="flex items-center gap-2 bg-green-600 text-white px-3 py-2 rounded-xl font-bold shrink-0 transition-all hover:bg-green-700"
                             onClick={() => navigate("/profile")}
                         >
