@@ -33,7 +33,8 @@ const ProductCard = ({ item, deletingId, onMarkConsumed, onDelete, imageUrl }: P
                 <img
                     src={imageUrl}
                     alt={item.producto?.nombre ?? "Producto"}
-                    className="w-full h-32 object-cover rounded-md mb-4"
+                    loading="lazy"
+                    className="w-full h-48 object-cover"
                 />
 
                 {/* Cabecera */}

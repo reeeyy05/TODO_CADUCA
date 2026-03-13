@@ -8,9 +8,11 @@ import LoginForm from './components/forms/LoginForm';
 import ProfilePage from './pages/ProfilePage';
 import AddProductPage from "./pages/AddProductPage";
 import ProductsPage from "./pages/ProductsPage";
-import AdminPage from "./pages/AdminPage";
 import { useAuthStore } from "./store/authStore";
+import { Suspense, lazy } from 'react';
 
+
+const AdminPage = lazy(() => import('./pages/AdminPage'));
 /** Ruta que solo pueden ver usuarios NO autenticados */
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
@@ -51,24 +53,26 @@ function App() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1 flex flex-col w-full">
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
+          <Suspense fallback={<div className="text-white p-10 text-center">Cargando aplicación...</div>}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
 
-            {/* Rutas públicas: solo visibles sin sesión */}
-            <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
-            <Route path="/login" element={<PublicRoute><LoginForm /></PublicRoute>} />
+              {/* Rutas públicas: solo visibles sin sesión */}
+              <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+              <Route path="/login" element={<PublicRoute><LoginForm /></PublicRoute>} />
 
-            {/* Rutas privadas: solo visibles con sesión */}
-            <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
-            <Route path="/products" element={<PrivateRoute><ProductsPage /></PrivateRoute>} />
-            <Route path="/addProducts" element={<PrivateRoute><AddProductPage /></PrivateRoute>} />
+              {/* Rutas privadas: solo visibles con sesión */}
+              <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+              <Route path="/products" element={<PrivateRoute><ProductsPage /></PrivateRoute>} />
+              <Route path="/addProducts" element={<PrivateRoute><AddProductPage /></PrivateRoute>} />
 
-            {/* Ruta exclusiva para administradores */}
-            <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
+              {/* Ruta exclusiva para administradores */}
+              <Route path="/admin" element={<AdminRoute><AdminPage /></AdminRoute>} />
 
-            {/* Cualquier otra ruta redirige al inicio */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+              {/* Cualquier otra ruta redirige al inicio */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

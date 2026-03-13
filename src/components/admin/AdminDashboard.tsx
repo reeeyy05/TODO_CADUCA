@@ -64,12 +64,12 @@ export default function AdminDashboard() {
       for (let i = 29; i >= 0; i--) {
         const fecha = new Date();
         fecha.setDate(fecha.getDate() - i);
-        const fechaISO = fecha.toISOString().split('T')[0]; 
+        const fechaISO = fecha.toISOString().split('T')[0];
 
         diasDelMes.push({
-          name: `Día ${fecha.getDate()}`, 
+          name: `Día ${fecha.getDate()}`,
           value: 0,
-          _fechaReal: fechaISO 
+          _fechaReal: fechaISO
         } as any);
       }
 
@@ -195,7 +195,7 @@ export default function AdminDashboard() {
       ) : (
         <>
           {showCharts ? (
-            <div className="animate-fade-in w-full mb-8">
+            <div style={{ height: '600px', width: '100%' }}>
               {/* Renderizamos tu MensualChart pasándole el chartData completo */}
               <MensualChart
                 title={t('admin.chart.title')}
