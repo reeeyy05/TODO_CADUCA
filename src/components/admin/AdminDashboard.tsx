@@ -163,21 +163,21 @@ export default function AdminDashboard() {
         </div>
 
         <button
-          onClick={() => setShowCharts(!showCharts)}
-          className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white border border-neutral-700 hover:bg-neutral-700 rounded-lg transition-colors font-medium shadow-sm"
-        >
-          {showCharts ? (
-            <>
-              <LayoutDashboard size={18} />
-              Volver al Tablero
-            </>
-          ) : (
-            <>
-              <BarChart3 size={18} />
-              Ver Gráficas
-            </>
-          )}
-        </button>
+  onClick={() => setShowCharts(!showCharts)}
+  className="flex items-center gap-2 px-4 py-2 bg-neutral-800 text-white border border-neutral-700 hover:bg-neutral-700 rounded-lg transition-colors font-medium shadow-sm"
+>
+  {showCharts ? (
+    <>
+      <LayoutDashboard size={18} />
+      <span>{t('admin.backToDashboard')}</span>
+    </>
+  ) : (
+    <>
+      <BarChart3 size={18} />
+      <span>{t('admin.viewCharts')}</span>
+    </>
+  )}
+</button>
       </div>
 
       {error && (

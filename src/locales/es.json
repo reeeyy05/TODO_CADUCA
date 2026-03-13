@@ -148,13 +148,14 @@
     }
   },
   "FormResetPassword": {},
-  "admin": {
+ "admin": {
     "title": "Panel de Administración",
     "subtitle": "Gestión de usuarios y estadísticas de la aplicación",
     "loading": "Cargando datos...",
     "confirmDelete": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.",
     "viewCharts": "Ver gráficas",
-    "hideCharts": "Ocultar gráficas",
+    "hideCharts": "Volver al Tablero", 
+    "backToDashboard": "Volver al Tablero",
     "charts": {
       "accessTitle": "Accesos de usuarios (Últimos 7 días)",
       "placeholder": "Espacio para otra gráfica (Ej: Productos por categoría)"
@@ -235,5 +236,6 @@
       "save_failed": "Error al guardar el producto en tu inventario.",
       "unexpected": "Error inesperado. Inténtalo de nuevo."
     }
-  }
 }
+}
+  

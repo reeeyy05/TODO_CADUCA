@@ -154,9 +154,10 @@
     "loading": "Chargement des données...",
     "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.",
     "viewCharts": "Voir les graphiques",
-    "hideCharts": "Masquer les graphiques",
+    "hideCharts": "Retour au tableau de bord",
+    "backToDashboard": "Retour au tableau de bord",
     "charts": {
-      "accessTitle": "Connexions utilisateurs (7 derniers jours)",
+      "accessTitle": "Connexions utilisateurs (30 derniers jours)",
       "placeholder": "Espace pour un autre graphique (ex: Produits par catégorie)"
     },
     "chart": {
