@@ -96,7 +96,6 @@ html.light .profile-container {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
   color: #FFFFFF;
   font-size: 0.85rem;
   font-weight: 600;
