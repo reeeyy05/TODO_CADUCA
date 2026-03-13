@@ -123,13 +123,13 @@ const Profile: React.FC = () => {
   return (
     <div className="profile-container">
       <main className="profile-main">
-        <div className="title-group">
+        <div className="info-header" style={{ marginBottom: '2rem' }}>
           <h2>{t("Profile.title", "Mi Perfil")}</h2>
           <p>{t("Profile.subtitle", "Gestiona tu información personal y preferencias de cuenta")}</p>
         </div>
 
-        {successMessage && <div className="message-box success-message">{successMessage}</div>}
-        {error && <div className="message-box error-message">{error}</div>}
+        {successMessage && <div className="message success">{successMessage}</div>}
+        {error && <div className="message error">{error}</div>}
 
         <section className="profile-card">
           <div className="avatar-section">
@@ -145,7 +145,7 @@ const Profile: React.FC = () => {
                   className="avatar-img"
                 />
               ) : (
-                <svg fill="currentColor" viewBox="0 0 20 20">
+                <svg fill="currentColor" viewBox="0 0 20 20" style={{ width: '50%', color: 'var(--profile-muted)' }}>
                   <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                 </svg>
               )}
@@ -171,30 +171,29 @@ const Profile: React.FC = () => {
               <div className="input-field">
                 <label>{t("register.form.full_name", "Nombre")}</label>
                 {isEditing ? (
-                  <div className="edit-form">
+                  <div className="edit-form" style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     <input
                       type="text"
-                      className="data-input"
                       value={tempName}
                       onChange={(e) => setTempName(e.target.value)}
                       disabled={isLoading}
                       autoFocus
                       placeholder={t("register.form.full_name_placeholder", "Introduce tu nombre")}
-                      style={{ backgroundColor: 'var(--bg-input)', color: 'var(--text-main)', border: '1px solid var(--border-color)', padding: '0.75rem', borderRadius: '0.5rem' }}
+                      style={{ flex: '1', minWidth: '150px' }}
                     />
                     <button
-                      className="save-small-btn"
+                      className="btn btn-primary"
                       onClick={handleSaveName}
                       disabled={isLoading}
-                      style={{ backgroundColor: 'var(--primary-green)', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
+                      style={{ padding: '0.5rem 1rem' }}
                     >
                       {isLoading ? t("Profile.saving", "Guardando...") : t("actions.save", "Guardar")}
                     </button>
                     <button
-                      className="cancel-small-btn"
+                      className="btn btn-secondary"
                       onClick={() => { setIsEditing(false); setTempName(nombre); }}
                       disabled={isLoading}
-                      style={{ backgroundColor: '#4b5563', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '0.5rem', marginTop: '0.5rem', cursor: 'pointer' }}
+                      style={{ padding: '0.5rem 1rem' }}
                     >
                       {t("actions.cancel", "Cancelar")}
                     </button>
@@ -212,10 +211,11 @@ const Profile: React.FC = () => {
               </div>
             </div>
 
-            <div className="action-row" style={{ color: 'white', display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            {/* Aquí estaba el error de style={{ color: 'white' }} - ¡Arreglado! */}
+            <div className="actions-group">
               {!isEditing && (
                 <button
-                  className="save-btn"
+                  className="btn btn-secondary"
                   onClick={() => setIsEditing(true)}
                   disabled={isLoading}
                 >
@@ -223,7 +223,7 @@ const Profile: React.FC = () => {
                 </button>
               )}
               <button
-                className="save-btn"
+                className="btn btn-secondary"
                 onClick={handlePasswordRecovery}
                 disabled={isLoading}
               >
@@ -232,7 +232,8 @@ const Profile: React.FC = () => {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full bg-red-700 py-2 rounded-lg text-white font-medium hover:bg-red-800 transition"
+                className="btn"
+                style={{ backgroundColor: '#b91c1c', color: 'white', border: 'none' }}
               >
                 {t("Profile.logout", "Cerrar Sesión")}
               </button>

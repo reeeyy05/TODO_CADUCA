@@ -2,7 +2,7 @@
 @import "./admin.css";
 
 @theme {
-  /* PALETA DE COLORES INTACTA */
+  /* PALETA DE COLORES */
   --color-neutral-950: #0A0A0A;
   --color-neutral-900: #171717;
   --color-neutral-800: #262626;
@@ -69,11 +69,11 @@
 /* ===================== */
 :root {
   /* MODO OSCURO POR DEFECTO PARA EL BODY */
-  --site-bg: var(--color-neutral-950);
+  --site-bg: var(--color-neutral-900);
   --site-text: var(--color-neutral-50);
 
   /* HEADER Y FOOTER FIJOS (Nunca cambian) */
-  --header-footer-bg: var(--color-neutral-900);
+  --header-footer-bg: var(--color-neutral-950);
   --header-footer-text: var(--color-neutral-50);
 
   /* UNIFICACIÓN DE VERDE */
@@ -91,95 +91,174 @@
   --font-size-xl: 1.5rem;
 }
 
-/* ==================================== */
-/* ADAPTACIÓN AL MODO CLARO             */
-/* ==================================== */
+/* ======================================================= */
+/* LÓGICA DE TEMAS GLOBALES (MODO CLARO)                   */
+/* ======================================================= */
 
-/* Fondo general de la app (gris claro muy suave) */
 html[data-theme='light'],
 html.light {
+  /* Fondo general gris claro, NO blanco total (#E5E5E5) */
   --site-bg: var(--color-neutral-100);
   --site-text: var(--color-neutral-900);
 }
 
-/* Limpieza de clases estáticas de Tailwind del contenedor principal */
 html[data-theme='light'] body,
 html[data-theme='light'] .min-h-screen,
-html[data-theme='light'] main {
+html.light body,
+html.light .min-h-screen {
   background-color: var(--site-bg) !important;
   color: var(--site-text) !important;
 }
 
-/* 1. INPUTS Y SELECTS (Filtros y Buscador) a blanco */
-html[data-theme='light'] input,
-html[data-theme='light'] select,
-html.light input,
-html.light select {
-  /* background-color: #FFFFFF !important;  */
+/* ========================================================================= */
+/* PROTECCIÓN DE AUTH (LOGIN/REGISTRO) Y FIX DE AUTOCOMPLETADO NAVEGADOR     */
+/* ========================================================================= */
+
+/* 1. BLINDAJE: Los formularios están en tarjetas claras (#D9D9D9).
+   Forzamos que sus labels, inputs y botón de cancelar contrasten perfectamente. */
+
+section.bg-neutral-800 form label {
+  color: #171717 !important; /* Letra oscura para contraste perfecto */
+  font-weight: 600 !important;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+section.bg-neutral-800 form input {
+  background-color: #FFFFFF !important;
+  color: #171717 !important;
+  border: 1px solid #A1A1A1 !important;
+}
+
+section.bg-neutral-800 form input::placeholder {
+  color: #737373 !important;
+  opacity: 1;
+}
+
+section.bg-neutral-800 form input:focus {
+  border-color: var(--theme-green) !important;
+  box-shadow: 0 0 0 2px var(--theme-green) !important;
+  outline: none;
+}
+
+/* Blindaje del Botón de Cancelar (type="button") en Registro/Login */
+section.bg-neutral-800 form button[type="button"] {
+  background-color: #FFFFFF !important;
+  color: #171717 !important;
+  border: 2px solid var(--theme-green) !important;
+}
+
+section.bg-neutral-800 form button[type="button"]:hover {
+  background-color: #F4F4F5 !important;
+  color: #0A0A0A !important;
+}
+
+/* 2. FIX AUTOCOMPLETADO: Engañamos a Chrome/Safari para que no ponga fondos feos */
+section.bg-neutral-800 form input:-webkit-autofill,
+section.bg-neutral-800 form input:-webkit-autofill:hover, 
+section.bg-neutral-800 form input:-webkit-autofill:focus, 
+section.bg-neutral-800 form input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset !important;
+  -webkit-text-fill-color: #171717 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ========================================================================= */
+/* ADAPTACIÓN AL MODO CLARO PARA EL RESTO DE LA APP (Productos, Filtros)     */
+/* ========================================================================= */
+
+/* 1. INPUTS Y SELECTS (Para páginas internas como Mis Productos) a blanco */
+html[data-theme='light'] main input,
+html[data-theme='light'] main select,
+html.light main input,
+html.light main select {
+  background-color: #FFFFFF !important; 
   color: var(--color-neutral-900) !important;
   border-color: var(--color-neutral-300) !important;
 }
-html[data-theme='light'] input::placeholder,
-html.light input::placeholder {
+
+html[data-theme='light'] main input::placeholder,
+html.light main input::placeholder {
   color: var(--color-neutral-500) !important;
   opacity: 1;
 }
 
-html[data-theme='light'] input::placeholder,
-html.light input::placeholder {
-  color: var(--color-neutral-500) !important;
-  opacity: 1;
+/* Fix autocompletado también para páginas internas (modo claro) */
+html[data-theme='light'] main input:-webkit-autofill,
+html.light main input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #FFFFFF inset !important;
+  -webkit-text-fill-color: var(--color-neutral-900) !important;
 }
 
-/* 2. TEXTOS DE TAILWIND A NEGRO (Protegiendo Header y Footer) */
-html[data-theme='light'] .text-white:not(header *):not(footer *):not(.btn-primary),
-html[data-theme='light'] .text-neutral-50:not(header *):not(footer *):not(.btn-primary) {
+/* 2. TODOS LOS TEXTOS A NEGRO EN MODO CLARO (Excepto Header, Footer y Login) */
+html[data-theme='light'] .text-white:not(header *):not(footer *):not(.btn-primary):not(section.bg-neutral-800 *):not(.product-card *),
+html[data-theme='light'] .text-neutral-50:not(header *):not(footer *):not(.btn-primary):not(section.bg-neutral-800 *):not(.product-card *),
+html.light .text-white:not(header *):not(footer *):not(.btn-primary):not(section.bg-neutral-800 *):not(.product-card *),
+html.light .text-neutral-50:not(header *):not(footer *):not(.btn-primary):not(section.bg-neutral-800 *):not(.product-card *) {
   color: var(--color-neutral-900) !important;
 }
-html[data-theme='light'] .text-neutral-400:not(header *):not(footer *) {
+
+html[data-theme='light'] .text-neutral-400:not(header *):not(footer *):not(section.bg-neutral-800 *):not(.product-card *),
+html.light .text-neutral-400:not(header *):not(footer *):not(section.bg-neutral-800 *):not(.product-card *) {
   color: var(--color-neutral-500) !important;
 }
 
-/* Mejorar el contraste de los colores en las tarjetas resumen en modo claro */
-html[data-theme='light'] .text-yellow-300 { color: var(--color-orange-500) !important; }
-html[data-theme='light'] .text-red-400 { color: var(--color-red-600) !important; }
-html[data-theme='light'] .text-green-400 { color: var(--theme-green) !important; }
+/* Mejorar contraste de iconos y números en modo claro */
+html[data-theme='light'] .text-yellow-300, html.light .text-yellow-300 { color: var(--color-orange-500) !important; }
+html[data-theme='light'] .text-red-400, html.light .text-red-400 { color: var(--color-red-600) !important; }
+html[data-theme='light'] .text-green-400, html.light .text-green-400 { color: var(--theme-green) !important; }
 
-/* 3. TARJETAS DE RESUMEN Y FILTROS (Que usan bg-neutral-800 de Tailwind) a blanco */
-html[data-theme='light'] .bg-neutral-800 {
+/* 3. CAJAS DE RESUMEN Y FILTROS a blanco en modo claro */
+html[data-theme='light'] main .bg-neutral-800:not(.product-card),
+html[data-theme='light'] main .bg-neutral-700:not(.product-card),
+html.light main .bg-neutral-800:not(.product-card),
+html.light main .bg-neutral-700:not(.product-card) {
   background-color: #FFFFFF !important;
 }
-html[data-theme='light'] .border-neutral-700 {
+
+html[data-theme='light'] main .border-neutral-700:not(.product-card),
+html.light main .border-neutral-700:not(.product-card) {
   border-color: var(--color-neutral-200) !important;
 }
 
-/* 4. TARJETAS DE PRODUCTOS (.product-card) a blanco */
-html[data-theme='light'] .product-card {
+/* 4. TARJETAS DE PRODUCTOS (.product-card) a blanco en modo claro */
+html[data-theme='light'] .product-card,
+html.light .product-card {
   background-color: #FFFFFF !important;
   border-color: var(--color-neutral-200) !important;
 }
-html[data-theme='light'] .product-card__name {
+html[data-theme='light'] .product-card__name,
+html.light .product-card__name {
   color: var(--color-neutral-900) !important;
 }
 html[data-theme='light'] .product-card__category,
 html[data-theme='light'] .product-card__progress-header,
 html[data-theme='light'] .product-card__date,
-html[data-theme='light'] .product-card__date svg {
+html[data-theme='light'] .product-card__date svg,
+html.light .product-card__category,
+html.light .product-card__progress-header,
+html.light .product-card__date,
+html.light .product-card__date svg {
   color: var(--color-neutral-500) !important;
 }
-html[data-theme='light'] .product-card__quantity {
+html[data-theme='light'] .product-card__quantity,
+html.light .product-card__quantity {
   background-color: var(--color-neutral-100) !important;
   color: var(--color-neutral-900) !important;
 }
 html[data-theme='light'] .product-card__progress-track,
-html[data-theme='light'] .product-card__icon--consumed {
+html[data-theme='light'] .product-card__icon--consumed,
+html.light .product-card__progress-track,
+html.light .product-card__icon--consumed {
   background-color: var(--color-neutral-200) !important;
 }
-html[data-theme='light'] .product-card__badge--consumed {
+html[data-theme='light'] .product-card__badge--consumed,
+html.light .product-card__badge--consumed {
   background-color: var(--color-neutral-100) !important;
   color: var(--color-neutral-500) !important;
 }
-html[data-theme='light'] .product-card__divider {
+html[data-theme='light'] .product-card__divider,
+html.light .product-card__divider {
   border-top-color: var(--color-neutral-200) !important;
 }
 
@@ -213,7 +292,7 @@ button { cursor: pointer; border: none; outline: none; }
 .gap-3       { gap: var(--spacing-3); }
 .rounded     { border-radius: 0.5rem; }
 
-/* COMPONENTES */
+/* COMPONENTES GENERALES */
 .btn-primary {
   background-color: var(--theme-green);
   color: #FAFAFA !important;
@@ -238,32 +317,35 @@ button { cursor: pointer; border: none; outline: none; }
   color: #FAFAFA !important;
 }
 
+/* EL INPUT BASE GENÉRICO */
 .input {
   width: 100%;
   padding: var(--spacing-3);
-  border: 1px solid var(--color-neutral-600);
+  border: 1px solid var(--color-neutral-700);
   border-radius: 0.5rem;
   font-size: var(--font-size-md);
-  color: var(--site-text);
-  background-color: var(--site-bg);
+  color: var(--color-neutral-50);
+  background-color: var(--color-neutral-900);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 .input:focus {
-  border-color: var(--theme-green);
+  border-color: var(--theme-green) !important;
   outline: none;
   box-shadow: 0 0 0 2px var(--theme-green);
 }
 
 /* ===================== */
-/* PRODUCT CARD (Oscuro por defecto) */
+/* PRODUCT CARD          */
+/* (Oscuro por defecto)  */
 /* ===================== */
 
 .product-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  background-color: var(--color-neutral-700);
+  background-color: var(--color-neutral-700); /* Tonos oscuros originales */
   border-radius: 1rem;
+  border: 1px solid var(--color-neutral-600);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s, border-color 0.3s;
 }
 
